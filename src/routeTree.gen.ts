@@ -9,38 +9,254 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as LatestRouteImport } from './routes/latest'
+import { Route as FeaturedRouteImport } from './routes/featured'
+import { Route as ApplyRouteImport } from './routes/apply'
+import { Route as AdminApplicationsRouteImport } from './routes/admin-applications'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
+import { Route as ComicComicIdRouteImport } from './routes/comic.$comicId'
+import { Route as ApiDriveFileRouteImport } from './routes/api/drive-file'
+import { Route as ReadComicIdChapterIdRouteImport } from './routes/read.$comicId.$chapterId'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LatestRoute = LatestRouteImport.update({
+  id: '/latest',
+  path: '/latest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturedRoute = FeaturedRouteImport.update({
+  id: '/featured',
+  path: '/featured',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApplyRoute = ApplyRouteImport.update({
+  id: '/apply',
+  path: '/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
+  id: '/admin-applications',
+  path: '/admin-applications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GenreSlugRoute = GenreSlugRouteImport.update({
+  id: '/genre/$slug',
+  path: '/genre/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComicComicIdRoute = ComicComicIdRouteImport.update({
+  id: '/comic/$comicId',
+  path: '/comic/$comicId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDriveFileRoute = ApiDriveFileRouteImport.update({
+  id: '/api/drive-file',
+  path: '/api/drive-file',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadComicIdChapterIdRoute = ReadComicIdChapterIdRouteImport.update({
+  id: '/read/$comicId/$chapterId',
+  path: '/read/$comicId/$chapterId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/admin-applications': typeof AdminApplicationsRoute
+  '/apply': typeof ApplyRoute
+  '/featured': typeof FeaturedRoute
+  '/latest': typeof LatestRoute
+  '/login': typeof LoginRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/drive-file': typeof ApiDriveFileRoute
+  '/comic/$comicId': typeof ComicComicIdRoute
+  '/genre/$slug': typeof GenreSlugRoute
+  '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/admin-applications': typeof AdminApplicationsRoute
+  '/apply': typeof ApplyRoute
+  '/featured': typeof FeaturedRoute
+  '/latest': typeof LatestRoute
+  '/login': typeof LoginRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/drive-file': typeof ApiDriveFileRoute
+  '/comic/$comicId': typeof ComicComicIdRoute
+  '/genre/$slug': typeof GenreSlugRoute
+  '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/admin-applications': typeof AdminApplicationsRoute
+  '/apply': typeof ApplyRoute
+  '/featured': typeof FeaturedRoute
+  '/latest': typeof LatestRoute
+  '/login': typeof LoginRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/drive-file': typeof ApiDriveFileRoute
+  '/comic/$comicId': typeof ComicComicIdRoute
+  '/genre/$slug': typeof GenreSlugRoute
+  '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/admin-applications'
+    | '/apply'
+    | '/featured'
+    | '/latest'
+    | '/login'
+    | '/robots.txt'
+    | '/sitemap.xml'
+    | '/api/drive-file'
+    | '/comic/$comicId'
+    | '/genre/$slug'
+    | '/read/$comicId/$chapterId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/admin-applications'
+    | '/apply'
+    | '/featured'
+    | '/latest'
+    | '/login'
+    | '/robots.txt'
+    | '/sitemap.xml'
+    | '/api/drive-file'
+    | '/comic/$comicId'
+    | '/genre/$slug'
+    | '/read/$comicId/$chapterId'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/admin-applications'
+    | '/apply'
+    | '/featured'
+    | '/latest'
+    | '/login'
+    | '/robots.txt'
+    | '/sitemap.xml'
+    | '/api/drive-file'
+    | '/comic/$comicId'
+    | '/genre/$slug'
+    | '/read/$comicId/$chapterId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AdminApplicationsRoute: typeof AdminApplicationsRoute
+  ApplyRoute: typeof ApplyRoute
+  FeaturedRoute: typeof FeaturedRoute
+  LatestRoute: typeof LatestRoute
+  LoginRoute: typeof LoginRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiDriveFileRoute: typeof ApiDriveFileRoute
+  ComicComicIdRoute: typeof ComicComicIdRoute
+  GenreSlugRoute: typeof GenreSlugRoute
+  ReadComicIdChapterIdRoute: typeof ReadComicIdChapterIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/latest': {
+      id: '/latest'
+      path: '/latest'
+      fullPath: '/latest'
+      preLoaderRoute: typeof LatestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/featured': {
+      id: '/featured'
+      path: '/featured'
+      fullPath: '/featured'
+      preLoaderRoute: typeof FeaturedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apply': {
+      id: '/apply'
+      path: '/apply'
+      fullPath: '/apply'
+      preLoaderRoute: typeof ApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin-applications': {
+      id: '/admin-applications'
+      path: '/admin-applications'
+      fullPath: '/admin-applications'
+      preLoaderRoute: typeof AdminApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +264,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/genre/$slug': {
+      id: '/genre/$slug'
+      path: '/genre/$slug'
+      fullPath: '/genre/$slug'
+      preLoaderRoute: typeof GenreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comic/$comicId': {
+      id: '/comic/$comicId'
+      path: '/comic/$comicId'
+      fullPath: '/comic/$comicId'
+      preLoaderRoute: typeof ComicComicIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/drive-file': {
+      id: '/api/drive-file'
+      path: '/api/drive-file'
+      fullPath: '/api/drive-file'
+      preLoaderRoute: typeof ApiDriveFileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/read/$comicId/$chapterId': {
+      id: '/read/$comicId/$chapterId'
+      path: '/read/$comicId/$chapterId'
+      fullPath: '/read/$comicId/$chapterId'
+      preLoaderRoute: typeof ReadComicIdChapterIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AdminApplicationsRoute: AdminApplicationsRoute,
+  ApplyRoute: ApplyRoute,
+  FeaturedRoute: FeaturedRoute,
+  LatestRoute: LatestRoute,
+  LoginRoute: LoginRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiDriveFileRoute: ApiDriveFileRoute,
+  ComicComicIdRoute: ComicComicIdRoute,
+  GenreSlugRoute: GenreSlugRoute,
+  ReadComicIdChapterIdRoute: ReadComicIdChapterIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
