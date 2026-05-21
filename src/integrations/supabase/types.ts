@@ -14,16 +14,233 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chapters: {
+        Row: {
+          comic_id: string
+          created_at: string
+          id: string
+          order_index: number
+          pages: string[]
+          title: string
+        }
+        Insert: {
+          comic_id: string
+          created_at?: string
+          id?: string
+          order_index?: number
+          pages?: string[]
+          title: string
+        }
+        Update: {
+          comic_id?: string
+          created_at?: string
+          id?: string
+          order_index?: number
+          pages?: string[]
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chapters_comic_id_fkey"
+            columns: ["comic_id"]
+            isOneToOne: false
+            referencedRelation: "comics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      comics: {
+        Row: {
+          author: string
+          cover_id: string
+          created_at: string
+          created_by: string
+          description: string
+          featured: boolean
+          genres: string[]
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string
+          cover_id?: string
+          created_at?: string
+          created_by: string
+          description?: string
+          featured?: boolean
+          genres?: string[]
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          cover_id?: string
+          created_at?: string
+          created_by?: string
+          description?: string
+          featured?: boolean
+          genres?: string[]
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      comments: {
+        Row: {
+          chapter_id: string | null
+          comic_id: string
+          content: string
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          chapter_id?: string | null
+          comic_id: string
+          content: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          chapter_id?: string | null
+          comic_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      contributor_applications: {
+        Row: {
+          created_at: string
+          id: string
+          pen_name: string
+          reason: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          sample_link: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pen_name: string
+          reason: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sample_link?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pen_name?: string
+          reason?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sample_link?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      ratings: {
+        Row: {
+          comic_id: string
+          created_at: string
+          id: string
+          score: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comic_id: string
+          created_at?: string
+          id?: string
+          score: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comic_id?: string
+          created_at?: string
+          id?: string
+          score?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "contributor" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +367,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "contributor", "user"],
+    },
   },
 } as const
