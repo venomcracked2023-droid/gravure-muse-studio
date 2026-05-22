@@ -4,6 +4,7 @@ import {
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
 import { AuthProvider } from "@/lib/auth";
+import { I18nProvider } from "@/lib/i18n/context";
 import { Toaster } from "sonner";
 import { SITE_LOGO, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "@/lib/seo";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -122,11 +123,13 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Outlet />
-        <SiteFooter />
-        <Toaster richColors position="top-right" theme="dark" />
-      </AuthProvider>
+      <I18nProvider>
+        <AuthProvider>
+          <Outlet />
+          <SiteFooter />
+          <Toaster richColors position="top-right" theme="dark" />
+        </AuthProvider>
+      </I18nProvider>
     </QueryClientProvider>
   );
 }
