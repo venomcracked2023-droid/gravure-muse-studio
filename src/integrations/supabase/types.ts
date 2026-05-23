@@ -17,6 +17,7 @@ export type Database = {
       chapters: {
         Row: {
           comic_id: string
+          cover_id: string
           created_at: string
           id: string
           order_index: number
@@ -25,6 +26,7 @@ export type Database = {
         }
         Insert: {
           comic_id: string
+          cover_id?: string
           created_at?: string
           id?: string
           order_index?: number
@@ -33,6 +35,7 @@ export type Database = {
         }
         Update: {
           comic_id?: string
+          cover_id?: string
           created_at?: string
           id?: string
           order_index?: number

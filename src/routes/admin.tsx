@@ -156,6 +156,14 @@ function ComicEditor({ comic, knownAuthors, knownGenres, onClose, onSave }: {
                   <textarea value={ch.pages.join("\n")} onChange={(e) => updateChapter(ch.id, { pages: parseDriveIds(e.target.value) })} rows={4}
                     placeholder="Mỗi dòng một File ID hoặc link Drive"
                     className={inputClass + " mt-2 font-mono text-xs"} />
+                  <div className="mt-2 flex items-center gap-2">
+                    <input
+                      value={ch.coverId ?? ""}
+                      onChange={(e) => updateChapter(ch.id, { coverId: extractDriveId(e.target.value) ?? e.target.value })}
+                      placeholder="Ảnh đại diện album (Drive ID/link) — bỏ trống để dùng ảnh đầu"
+                      className={inputClass + " flex-1 text-xs"}
+                    />
+                  </div>
                   <p className="mt-1 text-xs text-muted-foreground">{ch.pages.length} ảnh</p>
                 </div>
               ))}
