@@ -6,6 +6,7 @@ export type Chapter = {
   title: string;
   pages: string[];
   createdAt: number;
+  coverId?: string;
 };
 
 export type Comic = {
@@ -42,6 +43,7 @@ async function fetchAll(): Promise<void> {
       (chaptersByComic[ch.comic_id] ||= []).push({
         id: ch.id, title: ch.title, pages: ch.pages ?? [],
         createdAt: new Date(ch.created_at).getTime(),
+        coverId: (ch as any).cover_id ?? "",
       });
     }
   }
@@ -93,6 +95,7 @@ export async function upsertComic(c: Comic): Promise<void> {
   if (c.chapters.length) {
     const rows = c.chapters.map((ch, i) => ({
       comic_id: comicId, title: ch.title, pages: ch.pages, order_index: i,
+      cover_id: ch.coverId ?? "",
     }));
     const { error: insErr } = await supabase.from("chapters").insert(rows);
     if (insErr) throw insErr;
