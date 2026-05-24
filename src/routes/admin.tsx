@@ -164,6 +164,14 @@ function ComicEditor({ comic, knownAuthors, knownGenres, onClose, onSave }: {
                       className={inputClass + " flex-1 text-xs"}
                     />
                   </div>
+                  <div className="mt-2">
+                    <input
+                      value={ch.videoUrl ?? ""}
+                      onChange={(e) => updateChapter(ch.id, { videoUrl: e.target.value })}
+                      placeholder="Link video nhúng (YouTube, Vimeo, Drive…) — không bắt buộc"
+                      className={inputClass + " text-xs"}
+                    />
+                  </div>
                   <p className="mt-1 text-xs text-muted-foreground">{ch.pages.length} ảnh</p>
                 </div>
               ))}
