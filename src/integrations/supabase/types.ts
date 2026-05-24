@@ -23,6 +23,7 @@ export type Database = {
           order_index: number
           pages: string[]
           title: string
+          video_url: string
         }
         Insert: {
           comic_id: string
@@ -32,6 +33,7 @@ export type Database = {
           order_index?: number
           pages?: string[]
           title: string
+          video_url?: string
         }
         Update: {
           comic_id?: string
@@ -41,6 +43,7 @@ export type Database = {
           order_index?: number
           pages?: string[]
           title?: string
+          video_url?: string
         }
         Relationships: [
           {
