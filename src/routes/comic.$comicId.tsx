@@ -100,19 +100,19 @@ function ComicPage() {
               {comic.chapters.map((ch, i) => (
                 <li key={ch.id} className="group">
                   <Link to="/read/$comicId/$chapterId" params={{ comicId: comic.id, chapterId: ch.id }}
-                    className="relative flex items-center justify-between gap-3 px-5 py-4 transition hover:bg-primary/5">
-                    <div className="flex items-center gap-3">
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background text-xs font-bold text-muted-foreground tabular-nums group-hover:border-primary group-hover:bg-gradient-brand group-hover:text-primary-foreground">{i + 1}</span>
+                    className="relative flex items-center justify-between gap-3 px-5 py-6 transition hover:bg-primary/5">
+                    <div className="flex items-center gap-4">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-sm font-bold text-muted-foreground tabular-nums group-hover:border-primary group-hover:bg-gradient-brand group-hover:text-primary-foreground">{i + 1}</span>
                       {(() => {
                         const thumb = ch.coverId || (ch.pages[0] ? (extractDriveId(ch.pages[0]) ?? ch.pages[0]) : "");
                         return thumb ? (
-                          <img src={driveImageUrl(thumb, 200)} alt={ch.title} loading="lazy"
-                            className="h-12 w-12 shrink-0 rounded-lg border border-border object-cover" />
+                          <img src={driveImageUrl(thumb, 400)} alt={ch.title} loading="lazy"
+                            className="h-36 w-36 shrink-0 rounded-xl border border-border object-cover" />
                         ) : (
-                          <div className="h-12 w-12 shrink-0 rounded-lg border border-dashed border-border bg-secondary/40" />
+                          <div className="h-36 w-36 shrink-0 rounded-xl border border-dashed border-border bg-secondary/40" />
                         );
                       })()}
-                      <span className="font-semibold tracking-tight group-hover:text-primary">{ch.title}</span>
+                      <span className="text-lg font-semibold tracking-tight group-hover:text-primary">{ch.title}</span>
                     </div>
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
                       <span>{ch.pages.length} ảnh</span>
