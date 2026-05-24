@@ -8,6 +8,7 @@ import { PdfReader } from "@/components/PdfReader";
 import { supabase } from "@/integrations/supabase/client";
 import { CommentSection } from "@/components/CommentSection";
 import { SITE_URL } from "@/lib/seo";
+import { toEmbedUrl } from "@/lib/embed";
 
 export const Route = createFileRoute("/read/$comicId/$chapterId")({
   component: Reader,
@@ -67,6 +68,7 @@ function Reader() {
   const progress = total > 0 ? ((idx + 1) / total) * 100 : 0;
 
   const singleId = chapter.pages.length === 1 ? extractDriveId(chapter.pages[0]) ?? chapter.pages[0] : null;
+  const embedUrl = chapter.videoUrl ? toEmbedUrl(chapter.videoUrl) : null;
   const goToChapter = (id: string) => navigate({ to: "/read/$comicId/$chapterId", params: { comicId: comic.id, chapterId: id } });
 
   const Footer = () => (
@@ -77,6 +79,24 @@ function Reader() {
       <div className="mt-6"><CommentSection comicId={comic.id} chapterId={chapter.id} /></div>
     </div>
   );
+
+  const VideoEmbed = () =>
+    embedUrl ? (
+      <div className="mx-auto max-w-3xl px-2 pt-16 sm:px-4">
+        <div className="overflow-hidden rounded-2xl border border-primary/30 bg-black shadow-glow">
+          <div className="relative aspect-video">
+            <iframe
+              src={embedUrl}
+              title={chapter.title}
+              className="absolute inset-0 h-full w-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
+        </div>
+      </div>
+    ) : null;
 
   const StickyNav = () => (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/70 backdrop-blur-xl">
@@ -109,12 +129,19 @@ function Reader() {
       </header>
 
       {chapter.pages.length === 0 ? (
-        <main className="mx-auto max-w-3xl pt-14"><div className="p-10 text-center text-muted-foreground">Album này chưa có ảnh.</div><Footer /></main>
+        <main className="mx-auto max-w-3xl pt-14">
+          <VideoEmbed />
+          {!embedUrl && <div className="p-10 text-center text-muted-foreground">Album này chưa có nội dung.</div>}
+          <Footer />
+        </main>
       ) : singleId && !pdfFailed ? (
-        <PdfReader fileUrl={`/api/drive-file?id=${singleId}`} Footer={Footer} onFail={() => setPdfFailed(true)} />
+        <>
+          <VideoEmbed />
+          <PdfReader fileUrl={`/api/drive-file?id=${singleId}`} Footer={Footer} onFail={() => setPdfFailed(true)} />
+        </>
       ) : (
         <Virtuoso useWindowScroll data={chapter.pages} increaseViewportBy={{ top: 1500, bottom: 2000 }}
-          components={{ Header: () => <div className="h-14" />, Footer }}
+          components={{ Header: () => (embedUrl ? <VideoEmbed /> : <div className="h-14" />), Footer }}
           itemContent={(i, id) => (
             <div className="mx-auto max-w-3xl">
               <img src={driveImageUrl(id, 1200)} alt={`Ảnh ${i + 1}`} loading="lazy" decoding="async"
