@@ -47,7 +47,7 @@ export function PdfReader({ fileUrl, Footer, onFail }: Props) {
             useWindowScroll
             totalCount={numPages}
             increaseViewportBy={{ top: 800, bottom: 1200 }}
-            components={{ Header: () => <div className="h-14" />, Footer }}
+            components={{ Header: () => <div className="h-14" />, Footer: Footer as React.ComponentType<any> }}
             itemContent={(i) => (
               <div className="flex justify-center py-2">
                 <Page
