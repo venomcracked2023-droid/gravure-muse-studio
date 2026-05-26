@@ -56,7 +56,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "GravureHub — ngắm bộ ảnh gravure cuộn dọc miễn phí, cập nhật album mới mỗi ngày, mượt mà trên mọi thiết bị." },
       { name: "author", content: "GravureHub" },
       { name: "robots", content: "index,follow,max-image-preview:large" },
-      { name: "theme-color", content: "#1a0a18" },
+      { name: "theme-color", content: "#2a1018" },
       { name: "keywords", content: "gravure, người mẫu gravure, ảnh gravure, photobook, idol, GravureHub" },
       { property: "og:site_name", content: "GravureHub" },
       { property: "og:title", content: "GravureHub — Bộ ảnh gravure cuộn dọc" },
