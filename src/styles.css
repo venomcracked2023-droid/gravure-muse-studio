@@ -124,4 +124,4 @@
   .animate-pulse-glow { animation: pulse-glow 4s ease-in-out infinite; }
 }
 
-::selection { background: oklch(0.70 0.22 350 / 0.35); color: var(--foreground); }
+::selection { background: oklch(0.78 0.16 350 / 0.35); color: var(--foreground); }
