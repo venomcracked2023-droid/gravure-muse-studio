@@ -27,9 +27,35 @@ export const Route = createFileRoute("/comic/$comicId")({
         { title }, { name: "description", content: desc },
         { property: "og:title", content: title }, { property: "og:description", content: desc },
         { property: "og:image", content: img }, { property: "og:url", content: url },
+        { property: "og:type", content: "profile" },
         { name: "twitter:image", content: img },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: m.title, item: url },
+            ],
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: m.title,
+            description: desc,
+            image: img,
+            url,
+            ...(m.author ? { alternateName: m.author } : {}),
+          }),
+        },
+      ],
     };
   },
   notFoundComponent: () => <div className="min-h-screen"><SiteHeader /><div className="p-20 text-center"><h1 className="text-2xl font-bold">Không tìm thấy</h1><Link to="/" className="mt-4 inline-block text-primary underline">Về trang chủ</Link></div></div>,

@@ -26,10 +26,17 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
     const title = `${ch} — ${ct} | GravureHub`;
     const url = `${SITE_URL}/read/${params.comicId}/${params.chapterId}`;
     const img = coverId ? driveImageUrl(coverId, 1200) : `${SITE_URL}/og-default.jpg`;
+    const desc = `Xem album "${ch}" của ${ct} trên GravureHub — cuộn dọc mượt mà, ảnh chất lượng cao.`;
     return {
       meta: [
-        { title }, { property: "og:title", content: title }, { property: "og:image", content: img },
-        { property: "og:url", content: url }, { name: "twitter:image", content: img },
+        { title },
+        { name: "description", content: desc },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:image", content: img },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "article" },
+        { name: "twitter:image", content: img },
       ],
       links: [{ rel: "canonical", href: url }],
     };
