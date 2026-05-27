@@ -10,7 +10,13 @@ import { slugifyGenre } from "@/lib/slug";
 export const Route = createFileRoute("/genre/$slug")({
   component: GenrePage,
   head: ({ params }) => ({
-    meta: [{ title: `Thể loại "${params.slug}" — GravureHub` }],
+    meta: [
+      { title: `Thể loại "${params.slug}" — GravureHub` },
+      { name: "description", content: `Tổng hợp người mẫu gravure theo thể loại ${params.slug} tại GravureHub.` },
+      { property: "og:title", content: `Thể loại "${params.slug}" — GravureHub` },
+      { property: "og:description", content: `Tổng hợp người mẫu gravure theo thể loại ${params.slug}.` },
+      { property: "og:url", content: `${SITE_URL}/genre/${params.slug}` },
+    ],
     links: [{ rel: "canonical", href: `${SITE_URL}/genre/${params.slug}` }],
   }),
 });

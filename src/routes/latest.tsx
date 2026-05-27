@@ -9,7 +9,13 @@ import { SITE_URL } from "@/lib/seo";
 export const Route = createFileRoute("/latest")({
   component: LatestPage,
   head: () => ({
-    meta: [{ title: "Mới cập nhật — GravureHub" }, { name: "description", content: "Album ảnh gravure vừa cập nhật." }],
+    meta: [
+      { title: "Mới cập nhật — GravureHub" },
+      { name: "description", content: "Album ảnh gravure vừa cập nhật mới nhất tại GravureHub." },
+      { property: "og:title", content: "Mới cập nhật — GravureHub" },
+      { property: "og:description", content: "Album ảnh gravure vừa cập nhật mới nhất tại GravureHub." },
+      { property: "og:url", content: `${SITE_URL}/latest` },
+    ],
     links: [{ rel: "canonical", href: `${SITE_URL}/latest` }],
   }),
 });
