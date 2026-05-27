@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -27,17 +27,27 @@ export function PdfReader({ fileUrl, Footer, onFail }: Props) {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const renderScale = isMobile ? 1 : 1.5;
 
+  // CRITICAL: memoize file + options so <Document> doesn't reload the PDF on every render.
+  // Recreating these causes the underlying PDFDocumentProxy to be destroyed while
+  // <Page> instances still try to call getPage() → "Cannot read properties of null
+  // (reading 'sendWithPromise')".
+  const file = useMemo(() => ({ url: fileUrl }), [fileUrl]);
+  const options = useMemo(
+    () => ({
+      disableAutoFetch: true,
+      disableStream: false,
+      cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
+      cMapPacked: true,
+    }),
+    [],
+  );
+
   return (
     <div ref={wrapRef} className="mx-auto max-w-3xl px-2">
       <Document
-        file={fileUrl}
-        options={{
-          // Stream pages instead of downloading whole PDF; lower memory on mobile.
-          disableAutoFetch: true,
-          disableStream: false,
-          cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
-          cMapPacked: true,
-        }}
+        key={fileUrl}
+        file={file}
+        options={options}
         onLoadSuccess={({ numPages }) => setNumPages(numPages)}
         onLoadError={(err) => { console.error("PDF load error", err); onFail?.(); }}
         loading={<div className="p-10 text-center text-muted-foreground">Đang tải PDF…</div>}
