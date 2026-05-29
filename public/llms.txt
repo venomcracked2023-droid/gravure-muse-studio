@@ -1,0 +1,15 @@
+# GravureHub
+
+> GravureHub là thư viện ảnh gravure cuộn dọc miễn phí — tuyển chọn các album người mẫu chất lượng cao, cập nhật mới mỗi ngày, mượt mà trên mọi thiết bị.
+
+GravureHub tổ chức nội dung theo người mẫu (mỗi người mẫu có nhiều album ảnh hoặc video), theo thể loại, và theo dòng thời gian cập nhật.
+
+## Pages
+
+- [Trang chủ](/): Thư viện người mẫu gravure mới nhất.
+- [Nổi bật](/featured): Người mẫu được GravureHub tuyển chọn.
+- [Mới cập nhật](/latest): Album vừa được đăng tải gần đây.
+
+## Optional
+
+- [Ứng tuyển CTV](/apply): Đăng ký trở thành cộng tác viên đăng nội dung.
