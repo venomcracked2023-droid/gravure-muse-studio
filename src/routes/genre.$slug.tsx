@@ -4,8 +4,9 @@ import { ComicCover } from "@/components/ComicCover";
 import { useComics } from "@/lib/comics-store";
 import { Tag } from "lucide-react";
 import { useMemo } from "react";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { slugifyGenre } from "@/lib/slug";
+import { driveImageUrl } from "@/lib/drive";
 
 export const Route = createFileRoute("/genre/$slug")({
   component: GenrePage,
@@ -33,6 +34,24 @@ function GenrePage() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: `Thể loại: ${displayName}`,
+          url: `${SITE_URL}/genre/${slug}`,
+          isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: matched.slice(0, 30).map((c, i) => ({
+              "@type": "ListItem", position: i + 1,
+              url: `${SITE_URL}/comic/${c.id}`, name: c.title,
+              image: c.coverId ? driveImageUrl(c.coverId, 600) : undefined,
+            })),
+          },
+        }) }}
+      />
       <main className="mx-auto max-w-6xl px-4 pb-20 pt-6">
         <header className="mb-8">
           <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight">
@@ -52,7 +71,7 @@ function GenrePage() {
                   <ComicCover id={c.coverId} title={c.title} className="transition duration-500 group-hover:scale-110" />
                 </div>
                 <div>
-                  <h3 className="line-clamp-1 text-sm font-semibold group-hover:text-primary">{c.title}</h3>
+                  <h2 className="line-clamp-1 text-sm font-semibold group-hover:text-primary">{c.title}</h2>
                   <p className="line-clamp-1 text-xs text-muted-foreground">{c.chapters.length} album · {c.author || "Ẩn danh"}</p>
                 </div>
               </Link>

@@ -4,10 +4,25 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
+import { SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/apply")({
   component: ApplyPage,
-  head: () => ({ meta: [{ title: "Ứng tuyển CTV — GravureHub" }] }),
+  head: () => {
+    const title = "Ứng tuyển cộng tác viên — GravureHub";
+    const desc = "Đăng ký trở thành cộng tác viên GravureHub để đăng tải và quản lý các album ảnh gravure chất lượng cao trên nền tảng.";
+    const url = `${SITE_URL}/apply`;
+    return {
+      meta: [
+        { title }, { name: "description", content: desc },
+        { name: "robots", content: "noindex,follow" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
 });
 
 type Application = { id: string; status: string; pen_name: string; reason: string; sample_link: string | null; created_at: string };

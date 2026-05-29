@@ -6,10 +6,25 @@ import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
 import { LogIn } from "lucide-react";
+import { SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
-  head: () => ({ meta: [{ title: "Đăng nhập — GravureHub" }] }),
+  head: () => {
+    const title = "Đăng nhập hoặc đăng ký — GravureHub";
+    const desc = "Đăng nhập GravureHub bằng email hoặc Google để theo dõi người mẫu yêu thích, đánh giá album và đăng nội dung mới.";
+    const url = `${SITE_URL}/login`;
+    return {
+      meta: [
+        { title }, { name: "description", content: desc },
+        { name: "robots", content: "noindex,follow" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
 });
 
 function LoginPage() {

@@ -39,6 +39,18 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
         { name: "twitter:image", content: img },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [{
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: ch,
+          image: img,
+          author: { "@type": "Person", name: ct },
+          url,
+          publisher: { "@type": "Organization", name: "GravureHub", url: SITE_URL },
+        }),
+      }],
     };
   },
   notFoundComponent: () => <div className="p-10 text-center">Không tìm thấy. <Link to="/" className="text-primary underline">Về trang chủ</Link></div>,
@@ -135,6 +147,8 @@ function Reader() {
         </div>
       </header>
 
+      <h1 className="sr-only">{chapter.title} — {comic.title}</h1>
+
       {chapter.pages.length === 0 ? (
         <main className="mx-auto max-w-3xl pt-14">
           <VideoEmbed />
@@ -151,7 +165,7 @@ function Reader() {
           components={{ Header: () => (embedUrl ? <VideoEmbed /> : <div className="h-14" />), Footer }}
           itemContent={(i, id) => (
             <div className="mx-auto max-w-3xl">
-              <img src={driveImageUrl(id, 1200)} alt={`Ảnh ${i + 1}`} loading="lazy" decoding="async"
+              <img src={driveImageUrl(id, 1200)} alt={`${chapter.title} — Trang ${i + 1} (${comic.title})`} loading="lazy" decoding="async"
                 className="block w-full min-h-[60vh] bg-secondary/40 object-contain"
                 onError={(e) => {
                   const img = e.currentTarget as HTMLImageElement;
