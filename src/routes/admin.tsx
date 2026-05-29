@@ -6,10 +6,25 @@ import { ChevronDown, ChevronUp, Plus, Save, Star, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
+import { SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
-  head: () => ({ meta: [{ title: "Quản lý — GravureHub" }] }),
+  head: () => {
+    const title = "Bảng quản lý nội dung — GravureHub";
+    const desc = "Khu vực dành cho cộng tác viên GravureHub: tạo, chỉnh sửa và quản lý các bộ ảnh, album cùng người mẫu trên hệ thống.";
+    const url = `${SITE_URL}/admin`;
+    return {
+      meta: [
+        { title }, { name: "description", content: desc },
+        { name: "robots", content: "noindex,nofollow" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
 });
 
 function emptyComic(): Comic {

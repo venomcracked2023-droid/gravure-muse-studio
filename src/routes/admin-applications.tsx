@@ -5,10 +5,25 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
 import { Check, X } from "lucide-react";
+import { SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/admin-applications")({
   component: Page,
-  head: () => ({ meta: [{ title: "Duyệt CTV — GravureHub" }] }),
+  head: () => {
+    const title = "Duyệt đơn cộng tác viên — GravureHub";
+    const desc = "Trang quản trị viên GravureHub để xem xét và phê duyệt các đơn ứng tuyển cộng tác viên gửi đến hệ thống.";
+    const url = `${SITE_URL}/admin-applications`;
+    return {
+      meta: [
+        { title }, { name: "description", content: desc },
+        { name: "robots", content: "noindex,nofollow" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
 });
 
 type App = { id: string; user_id: string; pen_name: string; reason: string; sample_link: string | null; status: string; created_at: string };

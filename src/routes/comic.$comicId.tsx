@@ -19,7 +19,8 @@ export const Route = createFileRoute("/comic/$comicId")({
     const m = loaderData?.meta;
     if (!m) return { meta: [{ title: "Người mẫu — GravureHub" }] };
     const title = `${m.title}${m.author ? ` — ${m.author}` : ""} | GravureHub`;
-    const desc = (m.description || `Ngắm bộ ảnh của ${m.title} trên GravureHub.`).slice(0, 160);
+    const fallback = `Khám phá bộ sưu tập ảnh gravure chất lượng cao của ${m.title} trên GravureHub — ngắm album cuộn dọc mượt mà, cập nhật liên tục.`;
+    const desc = (m.description && m.description.length >= 50 ? m.description : fallback).slice(0, 160);
     const img = m.cover_id ? driveImageUrl(m.cover_id, 1200) : `${SITE_URL}/og-default.jpg`;
     const url = `${SITE_URL}/comic/${params.comicId}`;
     return {
