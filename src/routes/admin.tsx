@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
 import { SITE_URL } from "@/lib/seo";
+import { buildSlugId } from "@/lib/slug";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
@@ -62,7 +63,7 @@ function AdminPage() {
           {comics.map((c) => (
             <div key={c.id} className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
               <div className="min-w-0">
-                <Link to="/comic/$comicId" params={{ comicId: c.id }} className="truncate font-semibold hover:text-primary">
+                <Link to="/comic/$comicId" params={{ comicId: buildSlugId(c.title, c.id) }} className="truncate font-semibold hover:text-primary">
                   {c.title || "(chưa có tên)"}
                 </Link>
                 <p className="text-xs text-muted-foreground">{c.chapters.length} album · {c.author || "Ẩn danh"}</p>
