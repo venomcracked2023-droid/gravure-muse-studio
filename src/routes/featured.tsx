@@ -5,6 +5,7 @@ import { useComics } from "@/lib/comics-store";
 import { Star } from "lucide-react";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { driveImageUrl } from "@/lib/drive";
+import { buildSlugId } from "@/lib/slug";
 
 export const Route = createFileRoute("/featured")({
   component: FeaturedPage,
@@ -34,7 +35,7 @@ function FeaturedPage() {
       "@type": "ItemList",
       itemListElement: featured.slice(0, 30).map((c, i) => ({
         "@type": "ListItem", position: i + 1,
-        url: `${SITE_URL}/comic/${c.id}`, name: c.title,
+        url: `${SITE_URL}/comic/${buildSlugId(c.title, c.id)}`, name: c.title,
         image: c.coverId ? driveImageUrl(c.coverId, 600) : undefined,
       })),
     },
@@ -57,7 +58,7 @@ function FeaturedPage() {
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {featured.map((c) => (
-              <Link key={c.id} to="/comic/$comicId" params={{ comicId: c.id }} className="group flex flex-col gap-2">
+              <Link key={c.id} to="/comic/$comicId" params={{ comicId: buildSlugId(c.title, c.id) }} className="group flex flex-col gap-2">
                 <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-primary/40 bg-card">
                   <ComicCover id={c.coverId} title={c.title} className="transition duration-500 group-hover:scale-110" />
                 </div>

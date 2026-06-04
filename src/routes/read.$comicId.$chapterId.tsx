@@ -9,22 +9,25 @@ import { supabase } from "@/integrations/supabase/client";
 import { CommentSection } from "@/components/CommentSection";
 import { SITE_URL } from "@/lib/seo";
 import { toEmbedUrl } from "@/lib/embed";
+import { buildSlugId, extractId } from "@/lib/slug";
 
 export const Route = createFileRoute("/read/$comicId/$chapterId")({
   component: Reader,
   ssr: false,
   loader: async ({ params }) => {
+    const comicId = extractId(params.comicId);
+    const chapterId = extractId(params.chapterId);
     const [{ data: comic }, { data: chapter }] = await Promise.all([
-      supabase.from("comics").select("title,cover_id").eq("id", params.comicId).maybeSingle(),
-      supabase.from("chapters").select("title").eq("id", params.chapterId).maybeSingle(),
+      supabase.from("comics").select("title,cover_id").eq("id", comicId).maybeSingle(),
+      supabase.from("chapters").select("title").eq("id", chapterId).maybeSingle(),
     ]);
-    return { comicTitle: comic?.title ?? null, coverId: comic?.cover_id ?? null, chapterTitle: chapter?.title ?? null };
+    return { comicTitle: comic?.title ?? null, coverId: comic?.cover_id ?? null, chapterTitle: chapter?.title ?? null, comicId, chapterId };
   },
   head: ({ loaderData, params }) => {
     const ct = loaderData?.comicTitle, ch = loaderData?.chapterTitle, coverId = loaderData?.coverId;
     if (!ct || !ch) return { meta: [{ title: "Đang xem — GravureHub" }] };
     const title = `${ch} — ${ct} | GravureHub`;
-    const url = `${SITE_URL}/read/${params.comicId}/${params.chapterId}`;
+    const url = `${SITE_URL}/read/${buildSlugId(ct, loaderData!.comicId)}/${buildSlugId(ch, loaderData!.chapterId)}`;
     const img = coverId ? driveImageUrl(coverId, 1200) : `${SITE_URL}/og-default.jpg`;
     const desc = `Xem album "${ch}" của ${ct} trên GravureHub — cuộn dọc mượt mà, ảnh chất lượng cao.`;
     return {
@@ -62,8 +65,10 @@ function Reader() {
   const navigate = useNavigate();
   const comics = useComics();
   const loaded = useComicsLoaded();
-  const comic = comics.find((c) => c.id === comicId);
-  const idx = comic?.chapters.findIndex((c) => c.id === chapterId) ?? -1;
+  const realComicId = extractId(comicId);
+  const realChapterId = extractId(chapterId);
+  const comic = comics.find((c) => c.id === realComicId);
+  const idx = comic?.chapters.findIndex((c) => c.id === realChapterId) ?? -1;
   const chapter = comic && idx >= 0 ? comic.chapters[idx] : null;
 
   const [hideUI, setHideUI] = useState(false);
@@ -88,11 +93,14 @@ function Reader() {
 
   const singleId = chapter.pages.length === 1 ? extractDriveId(chapter.pages[0]) ?? chapter.pages[0] : null;
   const embedUrl = chapter.videoUrl ? toEmbedUrl(chapter.videoUrl) : null;
-  const goToChapter = (id: string) => navigate({ to: "/read/$comicId/$chapterId", params: { comicId: comic.id, chapterId: id } });
+  const goToChapter = (id: string) => {
+    const ch = comic.chapters.find((c) => c.id === id);
+    navigate({ to: "/read/$comicId/$chapterId", params: { comicId: buildSlugId(comic.title, comic.id), chapterId: buildSlugId(ch?.title ?? "", id) } });
+  };
 
   const Footer = () => (
     <div className="mx-auto max-w-3xl px-4 pb-32 pt-6">
-      <Link to="/comic/$comicId" params={{ comicId: comic.id }} className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary">
+      <Link to="/comic/$comicId" params={{ comicId: buildSlugId(comic.title, comic.id) }} className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary">
         <ArrowLeft className="h-3.5 w-3.5" /> Quay lại
       </Link>
       <div className="mt-6"><CommentSection comicId={comic.id} chapterId={chapter.id} /></div>
@@ -140,7 +148,7 @@ function Reader() {
     <div className="min-h-screen bg-background">
       <header className={"fixed inset-x-0 top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl transition-transform " + (hideUI ? "-translate-y-full" : "translate-y-0")}>
         <div className="mx-auto flex h-14 max-w-3xl items-center justify-between gap-3 px-4">
-          <Link to="/comic/$comicId" params={{ comicId: comic.id }} className="inline-flex items-center gap-1.5 text-sm font-bold hover:text-primary">
+          <Link to="/comic/$comicId" params={{ comicId: buildSlugId(comic.title, comic.id) }} className="inline-flex items-center gap-1.5 text-sm font-bold hover:text-primary">
             <ArrowLeft className="h-4 w-4" /><span className="line-clamp-1">{comic.title}</span>
           </Link>
           <span className="text-xs font-bold">{chapter.title}</span>

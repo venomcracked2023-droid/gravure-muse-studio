@@ -5,7 +5,7 @@ import { useComics } from "@/lib/comics-store";
 import { Tag } from "lucide-react";
 import { useMemo } from "react";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
-import { slugifyGenre } from "@/lib/slug";
+import { slugifyGenre, buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
 
 export const Route = createFileRoute("/genre/$slug")({
@@ -46,7 +46,7 @@ function GenrePage() {
             "@type": "ItemList",
             itemListElement: matched.slice(0, 30).map((c, i) => ({
               "@type": "ListItem", position: i + 1,
-              url: `${SITE_URL}/comic/${c.id}`, name: c.title,
+              url: `${SITE_URL}/comic/${buildSlugId(c.title, c.id)}`, name: c.title,
               image: c.coverId ? driveImageUrl(c.coverId, 600) : undefined,
             })),
           },
@@ -66,7 +66,7 @@ function GenrePage() {
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {matched.map((c) => (
-              <Link key={c.id} to="/comic/$comicId" params={{ comicId: c.id }} className="group flex flex-col gap-2">
+              <Link key={c.id} to="/comic/$comicId" params={{ comicId: buildSlugId(c.title, c.id) }} className="group flex flex-col gap-2">
                 <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-border bg-card group-hover:border-primary/60">
                   <ComicCover id={c.coverId} title={c.title} className="transition duration-500 group-hover:scale-110" />
                 </div>

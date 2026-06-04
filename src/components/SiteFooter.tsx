@@ -4,6 +4,7 @@ import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import { useComics } from "@/lib/comics-store";
 import { useI18n } from "@/lib/i18n/context";
+import { buildSlugId } from "@/lib/slug";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -43,7 +44,7 @@ export function SiteFooter() {
               <ul className="mt-3 space-y-2 text-sm">
                 {toc.map((c) => (
                   <li key={c.id}>
-                    <Link to="/comic/$comicId" params={{ comicId: c.id }} className="text-muted-foreground hover:text-primary">
+                    <Link to="/comic/$comicId" params={{ comicId: buildSlugId(c.title, c.id) }} className="text-muted-foreground hover:text-primary">
                       {c.title}
                     </Link>
                   </li>
