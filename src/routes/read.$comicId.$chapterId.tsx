@@ -93,7 +93,10 @@ function Reader() {
 
   const singleId = chapter.pages.length === 1 ? extractDriveId(chapter.pages[0]) ?? chapter.pages[0] : null;
   const embedUrl = chapter.videoUrl ? toEmbedUrl(chapter.videoUrl) : null;
-  const goToChapter = (id: string, title?: string) => navigate({ to: "/read/$comicId/$chapterId", params: { comicId: buildSlugId(comic.title, comic.id), chapterId: buildSlugId(title ?? "", id) } });
+  const goToChapter = (id: string) => {
+    const ch = comic.chapters.find((c) => c.id === id);
+    navigate({ to: "/read/$comicId/$chapterId", params: { comicId: buildSlugId(comic.title, comic.id), chapterId: buildSlugId(ch?.title ?? "", id) } });
+  };
 
   const Footer = () => (
     <div className="mx-auto max-w-3xl px-4 pb-32 pt-6">
