@@ -4,6 +4,7 @@ import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import { useComics } from "@/lib/comics-store";
 import { useI18n } from "@/lib/i18n/context";
+import { buildSlugId } from "@/lib/slug";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
