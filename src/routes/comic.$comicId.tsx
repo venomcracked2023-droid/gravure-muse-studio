@@ -8,12 +8,14 @@ import { CommentSection } from "@/components/CommentSection";
 import { RatingWidget } from "@/components/RatingWidget";
 import { SITE_URL } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
+import { buildSlugId, extractId } from "@/lib/slug";
 
 export const Route = createFileRoute("/comic/$comicId")({
   component: ComicPage,
   loader: async ({ params }) => {
-    const { data } = await supabase.from("comics").select("title,author,description,cover_id,genres").eq("id", params.comicId).maybeSingle();
-    return { meta: data };
+    const id = extractId(params.comicId);
+    const { data } = await supabase.from("comics").select("title,author,description,cover_id,genres").eq("id", id).maybeSingle();
+    return { meta: data, id };
   },
   head: ({ loaderData, params }) => {
     const m = loaderData?.meta;
@@ -22,7 +24,8 @@ export const Route = createFileRoute("/comic/$comicId")({
     const fallback = `Khám phá bộ sưu tập ảnh gravure chất lượng cao của ${m.title} trên GravureHub — ngắm album cuộn dọc mượt mà, cập nhật liên tục.`;
     const desc = (m.description && m.description.length >= 50 ? m.description : fallback).slice(0, 160);
     const img = m.cover_id ? driveImageUrl(m.cover_id, 1200) : `${SITE_URL}/og-default.jpg`;
-    const url = `${SITE_URL}/comic/${params.comicId}`;
+    const slug = buildSlugId(m.title, loaderData!.id);
+    const url = `${SITE_URL}/comic/${slug}`;
     return {
       meta: [
         { title }, { name: "description", content: desc },
@@ -67,7 +70,8 @@ function ComicPage() {
   const { comicId } = Route.useParams();
   const comics = useComics();
   const loaded = useComicsLoaded();
-  const comic = comics.find((c) => c.id === comicId);
+  const realId = extractId(comicId);
+  const comic = comics.find((c) => c.id === realId);
 
   if (!loaded) return <div className="min-h-screen"><SiteHeader /><div className="p-20 text-center text-muted-foreground">Đang tải…</div></div>;
   if (!comic) throw notFound();
@@ -99,7 +103,7 @@ function ComicPage() {
               <p className="mt-5 leading-relaxed text-foreground/90">{comic.description}</p>
               <RatingWidget comicId={comic.id} />
               {comic.chapters.length > 0 && (
-                <Link to="/read/$comicId/$chapterId" params={{ comicId: comic.id, chapterId: comic.chapters[0].id }}
+                <Link to="/read/$comicId/$chapterId" params={{ comicId: buildSlugId(comic.title, comic.id), chapterId: buildSlugId(comic.chapters[0].title, comic.chapters[0].id) }}
                   className="group mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition hover:scale-105 active:scale-95">
                   Xem album đầu <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
@@ -126,7 +130,7 @@ function ComicPage() {
             <ul className="divide-y divide-border/60 overflow-hidden rounded-2xl border border-border bg-background/40">
               {comic.chapters.map((ch, i) => (
                 <li key={ch.id} className="group">
-                  <Link to="/read/$comicId/$chapterId" params={{ comicId: comic.id, chapterId: ch.id }}
+                  <Link to="/read/$comicId/$chapterId" params={{ comicId: buildSlugId(comic.title, comic.id), chapterId: buildSlugId(ch.title, ch.id) }}
                     className="relative flex items-center justify-between gap-3 px-5 py-6 transition hover:bg-primary/5">
                     <div className="flex items-center gap-4">
                       <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-sm font-bold text-muted-foreground tabular-nums group-hover:border-primary group-hover:bg-gradient-brand group-hover:text-primary-foreground">{i + 1}</span>
