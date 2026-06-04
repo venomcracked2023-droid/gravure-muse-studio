@@ -6,6 +6,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { BookOpen, Library, Sparkles, Star } from "lucide-react";
 import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_URL } from "@/lib/seo";
+import { buildSlugId } from "@/lib/slug";
 
 export const Route = createFileRoute("/")({
   component: Index,
