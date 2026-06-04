@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
+import { buildSlugId } from "@/lib/slug";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async ({ request }) => {
         const origin = new URL(request.url).origin;
-        const { data: comics } = await supabase.from("comics").select("id,updated_at,genres").order("updated_at", { ascending: false }).limit(1000);
+        const { data: comics } = await supabase.from("comics").select("id,title,updated_at,genres").order("updated_at", { ascending: false }).limit(1000);
         const iso = (v: any) => new Date(v).toISOString();
         const urls = [
           `<url><loc>${origin}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>`,
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         ];
         const genres = new Set<string>();
         for (const c of comics ?? []) {
-          urls.push(`<url><loc>${origin}/comic/${c.id}</loc><lastmod>${iso(c.updated_at)}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`);
+          urls.push(`<url><loc>${origin}/comic/${buildSlugId((c as any).title, c.id)}</loc><lastmod>${iso(c.updated_at)}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`);
           for (const g of (c.genres ?? []) as string[]) {
             const slug = (g || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/gi, "d").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
             if (slug) genres.add(slug);
