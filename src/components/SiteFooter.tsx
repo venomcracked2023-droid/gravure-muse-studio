@@ -43,7 +43,7 @@ export function SiteFooter() {
               <ul className="mt-3 space-y-2 text-sm">
                 {toc.map((c) => (
                   <li key={c.id}>
-                    <Link to="/comic/$comicId" params={{ comicId: c.id }} className="text-muted-foreground hover:text-primary">
+                    <Link to="/comic/$comicId" params={{ comicId: buildSlugId(c.title, c.id) }} className="text-muted-foreground hover:text-primary">
                       {c.title}
                     </Link>
                   </li>
