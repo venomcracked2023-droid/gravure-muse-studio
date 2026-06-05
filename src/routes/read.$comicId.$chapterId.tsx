@@ -19,9 +19,18 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
     const chapterId = extractId(params.chapterId);
     const [{ data: comic }, { data: chapter }] = await Promise.all([
       supabase.from("comics").select("title,cover_id").eq("id", comicId).maybeSingle(),
-      supabase.from("chapters").select("title").eq("id", chapterId).maybeSingle(),
+      supabase.from("chapters").select("title,video_url,cover_id,created_at").eq("id", chapterId).maybeSingle(),
     ]);
-    return { comicTitle: comic?.title ?? null, coverId: comic?.cover_id ?? null, chapterTitle: chapter?.title ?? null, comicId, chapterId };
+    return {
+      comicTitle: comic?.title ?? null,
+      coverId: comic?.cover_id ?? null,
+      chapterTitle: chapter?.title ?? null,
+      chapterVideoUrl: (chapter as any)?.video_url ?? null,
+      chapterCoverId: (chapter as any)?.cover_id ?? null,
+      chapterCreatedAt: (chapter as any)?.created_at ?? null,
+      comicId,
+      chapterId,
+    };
   },
   head: ({ loaderData, params }) => {
     const ct = loaderData?.comicTitle, ch = loaderData?.chapterTitle, coverId = loaderData?.coverId;
@@ -30,30 +39,60 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
     const url = `${SITE_URL}/read/${buildSlugId(ct, loaderData!.comicId)}/${buildSlugId(ch, loaderData!.chapterId)}`;
     const img = coverId ? driveImageUrl(coverId, 1200) : `${SITE_URL}/og-default.jpg`;
     const desc = `Xem album "${ch}" của ${ct} trên GravureHub — cuộn dọc mượt mà, ảnh chất lượng cao.`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: desc },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc },
-        { property: "og:image", content: img },
-        { property: "og:url", content: url },
-        { property: "og:type", content: "article" },
-        { name: "twitter:image", content: img },
-      ],
-      links: [{ rel: "canonical", href: url }],
-      scripts: [{
-        type: "application/ld+json",
-        children: JSON.stringify({
+    const videoUrl = loaderData?.chapterVideoUrl ? parseEmbed(loaderData.chapterVideoUrl) : null;
+    const chapterCoverImg = loaderData?.chapterCoverId ? driveImageUrl(loaderData.chapterCoverId, 1200) : img;
+    const uploadDate = loaderData?.chapterCreatedAt ? new Date(loaderData.chapterCreatedAt).toISOString() : new Date().toISOString();
+    const ldArticle = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: ch,
+      image: img,
+      author: { "@type": "Person", name: ct },
+      url,
+      publisher: { "@type": "Organization", name: "GravureHub", url: SITE_URL },
+    };
+    const ldVideo = videoUrl
+      ? {
           "@context": "https://schema.org",
-          "@type": "Article",
-          headline: ch,
-          image: img,
-          author: { "@type": "Person", name: ct },
-          url,
-          publisher: { "@type": "Organization", name: "GravureHub", url: SITE_URL },
-        }),
-      }],
+          "@type": "VideoObject",
+          name: `${ch} — ${ct}`,
+          description: desc,
+          thumbnailUrl: [videoUrl.kind === "video" ? (videoUrl.poster || chapterCoverImg) : chapterCoverImg],
+          uploadDate,
+          ...(videoUrl.kind === "video"
+            ? { contentUrl: videoUrl.url }
+            : { embedUrl: videoUrl.url }),
+        }
+      : null;
+    const scripts: Array<{ type: string; children: string }> = [
+      { type: "application/ld+json", children: JSON.stringify(ldArticle) },
+    ];
+    if (ldVideo) scripts.push({ type: "application/ld+json", children: JSON.stringify(ldVideo) });
+    const meta = [
+      { title },
+      { name: "description", content: desc },
+      { property: "og:title", content: title },
+      { property: "og:description", content: desc },
+      { property: "og:image", content: img },
+      { property: "og:url", content: url },
+      { property: "og:type", content: videoUrl ? "video.other" : "article" },
+      { name: "twitter:image", content: img },
+    ];
+    if (videoUrl) {
+      meta.push(
+        { name: "twitter:card", content: "player" } as any,
+        { property: "og:video", content: videoUrl.url } as any,
+        { property: "og:video:url", content: videoUrl.url } as any,
+        { property: "og:video:secure_url", content: videoUrl.url } as any,
+      );
+      if (videoUrl.kind === "video") {
+        meta.push({ property: "og:video:type", content: "video/mp4" } as any);
+      }
+    }
+    return {
+      meta,
+      links: [{ rel: "canonical", href: url }],
+      scripts,
     };
   },
   notFoundComponent: () => <div className="p-10 text-center">Không tìm thấy. <Link to="/" className="text-primary underline">Về trang chủ</Link></div>,
