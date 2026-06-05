@@ -1,3 +1,27 @@
+export type EmbedInfo =
+  | { kind: "iframe"; url: string }
+  | { kind: "video"; url: string; poster?: string };
+
+const VIDEO_EXT_RE = /\.(mp4|webm|ogg|ogv|mov|m4v)(\?|#|$)/i;
+
+export function parseEmbed(input: string): EmbedInfo | null {
+  const s = input.trim();
+  if (!s) return null;
+  // Direct <video src="..."> HTML
+  const tag = s.match(/<video[^>]*\ssrc=["']([^"']+)["'][^>]*>/i);
+  if (tag) {
+    const url = tag[1];
+    const poster = s.match(/\sposter=["']([^"']+)["']/i)?.[1];
+    return { kind: "video", url, poster };
+  }
+  try {
+    const u = new URL(s);
+    if (VIDEO_EXT_RE.test(u.pathname)) return { kind: "video", url: s };
+  } catch { /* not a URL */ }
+  const iframe = toEmbedUrl(s);
+  return iframe ? { kind: "iframe", url: iframe } : null;
+}
+
 export function toEmbedUrl(input: string): string | null {
   const s = input.trim();
   if (!s) return null;

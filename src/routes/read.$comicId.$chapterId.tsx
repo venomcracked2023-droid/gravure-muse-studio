@@ -8,7 +8,7 @@ import { PdfReader } from "@/components/PdfReader";
 import { supabase } from "@/integrations/supabase/client";
 import { CommentSection } from "@/components/CommentSection";
 import { SITE_URL } from "@/lib/seo";
-import { toEmbedUrl } from "@/lib/embed";
+import { parseEmbed } from "@/lib/embed";
 import { buildSlugId, extractId } from "@/lib/slug";
 
 export const Route = createFileRoute("/read/$comicId/$chapterId")({
@@ -92,7 +92,7 @@ function Reader() {
   const progress = total > 0 ? ((idx + 1) / total) * 100 : 0;
 
   const singleId = chapter.pages.length === 1 ? extractDriveId(chapter.pages[0]) ?? chapter.pages[0] : null;
-  const embedUrl = chapter.videoUrl ? toEmbedUrl(chapter.videoUrl) : null;
+  const embed = chapter.videoUrl ? parseEmbed(chapter.videoUrl) : null;
   const goToChapter = (id: string) => {
     const ch = comic.chapters.find((c) => c.id === id);
     navigate({ to: "/read/$comicId/$chapterId", params: { comicId: buildSlugId(comic.title, comic.id), chapterId: buildSlugId(ch?.title ?? "", id) } });
@@ -108,18 +108,29 @@ function Reader() {
   );
 
   const VideoEmbed = () =>
-    embedUrl ? (
+    embed ? (
       <div className="mx-auto max-w-3xl px-2 pt-16 sm:px-4">
         <div className="overflow-hidden rounded-2xl border border-primary/30 bg-black shadow-glow">
           <div className="relative aspect-video">
-            <iframe
-              src={embedUrl}
-              title={chapter.title}
-              className="absolute inset-0 h-full w-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
-            />
+            {embed.kind === "iframe" ? (
+              <iframe
+                src={embed.url}
+                title={chapter.title}
+                className="absolute inset-0 h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            ) : (
+              <video
+                src={embed.url}
+                poster={embed.poster}
+                controls
+                playsInline
+                preload="metadata"
+                className="absolute inset-0 h-full w-full bg-black"
+              />
+            )}
           </div>
         </div>
       </div>
@@ -160,7 +171,7 @@ function Reader() {
       {chapter.pages.length === 0 ? (
         <main className="mx-auto max-w-3xl pt-14">
           <VideoEmbed />
-          {!embedUrl && <div className="p-10 text-center text-muted-foreground">Album này chưa có nội dung.</div>}
+          {!embed && <div className="p-10 text-center text-muted-foreground">Album này chưa có nội dung.</div>}
           <Footer />
         </main>
       ) : singleId && !pdfFailed ? (
@@ -170,7 +181,7 @@ function Reader() {
         </>
       ) : (
         <Virtuoso useWindowScroll data={chapter.pages} increaseViewportBy={{ top: 1500, bottom: 2000 }}
-          components={{ Header: () => (embedUrl ? <VideoEmbed /> : <div className="h-14" />), Footer }}
+          components={{ Header: () => (embed ? <VideoEmbed /> : <div className="h-14" />), Footer }}
           itemContent={(i, id) => (
             <div className="mx-auto max-w-3xl">
               <img src={driveImageUrl(id, 1200)} alt={`${chapter.title} — Trang ${i + 1} (${comic.title})`} loading="lazy" decoding="async"
