@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
 import { SITE_URL } from "@/lib/seo";
 import { buildSlugId } from "@/lib/slug";
+import { MarkdownEditor } from "@/components/MarkdownEditor";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
@@ -131,8 +132,16 @@ function ComicEditor({ comic, knownAuthors, knownGenres, onClose, onSave }: {
               <datalist id="known-authors">{knownAuthors.map((a) => <option key={a} value={a} />)}</datalist>
             </label>
           </div>
-          <label className="block"><span className="mb-1.5 block text-xs font-medium text-muted-foreground">Mô tả</span>
-            <textarea value={draft.description} onChange={(e) => patch({ description: e.target.value })} rows={3} className={inputClass} /></label>
+          <div className="block">
+            <span className="mb-1.5 block text-xs font-medium text-muted-foreground">Mô tả</span>
+            <MarkdownEditor
+              value={draft.description}
+              onChange={(v) => patch({ description: v })}
+              placeholder="Giới thiệu về người mẫu… Hỗ trợ Markdown."
+              minRows={5}
+              maxLength={5000}
+            />
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block"><span className="mb-1.5 block text-xs font-medium text-muted-foreground">Thể loại (phẩy)</span>
               <input value={draft.genres.join(", ")} onChange={(e) => patch({ genres: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })} className={inputClass} />
