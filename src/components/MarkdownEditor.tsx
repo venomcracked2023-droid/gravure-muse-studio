@@ -101,9 +101,9 @@ export function MarkdownEditor({ value, onChange, placeholder, maxLength = 5000,
         />
       ) : (
         <div
-          className="prose prose-invert max-w-none px-3 py-2 text-sm prose-p:my-2 prose-headings:my-3 prose-a:text-primary"
+          className="md-content px-3 py-2 text-sm"
           style={{ minHeight: minRows * 24 }}
-          dangerouslySetInnerHTML={{ __html: value.trim() ? renderMarkdown(value) : '<p class="text-muted-foreground">Chưa có nội dung.</p>' }}
+          dangerouslySetInnerHTML={{ __html: value.trim() ? renderMarkdown(value) : '<p style="color:var(--muted-foreground)">Chưa có nội dung.</p>' }}
         />
       )}
 
