@@ -9,6 +9,7 @@ import { RatingWidget } from "@/components/RatingWidget";
 import { SITE_URL } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { buildSlugId, extractId } from "@/lib/slug";
+import { renderMarkdown, stripMarkdown } from "@/lib/markdown";
 
 export const Route = createFileRoute("/comic/$comicId")({
   component: ComicPage,
@@ -22,7 +23,8 @@ export const Route = createFileRoute("/comic/$comicId")({
     if (!m) return { meta: [{ title: "Người mẫu — GravureHub" }] };
     const title = `${m.title}${m.author ? ` — ${m.author}` : ""} | GravureHub`;
     const fallback = `Khám phá bộ sưu tập ảnh gravure chất lượng cao của ${m.title} trên GravureHub — ngắm album cuộn dọc mượt mà, cập nhật liên tục.`;
-    const desc = (m.description && m.description.length >= 50 ? m.description : fallback).slice(0, 160);
+    const plain = stripMarkdown(m.description || "");
+    const desc = (plain && plain.length >= 50 ? plain : fallback).slice(0, 160);
     const img = m.cover_id ? driveImageUrl(m.cover_id, 1200) : `${SITE_URL}/og-default.jpg`;
     const slug = buildSlugId(m.title, loaderData!.id);
     const url = `${SITE_URL}/comic/${slug}`;
@@ -100,7 +102,9 @@ function ComicPage() {
                 <span className="mx-2 text-border">·</span>
                 <BookOpen className="h-3.5 w-3.5" /> {comic.chapters.length} album
               </p>
-              <p className="mt-5 leading-relaxed text-foreground/90">{comic.description}</p>
+              {comic.description ? (
+                <div className="md-content mt-5 text-foreground/90" dangerouslySetInnerHTML={{ __html: renderMarkdown(comic.description) }} />
+              ) : null}
               <RatingWidget comicId={comic.id} />
               {comic.chapters.length > 0 && (
                 <Link to="/read/$comicId/$chapterId" params={{ comicId: buildSlugId(comic.title, comic.id), chapterId: buildSlugId(comic.chapters[0].title, comic.chapters[0].id) }}
