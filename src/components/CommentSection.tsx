@@ -103,7 +103,7 @@ export function CommentSection({ comicId, chapterId }: { comicId: string; chapte
             <li key={c.id} className="rounded-xl border border-border bg-card/40 p-4 backdrop-blur">
               <div className="flex items-start gap-3">
                 <div className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full border border-border bg-secondary text-xs font-semibold">
-                  {p?.avatar_url ? <img src={p.avatar_url} alt={name} className="h-full w-full object-cover" loading="lazy" /> : name.slice(0, 1).toUpperCase()}
+                  {p?.avatar_url ? <img src={p.avatar_url} alt={`Ảnh đại diện của ${name}`} className="h-full w-full object-cover" loading="lazy" /> : name.slice(0, 1).toUpperCase()}
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
