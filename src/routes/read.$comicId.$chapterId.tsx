@@ -51,6 +51,23 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       url,
       publisher: { "@type": "Organization", name: "GravureHub", url: SITE_URL },
     };
+    const ldBreadcrumb = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: ct, item: `${SITE_URL}/comic/${buildSlugId(ct, loaderData!.comicId)}` },
+        { "@type": "ListItem", position: 3, name: ch, item: url },
+      ],
+    };
+    const ldImageGallery = {
+      "@context": "https://schema.org",
+      "@type": "ImageGallery",
+      name: `${ch} — ${ct}`,
+      description: desc,
+      url,
+      image: chapterCoverImg,
+    };
     const ldVideo = videoUrl
       ? {
           "@context": "https://schema.org",
@@ -66,6 +83,8 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       : null;
     const scripts: Array<{ type: string; children: string }> = [
       { type: "application/ld+json", children: JSON.stringify(ldArticle) },
+      { type: "application/ld+json", children: JSON.stringify(ldBreadcrumb) },
+      { type: "application/ld+json", children: JSON.stringify(ldImageGallery) },
     ];
     if (ldVideo) scripts.push({ type: "application/ld+json", children: JSON.stringify(ldVideo) });
     const meta = [

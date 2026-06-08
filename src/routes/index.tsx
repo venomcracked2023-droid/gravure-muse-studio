@@ -7,6 +7,7 @@ import { BookOpen, Library, Sparkles, Star } from "lucide-react";
 import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_URL } from "@/lib/seo";
 import { buildSlugId } from "@/lib/slug";
+import { driveImageUrl } from "@/lib/drive";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -37,9 +38,22 @@ function Index() {
     : comics;
   const featured = comics.filter((c) => c.featured);
   const totalChapters = comics.reduce((s, c) => s + c.chapters.length, 0);
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Thư viện GravureHub",
+    url: `${SITE_URL}/`,
+    numberOfItems: filtered.length,
+    itemListElement: filtered.slice(0, 30).map((c, i) => ({
+      "@type": "ListItem", position: i + 1, name: c.title,
+      url: `${SITE_URL}/comic/${buildSlugId(c.title, c.id)}`,
+      image: c.coverId ? driveImageUrl(c.coverId, 600) : undefined,
+    })),
+  };
   return (
     <div className="min-h-screen">
       <SiteHeader />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <main className="mx-auto max-w-6xl px-4 pb-20">
         <section className="relative mt-6 overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card via-secondary to-card px-6 py-9 sm:px-12 sm:py-12">
           <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-primary/25 blur-3xl animate-pulse-glow" />

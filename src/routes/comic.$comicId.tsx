@@ -61,6 +61,17 @@ export const Route = createFileRoute("/comic/$comicId")({
             ...(m.author ? { alternateName: m.author } : {}),
           }),
         },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ImageObject",
+            contentUrl: img,
+            name: m.title,
+            description: desc,
+            representativeOfPage: true,
+          }),
+        },
       ],
     };
   },
