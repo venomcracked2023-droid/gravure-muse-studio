@@ -35,6 +35,7 @@ export function SiteFooter() {
               <li><Link to="/" className="text-muted-foreground hover:text-primary">{t("footer.home")}</Link></li>
               <li><Link to="/featured" className="text-muted-foreground hover:text-primary">{t("footer.featured")}</Link></li>
               <li><Link to="/latest" className="text-muted-foreground hover:text-primary">{t("footer.latest")}</Link></li>
+              <li><Link to="/blog/gravure-idol-la-gi" className="text-muted-foreground hover:text-primary">Gravure idol là gì?</Link></li>
             </ul>
           </nav>
 
