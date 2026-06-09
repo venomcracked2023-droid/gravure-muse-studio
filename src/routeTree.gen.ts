@@ -20,6 +20,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as ComicComicIdRouteImport } from './routes/comic.$comicId'
+import { Route as BlogGravureIdolLaGiRouteImport } from './routes/blog.gravure-idol-la-gi'
 import { Route as ApiDriveFileRouteImport } from './routes/api/drive-file'
 import { Route as ReadComicIdChapterIdRouteImport } from './routes/read.$comicId.$chapterId'
 
@@ -78,6 +79,11 @@ const ComicComicIdRoute = ComicComicIdRouteImport.update({
   path: '/comic/$comicId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogGravureIdolLaGiRoute = BlogGravureIdolLaGiRouteImport.update({
+  id: '/blog/gravure-idol-la-gi',
+  path: '/blog/gravure-idol-la-gi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiDriveFileRoute = ApiDriveFileRouteImport.update({
   id: '/api/drive-file',
   path: '/api/drive-file',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/drive-file': typeof ApiDriveFileRoute
+  '/blog/gravure-idol-la-gi': typeof BlogGravureIdolLaGiRoute
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/drive-file': typeof ApiDriveFileRoute
+  '/blog/gravure-idol-la-gi': typeof BlogGravureIdolLaGiRoute
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/drive-file': typeof ApiDriveFileRoute
+  '/blog/gravure-idol-la-gi': typeof BlogGravureIdolLaGiRoute
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/drive-file'
+    | '/blog/gravure-idol-la-gi'
     | '/comic/$comicId'
     | '/genre/$slug'
     | '/read/$comicId/$chapterId'
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/drive-file'
+    | '/blog/gravure-idol-la-gi'
     | '/comic/$comicId'
     | '/genre/$slug'
     | '/read/$comicId/$chapterId'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/drive-file'
+    | '/blog/gravure-idol-la-gi'
     | '/comic/$comicId'
     | '/genre/$slug'
     | '/read/$comicId/$chapterId'
@@ -194,6 +206,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiDriveFileRoute: typeof ApiDriveFileRoute
+  BlogGravureIdolLaGiRoute: typeof BlogGravureIdolLaGiRoute
   ComicComicIdRoute: typeof ComicComicIdRoute
   GenreSlugRoute: typeof GenreSlugRoute
   ReadComicIdChapterIdRoute: typeof ReadComicIdChapterIdRoute
@@ -278,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComicComicIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/gravure-idol-la-gi': {
+      id: '/blog/gravure-idol-la-gi'
+      path: '/blog/gravure-idol-la-gi'
+      fullPath: '/blog/gravure-idol-la-gi'
+      preLoaderRoute: typeof BlogGravureIdolLaGiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/drive-file': {
       id: '/api/drive-file'
       path: '/api/drive-file'
@@ -306,6 +326,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiDriveFileRoute: ApiDriveFileRoute,
+  BlogGravureIdolLaGiRoute: BlogGravureIdolLaGiRoute,
   ComicComicIdRoute: ComicComicIdRoute,
   GenreSlugRoute: GenreSlugRoute,
   ReadComicIdChapterIdRoute: ReadComicIdChapterIdRoute,
