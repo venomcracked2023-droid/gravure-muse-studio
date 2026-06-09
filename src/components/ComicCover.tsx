@@ -13,6 +13,9 @@ export function ComicCover({ id, title, className }: { id?: string; title: strin
       src={driveImageUrl(id, 600)}
       alt={`Ảnh bìa người mẫu gravure ${title}`}
       loading="lazy"
+      decoding="async"
+      width={600}
+      height={800}
       className={"h-full w-full object-cover " + (className ?? "")}
     />
   );
