@@ -162,3 +162,15 @@
 }
 .md-content pre code { background: transparent; padding: 0; }
 .md-content hr { border: 0; border-top: 1px solid var(--border); margin: 1rem 0; }
+
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee-x {
+  animation: marquee-x linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-x { animation: none; }
+}
