@@ -1,8 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ComicCover } from "@/components/ComicCover";
-import { useComics, useComicsLoaded } from "@/lib/comics-store";
-import { driveImageUrl, extractDriveId } from "@/lib/drive";
+import { useComics, useComicsLoaded, upsertComic, uid, type Chapter } from "@/lib/comics-store";
+import { driveImageUrl, extractDriveId, parseDriveIds } from "@/lib/drive";
 import { BookOpen, ChevronRight, Layers, User } from "lucide-react";
 import { CommentSection } from "@/components/CommentSection";
 import { RatingWidget } from "@/components/RatingWidget";
@@ -10,6 +10,10 @@ import { SITE_URL } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { buildSlugId, extractId } from "@/lib/slug";
 import { renderMarkdown, stripMarkdown } from "@/lib/markdown";
+import { useAuth } from "@/lib/auth";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Plus } from "lucide-react";
 
 export const Route = createFileRoute("/comic/$comicId")({
   component: ComicPage,
@@ -85,6 +89,7 @@ function ComicPage() {
   const loaded = useComicsLoaded();
   const realId = extractId(comicId);
   const comic = comics.find((c) => c.id === realId);
+  const { isAdmin } = useAuth();
 
   if (!loaded) return <div className="min-h-screen"><SiteHeader /><div className="p-20 text-center text-muted-foreground">Đang tải…</div></div>;
   if (!comic) throw notFound();
@@ -139,6 +144,7 @@ function ComicPage() {
               <span className="text-xs text-muted-foreground">{comic.chapters.length} album</span>
             </div>
           </div>
+          {isAdmin && <QuickAddChapter comic={comic} />}
           {comic.chapters.length === 0 ? (
             <div className="rounded-xl border border-dashed border-border p-8 text-center text-muted-foreground">Chưa có album.</div>
           ) : (
