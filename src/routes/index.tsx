@@ -8,6 +8,8 @@ import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_URL } from "@/lib/seo";
 import { buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
+import { getAutoFeatured } from "@/lib/featured";
+import { FeaturedMarquee } from "@/components/FeaturedMarquee";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -36,7 +38,7 @@ function Index() {
   const filtered = term
     ? comics.filter((c) => [c.title, c.author, ...(c.genres ?? [])].join(" ").toLowerCase().includes(term))
     : comics;
-  const featured = comics.filter((c) => c.featured);
+  const featured = getAutoFeatured(comics, 12);
   const totalChapters = comics.reduce((s, c) => s + c.chapters.length, 0);
   const ld = {
     "@context": "https://schema.org",
@@ -104,22 +106,7 @@ function Index() {
               </h2>
               <Link to="/featured" className="text-sm font-medium text-primary">{t("section.viewAll")} ({featured.length}) →</Link>
             </div>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {featured.map((c) => (
-                <Link key={c.id} to="/comic/$comicId" params={{ comicId: buildSlugId(c.title, c.id) }} className="group flex flex-col gap-2">
-                  <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-primary/40 bg-card shadow-lg">
-                    <ComicCover id={c.coverId} title={c.title} className="transition duration-500 group-hover:scale-110" />
-                    <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-primary/90 px-2 py-0.5 text-[10px] font-semibold text-primary-foreground">
-                      <Star className="h-3 w-3 fill-current" /> {t("section.featured")}
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="line-clamp-1 text-sm font-semibold group-hover:text-primary">{c.title}</h3>
-                    <p className="line-clamp-1 text-xs text-muted-foreground">{c.chapters.length} {t("card.albums")} · {c.author || t("card.anonymous")}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <FeaturedMarquee items={featured} />
           </section>
         )}
 
