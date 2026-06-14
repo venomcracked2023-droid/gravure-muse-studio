@@ -181,3 +181,76 @@ function ComicPage() {
     </div>
   );
 }
+
+function QuickAddChapter({ comic }: { comic: ReturnType<typeof useComics>[number] }) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState(`Album ${comic.chapters.length + 1}`);
+  const [pagesText, setPagesText] = useState("");
+  const [coverId, setCoverId] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    const pages = parseDriveIds(pagesText);
+    if (!title.trim()) return toast.error("Cần nhập tên album");
+    if (!pages.length && !videoUrl.trim()) return toast.error("Cần ít nhất 1 ảnh hoặc 1 video");
+    setSaving(true);
+    try {
+      const ch: Chapter = {
+        id: uid(),
+        title: title.trim(),
+        pages,
+        coverId: coverId ? (extractDriveId(coverId) ?? coverId) : "",
+        videoUrl: videoUrl.trim(),
+        createdAt: Date.now(),
+      };
+      await upsertComic({ ...comic, chapters: [...comic.chapters, ch] });
+      toast.success("Đã thêm album");
+      setOpen(false);
+      setTitle(`Album ${comic.chapters.length + 2}`);
+      setPagesText(""); setCoverId(""); setVideoUrl("");
+    } catch (e: any) {
+      toast.error(e.message ?? "Lỗi");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const inputClass = "w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring";
+
+  if (!open) {
+    return (
+      <div className="mb-4">
+        <button onClick={() => setOpen(true)}
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-4 py-2 text-sm font-semibold text-primary-foreground shadow-glow hover:opacity-90">
+          <Plus className="h-4 w-4" /> Thêm album nhanh
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mb-5 rounded-2xl border border-primary/40 bg-background/60 p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-primary">Thêm album nhanh (Admin)</h3>
+        <button onClick={() => setOpen(false)} className="text-xs text-muted-foreground hover:text-foreground">Đóng</button>
+      </div>
+      <div className="grid gap-3">
+        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Tên album" className={inputClass} />
+        <textarea value={pagesText} onChange={(e) => setPagesText(e.target.value)} rows={5}
+          placeholder="Mỗi dòng một File ID hoặc link Drive" className={inputClass + " font-mono text-xs"} />
+        <input value={coverId} onChange={(e) => setCoverId(e.target.value)}
+          placeholder="Ảnh đại diện (tuỳ chọn)" className={inputClass + " text-xs"} />
+        <input value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)}
+          placeholder="Link video nhúng (tuỳ chọn)" className={inputClass + " text-xs"} />
+        <div className="flex justify-end gap-2">
+          <button onClick={() => setOpen(false)} className="rounded-md border border-border px-4 py-2 text-sm hover:bg-secondary">Huỷ</button>
+          <button onClick={save} disabled={saving}
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-40 hover:opacity-90">
+            <Plus className="h-4 w-4" /> {saving ? "Đang lưu…" : "Lưu album"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
