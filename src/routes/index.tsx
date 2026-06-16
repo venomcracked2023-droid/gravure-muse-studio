@@ -8,7 +8,7 @@ import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_URL } from "@/lib/seo";
 import { buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
-import { getAutoFeatured } from "@/lib/featured";
+import { getLatestChapters } from "@/lib/featured";
 import { FeaturedMarquee } from "@/components/FeaturedMarquee";
 
 export const Route = createFileRoute("/")({
@@ -38,7 +38,7 @@ function Index() {
   const filtered = term
     ? comics.filter((c) => [c.title, c.author, ...(c.genres ?? [])].join(" ").toLowerCase().includes(term))
     : comics;
-  const featured = getAutoFeatured(comics, 12);
+  const latestChapters = getLatestChapters(comics, 12);
   const totalChapters = comics.reduce((s, c) => s + c.chapters.length, 0);
   const ld = {
     "@context": "https://schema.org",
@@ -92,21 +92,21 @@ function Index() {
               </div>
               <div className="rounded-xl border border-border bg-background/40 px-3 py-2 backdrop-blur">
                 <dt className="text-xs text-muted-foreground">{t("stats.featured")}</dt>
-                <dd className="mt-0.5 text-lg font-bold text-primary tabular-nums">{featured.length}</dd>
+                <dd className="mt-0.5 text-lg font-bold text-primary tabular-nums">{latestChapters.length}</dd>
               </div>
             </dl>
           </div>
         </section>
 
-        {featured.length > 0 && (
+        {latestChapters.length > 0 && (
           <section className="mt-14 animate-fade-in-up">
             <div className="mb-6 flex items-end justify-between">
               <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
                 <Star className="h-5 w-5 fill-primary text-primary" /> {t("section.featured")}
               </h2>
-              <Link to="/featured" className="text-sm font-medium text-primary">{t("section.viewAll")} ({featured.length}) →</Link>
+              <Link to="/featured" className="text-sm font-medium text-primary">{t("section.viewAll")} ({latestChapters.length}) →</Link>
             </div>
-            <FeaturedMarquee items={featured} />
+            <FeaturedMarquee items={latestChapters} />
           </section>
         )}
 
