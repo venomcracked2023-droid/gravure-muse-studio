@@ -200,14 +200,14 @@ function Reader() {
       <div className="mx-auto flex max-w-3xl items-center gap-2 px-3 py-2 sm:px-4">
         <span className="hidden shrink-0 items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary sm:inline-flex">{idx + 1}/{total}</span>
         <button disabled={!prev} onClick={() => first && goToChapter(first.id)} className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-secondary disabled:opacity-30" aria-label="Đầu"><ChevronsLeft className="h-4 w-4" /></button>
-        <button disabled={!prev} onClick={() => prev && goToChapter(prev.id)} className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-sm hover:bg-secondary disabled:opacity-30"><ChevronLeft className="h-4 w-4" /><span className="hidden sm:inline">Trước</span></button>
+        <button disabled={!prev} onClick={() => prev && goToChapter(prev.id)} className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-sm hover:bg-secondary disabled:opacity-30"><ChevronLeft className="h-4 w-4" /><span className="sr-only sm:not-sr-only sm:inline">Trước</span></button>
         <div className="relative min-w-0 flex-1">
           <List className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <select value={chapter.id} onChange={(e) => goToChapter(e.target.value)} className="w-full appearance-none truncate rounded-full border border-border bg-background py-2 pl-9 pr-8 text-sm font-medium outline-none focus:border-primary">
+          <select value={chapter.id} onChange={(e) => goToChapter(e.target.value)} aria-label="Chọn album" className="w-full appearance-none truncate rounded-full border border-border bg-background py-2 pl-9 pr-8 text-sm font-medium outline-none focus:border-primary">
             {comic.chapters.map((ch, i) => <option key={ch.id} value={ch.id}>{i + 1}. {ch.title}</option>)}
           </select>
         </div>
-        <button disabled={!next} onClick={() => next && goToChapter(next.id)} className="inline-flex items-center gap-1.5 rounded-full bg-gradient-brand px-3 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-40"><span className="hidden sm:inline">Sau</span><ChevronRight className="h-4 w-4" /></button>
+        <button disabled={!next} onClick={() => next && goToChapter(next.id)} className="inline-flex items-center gap-1.5 rounded-full bg-gradient-brand px-3 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-40"><span className="sr-only sm:not-sr-only sm:inline">Sau</span><ChevronRight className="h-4 w-4" /></button>
         <button disabled={!next} onClick={() => last && goToChapter(last.id)} className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-secondary disabled:opacity-30" aria-label="Cuối"><ChevronsRight className="h-4 w-4" /></button>
       </div>
     </nav>
