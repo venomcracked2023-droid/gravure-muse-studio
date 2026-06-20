@@ -140,7 +140,7 @@ function Index() {
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {filtered.map((c) => (
+              {paginated.map((c) => (
                 <Link key={c.id} to="/comic/$comicId" params={{ comicId: buildSlugId(c.title, c.id) }} className="group flex flex-col gap-2">
                   <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-border bg-card group-hover:border-primary/60">
                     <ComicCover id={c.coverId} title={c.title} className="transition duration-500 group-hover:scale-110" />
@@ -152,6 +152,52 @@ function Index() {
                 </Link>
               ))}
             </div>
+            {totalPages > 1 && (
+              <nav role="navigation" aria-label="Pagination" className="mt-8 flex justify-center">
+                <ul className="flex flex-row items-center gap-1">
+                  <li>
+                    <Link
+                      to="/"
+                      search={{ q, page: Math.max(1, page - 1) }}
+                      className={cn(
+                        buttonVariants({ variant: "ghost", size: "default" }),
+                        "gap-1 pl-2.5",
+                        page <= 1 && "pointer-events-none opacity-50"
+                      )}
+                    >
+                      <ChevronLeft className="h-4 w-4" /> Trước
+                    </Link>
+                  </li>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                    <li key={p}>
+                      <Link
+                        to="/"
+                        search={{ q, page: p }}
+                        aria-current={p === page ? "page" : undefined}
+                        className={cn(
+                          buttonVariants({ variant: p === page ? "outline" : "ghost", size: "icon" }),
+                        )}
+                      >
+                        {p}
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
+                    <Link
+                      to="/"
+                      search={{ q, page: Math.min(totalPages, page + 1) }}
+                      className={cn(
+                        buttonVariants({ variant: "ghost", size: "default" }),
+                        "gap-1 pr-2.5",
+                        page >= totalPages && "pointer-events-none opacity-50"
+                      )}
+                    >
+                      Sau <ChevronRight className="h-4 w-4" />
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            )}
           )}
         </section>
       </main>
