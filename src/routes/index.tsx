@@ -38,11 +38,16 @@ export const Route = createFileRoute("/")({
 function Index() {
   const comics = useComics();
   const { t } = useI18n();
-  const { q } = Route.useSearch();
+  const { q, page: rawPage } = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
   const term = (q ?? "").trim().toLowerCase();
   const filtered = term
     ? comics.filter((c) => [c.title, c.author, ...(c.genres ?? [])].join(" ").toLowerCase().includes(term))
     : comics;
+  const page = Math.max(1, Number(rawPage) || 1);
+  const PAGE_SIZE = 20; // 4 rows x 5 cols on desktop
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const featured = getAutoFeatured(comics, 12);
   const totalChapters = comics.reduce((s, c) => s + c.chapters.length, 0);
   const ld = {
