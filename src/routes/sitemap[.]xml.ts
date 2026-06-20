@@ -15,6 +15,8 @@ export const Route = createFileRoute("/sitemap.xml")({
           `<url><loc>${origin}/featured</loc><changefreq>daily</changefreq></url>`,
           `<url><loc>${origin}/latest</loc><changefreq>daily</changefreq></url>`,
           `<url><loc>${origin}/blog/gravure-idol-la-gi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>`,
+          `<url><loc>${origin}/login</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>`,
+          `<url><loc>${origin}/apply</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>`,
         ];
         const genres = new Set<string>();
         for (const c of comics ?? []) {

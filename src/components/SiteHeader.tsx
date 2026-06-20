@@ -29,7 +29,7 @@ export function SiteHeader() {
         <Link to="/" className="group flex items-center gap-2">
           <span className="relative">
             <span className="absolute inset-0 -z-10 rounded-full bg-primary/30 blur-lg transition group-hover:bg-primary/50" />
-            <img src={gravureLogo} alt="GravureHub" width={32} height={32}
+            <img src={gravureLogo} alt="GravureHub logo" width={32} height={32}
               className="h-8 w-8 object-contain transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110" />
           </span>
           <span className="text-lg font-bold tracking-tight text-gradient-brand">GravureHub</span>
