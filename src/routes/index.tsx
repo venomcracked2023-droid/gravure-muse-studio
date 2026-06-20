@@ -15,7 +15,10 @@ import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: Index,
-  validateSearch: (s: Record<string, unknown>) => ({ q: typeof s.q === "string" ? s.q : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    q: typeof s.q === "string" ? s.q : undefined,
+    page: typeof s.page === "string" || typeof s.page === "number" ? Math.max(1, Number(s.page) || 1) : 1,
+  }),
   head: () => {
     const title = "GravureHub — Bộ ảnh gravure cuộn dọc miễn phí";
     const desc = "Khám phá kho ảnh gravure đa dạng tại GravureHub: ngắm cuộn dọc mượt mà, cập nhật album mới mỗi ngày.";
