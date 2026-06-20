@@ -1,15 +1,17 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ComicCover } from "@/components/ComicCover";
 import { useComics } from "@/lib/comics-store";
 import { useI18n } from "@/lib/i18n/context";
-import { BookOpen, Library, Sparkles, Star } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Library, Sparkles, Star } from "lucide-react";
 import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_URL } from "@/lib/seo";
 import { buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
 import { getAutoFeatured } from "@/lib/featured";
 import { FeaturedMarquee } from "@/components/FeaturedMarquee";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: Index,
