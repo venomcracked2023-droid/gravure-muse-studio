@@ -1,19 +1,24 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ComicCover } from "@/components/ComicCover";
 import { useComics } from "@/lib/comics-store";
 import { useI18n } from "@/lib/i18n/context";
-import { BookOpen, Library, Sparkles, Star } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Library, Sparkles, Star } from "lucide-react";
 import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_URL } from "@/lib/seo";
 import { buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
 import { getAutoFeatured } from "@/lib/featured";
 import { FeaturedMarquee } from "@/components/FeaturedMarquee";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: Index,
-  validateSearch: (s: Record<string, unknown>) => ({ q: typeof s.q === "string" ? s.q : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    q: typeof s.q === "string" ? s.q : undefined,
+    page: typeof s.page === "string" || typeof s.page === "number" ? Math.max(1, Number(s.page) || 1) : 1,
+  }),
   head: () => {
     const title = "GravureHub — Bộ ảnh gravure cuộn dọc miễn phí";
     const desc = "Khám phá kho ảnh gravure đa dạng tại GravureHub: ngắm cuộn dọc mượt mà, cập nhật album mới mỗi ngày.";
@@ -33,11 +38,16 @@ export const Route = createFileRoute("/")({
 function Index() {
   const comics = useComics();
   const { t } = useI18n();
-  const { q } = Route.useSearch();
+  const { q, page: rawPage } = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
   const term = (q ?? "").trim().toLowerCase();
   const filtered = term
     ? comics.filter((c) => [c.title, c.author, ...(c.genres ?? [])].join(" ").toLowerCase().includes(term))
     : comics;
+  const page = Math.max(1, Number(rawPage) || 1);
+  const PAGE_SIZE = 20; // 4 rows x 5 cols on desktop
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const featured = getAutoFeatured(comics, 12);
   const totalChapters = comics.reduce((s, c) => s + c.chapters.length, 0);
   const ld = {
@@ -129,8 +139,9 @@ function Index() {
               {t("empty.noResults")} "{q}".
             </div>
           ) : (
+            <>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {filtered.map((c) => (
+              {paginated.map((c) => (
                 <Link key={c.id} to="/comic/$comicId" params={{ comicId: buildSlugId(c.title, c.id) }} className="group flex flex-col gap-2">
                   <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-border bg-card group-hover:border-primary/60">
                     <ComicCover id={c.coverId} title={c.title} className="transition duration-500 group-hover:scale-110" />
@@ -142,6 +153,53 @@ function Index() {
                 </Link>
               ))}
             </div>
+            {totalPages > 1 && (
+              <nav role="navigation" aria-label="Pagination" className="mt-8 flex justify-center">
+                <ul className="flex flex-row items-center gap-1">
+                  <li>
+                    <Link
+                      to="/"
+                      search={{ q, page: Math.max(1, page - 1) }}
+                      className={cn(
+                        buttonVariants({ variant: "ghost", size: "default" }),
+                        "gap-1 pl-2.5",
+                        page <= 1 && "pointer-events-none opacity-50"
+                      )}
+                    >
+                      <ChevronLeft className="h-4 w-4" /> Trước
+                    </Link>
+                  </li>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                    <li key={p}>
+                      <Link
+                        to="/"
+                        search={{ q, page: p }}
+                        aria-current={p === page ? "page" : undefined}
+                        className={cn(
+                          buttonVariants({ variant: p === page ? "outline" : "ghost", size: "icon" }),
+                        )}
+                      >
+                        {p}
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
+                    <Link
+                      to="/"
+                      search={{ q, page: Math.min(totalPages, page + 1) }}
+                      className={cn(
+                        buttonVariants({ variant: "ghost", size: "default" }),
+                        "gap-1 pr-2.5",
+                        page >= totalPages && "pointer-events-none opacity-50"
+                      )}
+                    >
+                      Sau <ChevronRight className="h-4 w-4" />
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            )}
+            </>
           )}
         </section>
       </main>
