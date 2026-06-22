@@ -169,11 +169,11 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog/gravure-idol-la-gi` },
-            { "@type": "ListItem", position: 3, name: "Top 10 gravure idol 2024", item: URL },
-          ],
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+              { "@type": "ListItem", position: 3, name: "Top 10 gravure idol 2024", item: URL },
+            ],
         }),
       },
     ],
