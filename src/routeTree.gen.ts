@@ -20,6 +20,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as ComicComicIdRouteImport } from './routes/comic.$comicId'
+import { Route as BlogTop10GravureIdols2024RouteImport } from './routes/blog.top-10-gravure-idols-2024'
 import { Route as BlogGravureIdolLaGiRouteImport } from './routes/blog.gravure-idol-la-gi'
 import { Route as ApiDriveFileRouteImport } from './routes/api/drive-file'
 import { Route as ReadComicIdChapterIdRouteImport } from './routes/read.$comicId.$chapterId'
@@ -79,6 +80,12 @@ const ComicComicIdRoute = ComicComicIdRouteImport.update({
   path: '/comic/$comicId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogTop10GravureIdols2024Route =
+  BlogTop10GravureIdols2024RouteImport.update({
+    id: '/blog/top-10-gravure-idols-2024',
+    path: '/blog/top-10-gravure-idols-2024',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const BlogGravureIdolLaGiRoute = BlogGravureIdolLaGiRouteImport.update({
   id: '/blog/gravure-idol-la-gi',
   path: '/blog/gravure-idol-la-gi',
@@ -107,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/drive-file': typeof ApiDriveFileRoute
   '/blog/gravure-idol-la-gi': typeof BlogGravureIdolLaGiRoute
+  '/blog/top-10-gravure-idols-2024': typeof BlogTop10GravureIdols2024Route
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
@@ -123,6 +131,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/drive-file': typeof ApiDriveFileRoute
   '/blog/gravure-idol-la-gi': typeof BlogGravureIdolLaGiRoute
+  '/blog/top-10-gravure-idols-2024': typeof BlogTop10GravureIdols2024Route
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
@@ -140,6 +149,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/drive-file': typeof ApiDriveFileRoute
   '/blog/gravure-idol-la-gi': typeof BlogGravureIdolLaGiRoute
+  '/blog/top-10-gravure-idols-2024': typeof BlogTop10GravureIdols2024Route
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/api/drive-file'
     | '/blog/gravure-idol-la-gi'
+    | '/blog/top-10-gravure-idols-2024'
     | '/comic/$comicId'
     | '/genre/$slug'
     | '/read/$comicId/$chapterId'
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/api/drive-file'
     | '/blog/gravure-idol-la-gi'
+    | '/blog/top-10-gravure-idols-2024'
     | '/comic/$comicId'
     | '/genre/$slug'
     | '/read/$comicId/$chapterId'
@@ -190,6 +202,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/api/drive-file'
     | '/blog/gravure-idol-la-gi'
+    | '/blog/top-10-gravure-idols-2024'
     | '/comic/$comicId'
     | '/genre/$slug'
     | '/read/$comicId/$chapterId'
@@ -207,6 +220,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiDriveFileRoute: typeof ApiDriveFileRoute
   BlogGravureIdolLaGiRoute: typeof BlogGravureIdolLaGiRoute
+  BlogTop10GravureIdols2024Route: typeof BlogTop10GravureIdols2024Route
   ComicComicIdRoute: typeof ComicComicIdRoute
   GenreSlugRoute: typeof GenreSlugRoute
   ReadComicIdChapterIdRoute: typeof ReadComicIdChapterIdRoute
@@ -291,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComicComicIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/top-10-gravure-idols-2024': {
+      id: '/blog/top-10-gravure-idols-2024'
+      path: '/blog/top-10-gravure-idols-2024'
+      fullPath: '/blog/top-10-gravure-idols-2024'
+      preLoaderRoute: typeof BlogTop10GravureIdols2024RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/gravure-idol-la-gi': {
       id: '/blog/gravure-idol-la-gi'
       path: '/blog/gravure-idol-la-gi'
@@ -327,6 +348,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiDriveFileRoute: ApiDriveFileRoute,
   BlogGravureIdolLaGiRoute: BlogGravureIdolLaGiRoute,
+  BlogTop10GravureIdols2024Route: BlogTop10GravureIdols2024Route,
   ComicComicIdRoute: ComicComicIdRoute,
   GenreSlugRoute: GenreSlugRoute,
   ReadComicIdChapterIdRoute: ReadComicIdChapterIdRoute,
