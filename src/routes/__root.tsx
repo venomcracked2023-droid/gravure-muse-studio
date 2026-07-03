@@ -130,6 +130,7 @@ function RootComponent() {
         <AuthProvider>
           <Outlet />
           <SiteFooter />
+          <FloatingTelegramButton />
           <Toaster richColors position="top-right" theme="dark" />
         </AuthProvider>
       </I18nProvider>
