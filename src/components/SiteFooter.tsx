@@ -5,6 +5,8 @@ import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import { useComics } from "@/lib/comics-store";
 import { useI18n } from "@/lib/i18n/context";
 import { buildSlugId } from "@/lib/slug";
+import { TelegramLink } from "@/components/TelegramLink";
+
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -35,6 +37,7 @@ export function SiteFooter() {
               <li><Link to="/" className="text-muted-foreground hover:text-primary">{t("footer.home")}</Link></li>
               <li><Link to="/featured" className="text-muted-foreground hover:text-primary">{t("footer.featured")}</Link></li>
               <li><Link to="/latest" className="text-muted-foreground hover:text-primary">{t("footer.latest")}</Link></li>
+              <li><TelegramLink className="text-muted-foreground hover:text-[#29A9EA]" label={t("footer.telegram") ?? "Telegram group"} /></li>
               <li><Link to="/blog/gravure-idol-la-gi" className="text-muted-foreground hover:text-primary">Gravure idol là gì?</Link></li>
               <li><Link to="/blog/top-10-gravure-idols-2024" className="text-muted-foreground hover:text-primary">Top 10 gravure idol 2024</Link></li>
             </ul>
