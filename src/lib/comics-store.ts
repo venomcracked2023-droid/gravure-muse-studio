@@ -21,6 +21,8 @@ export type Comic = {
   createdAt: number;
   createdBy?: string;
   featured: boolean;
+  bookingUrl?: string;
+  orderUrl?: string;
 };
 
 const listeners = new Set<() => void>();
@@ -60,6 +62,8 @@ async function fetchAll(): Promise<void> {
     createdAt: new Date(c.created_at).getTime(),
     createdBy: c.created_by,
     featured: (c as any).featured ?? false,
+    bookingUrl: (c as any).booking_url ?? "",
+    orderUrl: (c as any).order_url ?? "",
   }));
   loaded = true;
   emit();
@@ -81,6 +85,8 @@ export async function upsertComic(c: Comic): Promise<void> {
   const payload = {
     title: c.title, author: c.author, description: c.description,
     cover_id: c.coverId, genres: c.genres, featured: c.featured,
+    booking_url: c.bookingUrl ?? "",
+    order_url: c.orderUrl ?? "",
   };
   let comicId = c.id;
   if (isNew) {
