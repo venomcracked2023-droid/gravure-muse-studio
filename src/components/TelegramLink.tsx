@@ -1,4 +1,6 @@
-export const TELEGRAM_GROUP_URL = "https://t.me/+8xnMvFtjulkyNzE1";
+import { TELEGRAM_GROUP_URL } from "@/lib/seo";
+
+export { TELEGRAM_GROUP_URL };
 
 export function TelegramIcon({ className }: { className?: string }) {
   // Lucide does not ship Telegram; use inline SVG to avoid extra dependency.
