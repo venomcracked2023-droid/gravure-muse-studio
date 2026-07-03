@@ -30,7 +30,7 @@ export const Route = createFileRoute("/admin")({
 });
 
 function emptyComic(): Comic {
-  return { id: uid(), title: "", author: "", description: "", coverId: "", genres: [], chapters: [], createdAt: Date.now(), featured: false };
+  return { id: uid(), title: "", author: "", description: "", coverId: "", genres: [], chapters: [], createdAt: Date.now(), featured: false, bookingUrl: "", orderUrl: "" };
 }
 
 function AdminPage() {
@@ -159,6 +159,13 @@ function ComicEditor({ comic, knownAuthors, knownGenres, onClose, onSave }: {
             </label>
             <label className="block"><span className="mb-1.5 block text-xs font-medium text-muted-foreground">Ảnh đại diện (Drive ID/link)</span>
               <input value={draft.coverId} onChange={(e) => patch({ coverId: extractDriveId(e.target.value) ?? e.target.value })} className={inputClass} /></label>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="block"><span className="mb-1.5 block text-xs font-medium text-muted-foreground">Link Booking</span>
+              <input value={draft.bookingUrl ?? ""} onChange={(e) => patch({ bookingUrl: e.target.value })} placeholder="https://…" className={inputClass} /></label>
+            <label className="block"><span className="mb-1.5 block text-xs font-medium text-muted-foreground">Link Order New Album</span>
+              <input value={draft.orderUrl ?? ""} onChange={(e) => patch({ orderUrl: e.target.value })} placeholder="https://…" className={inputClass} /></label>
           </div>
 
           <div>
