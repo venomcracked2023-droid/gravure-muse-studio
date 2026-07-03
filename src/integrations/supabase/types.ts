@@ -58,6 +58,7 @@ export type Database = {
       comics: {
         Row: {
           author: string
+          booking_url: string | null
           cover_id: string
           created_at: string
           created_by: string
@@ -65,11 +66,13 @@ export type Database = {
           featured: boolean
           genres: string[]
           id: string
+          order_url: string | null
           title: string
           updated_at: string
         }
         Insert: {
           author?: string
+          booking_url?: string | null
           cover_id?: string
           created_at?: string
           created_by: string
@@ -77,11 +80,13 @@ export type Database = {
           featured?: boolean
           genres?: string[]
           id?: string
+          order_url?: string | null
           title: string
           updated_at?: string
         }
         Update: {
           author?: string
+          booking_url?: string | null
           cover_id?: string
           created_at?: string
           created_by?: string
@@ -89,6 +94,7 @@ export type Database = {
           featured?: boolean
           genres?: string[]
           id?: string
+          order_url?: string | null
           title?: string
           updated_at?: string
         }

@@ -1,0 +1,1 @@
+ALTER TABLE public.comics ADD COLUMN IF NOT EXISTS booking_url TEXT, ADD COLUMN IF NOT EXISTS order_url TEXT;
