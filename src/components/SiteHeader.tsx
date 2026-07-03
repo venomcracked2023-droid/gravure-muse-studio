@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n/context";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { TelegramLink } from "@/components/TelegramLink";
 import gravureLogo from "@/assets/gravure-logo.png";
+
 
 export function SiteHeader() {
   const { user, isContributor, isAdmin, profile, signOut } = useAuth();
@@ -69,6 +71,10 @@ export function SiteHeader() {
               <UserPlus className="h-4 w-4" /><span className="hidden sm:inline">{t("nav.apply")}</span>
             </Link>
           )}
+          <TelegramLink
+            className="rounded-md p-2 text-muted-foreground transition hover:bg-[#29A9EA]/10 hover:text-[#29A9EA]"
+            label=""
+          />
           <LanguageSwitcher />
           {user ? (
             <div className="ml-2 flex items-center gap-2">

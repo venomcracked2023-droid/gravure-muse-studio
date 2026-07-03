@@ -8,6 +8,8 @@ import { I18nProvider } from "@/lib/i18n/context";
 import { Toaster } from "sonner";
 import { SITE_LOGO, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "@/lib/seo";
 import { SiteFooter } from "@/components/SiteFooter";
+import { FloatingTelegramButton } from "@/components/FloatingTelegramButton";
+
 
 function NotFoundComponent() {
   return (
@@ -128,6 +130,7 @@ function RootComponent() {
         <AuthProvider>
           <Outlet />
           <SiteFooter />
+          <FloatingTelegramButton />
           <Toaster richColors position="top-right" theme="dark" />
         </AuthProvider>
       </I18nProvider>

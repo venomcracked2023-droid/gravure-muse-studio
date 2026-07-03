@@ -47,6 +47,7 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "footer.genres": "Thể loại",
     "footer.rights": "Mọi quyền được bảo lưu.",
     "lang.label": "Ngôn ngữ",
+    "footer.telegram": "Nhóm Telegram",
   },
   en: {
     "nav.explore": "Explore",
@@ -84,6 +85,7 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "footer.genres": "Genres",
     "footer.rights": "All rights reserved.",
     "lang.label": "Language",
+    "footer.telegram": "Telegram group",
   },
   ja: {
     "nav.explore": "探す",
@@ -121,6 +123,7 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "footer.genres": "ジャンル",
     "footer.rights": "全著作権所有。",
     "lang.label": "言語",
+    "footer.telegram": "Telegramグループ",
   },
   zh: {
     "nav.explore": "探索",
@@ -158,6 +161,7 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "footer.genres": "类型",
     "footer.rights": "版权所有。",
     "lang.label": "语言",
+    "footer.telegram": "Telegram 群组",
   },
   ko: {
     "nav.explore": "탐색",
@@ -195,5 +199,6 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "footer.genres": "장르",
     "footer.rights": "모든 권리 보유.",
     "lang.label": "언어",
+    "footer.telegram": "Telegram 그룹",
   },
 };
