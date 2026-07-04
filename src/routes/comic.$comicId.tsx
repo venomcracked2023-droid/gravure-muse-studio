@@ -6,7 +6,7 @@ import { driveImageUrl, extractDriveId, parseDriveIds } from "@/lib/drive";
 import { BookOpen, CalendarCheck, ChevronRight, Layers, ShoppingBag, User } from "lucide-react";
 import { CommentSection } from "@/components/CommentSection";
 import { RatingWidget } from "@/components/RatingWidget";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL, DEFAULT_CTA_URL } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { buildSlugId, extractId } from "@/lib/slug";
 import { renderMarkdown, stripMarkdown } from "@/lib/markdown";
