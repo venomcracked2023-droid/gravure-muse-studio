@@ -8,7 +8,7 @@ import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_URL } from "@/lib/seo";
 import { buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
-import { getAutoFeatured } from "@/lib/featured";
+import { getLatestAlbums } from "@/lib/featured";
 import { FeaturedMarquee } from "@/components/FeaturedMarquee";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -48,7 +48,7 @@ function Index() {
   const PAGE_SIZE = 20; // 4 rows x 5 cols on desktop
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  const featured = getAutoFeatured(comics, 12);
+  const featured = getLatestAlbums(comics, 12);
   const totalChapters = comics.reduce((s, c) => s + c.chapters.length, 0);
   const ld = {
     "@context": "https://schema.org",
