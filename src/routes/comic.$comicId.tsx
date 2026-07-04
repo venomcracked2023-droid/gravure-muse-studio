@@ -122,22 +122,16 @@ function ComicPage() {
                 <div className="md-content mt-5 text-foreground/90" dangerouslySetInnerHTML={{ __html: renderMarkdown(comic.description) }} />
               ) : null}
               <RatingWidget comicId={comic.id} />
-              {(comic.bookingUrl || comic.orderUrl) && (
-                <div className="mt-5 flex flex-wrap gap-3">
-                  {comic.bookingUrl && (
-                    <a href={comic.bookingUrl} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary/20">
-                      <CalendarCheck className="h-4 w-4" /> Booking
-                    </a>
-                  )}
-                  {comic.orderUrl && (
-                    <a href={comic.orderUrl} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary/20">
-                      <ShoppingBag className="h-4 w-4" /> Order New Album
-                    </a>
-                  )}
-                </div>
-              )}
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a href={comic.bookingUrl || DEFAULT_CTA_URL} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary/20">
+                  <CalendarCheck className="h-4 w-4" /> Booking
+                </a>
+                <a href={comic.orderUrl || DEFAULT_CTA_URL} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary/20">
+                  <ShoppingBag className="h-4 w-4" /> Order New Album
+                </a>
+              </div>
               {comic.chapters.length > 0 && (
                 <Link to="/read/$comicId/$chapterId" params={{ comicId: buildSlugId(comic.title, comic.id), chapterId: buildSlugId(comic.chapters[0].title, comic.chapters[0].id) }}
                   className="group mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition hover:scale-105 active:scale-95">
