@@ -81,6 +81,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/` },
     ],
     scripts: [
+      { src: "https://www.googletagmanager.com/gtag/js?id=G-DYPBMB9T0P", async: true },
+      {
+        children: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-DYPBMB9T0P');`,
+      },
       {
         type: "application/ld+json",
         children: JSON.stringify({
