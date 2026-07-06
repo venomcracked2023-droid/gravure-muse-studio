@@ -23,10 +23,11 @@ export const Route = createFileRoute("/")({
         : 1,
   }),
   head: () => {
-    const title = "GravureHub — Bộ ảnh gravure cuộn dọc miễn phí";
+    const title = "GravureHub — Thư viện ảnh gravure miễn phí";
     const desc =
-      "Khám phá kho ảnh gravure đa dạng tại GravureHub: ngắm cuộn dọc mượt mà, cập nhật album mới mỗi ngày.";
+      "Khám phá bộ sưu tập album ảnh gravure đẹp nhất từ các model Hàn Quốc, Nhật Bản, Việt Nam. Xem miễn phí, cập nhật liên tục.";
     const url = `${SITE_URL}/`;
+    const img = `${SITE_URL}/og-default.jpg`;
     return {
       meta: [
         { title },
@@ -34,8 +35,11 @@ export const Route = createFileRoute("/")({
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:url", content: url },
+        { property: "og:type", content: "website" },
+        { property: "og:image", content: img },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: desc },
+        { name: "twitter:image", content: img },
       ],
       links: [{ rel: "canonical", href: url }],
     };
