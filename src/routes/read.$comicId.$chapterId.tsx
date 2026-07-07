@@ -10,6 +10,7 @@ import { CommentSection } from "@/components/CommentSection";
 import { SITE_URL } from "@/lib/seo";
 import { parseEmbed } from "@/lib/embed";
 import { buildSlugId, extractId } from "@/lib/slug";
+import { PremiumGate } from "@/components/PremiumGate";
 
 export const Route = createFileRoute("/read/$comicId/$chapterId")({
   component: Reader,
@@ -151,6 +152,10 @@ function Reader() {
 
   const singleId = chapter.pages.length === 1 ? extractDriveId(chapter.pages[0]) ?? chapter.pages[0] : null;
   const embed = chapter.videoUrl ? parseEmbed(chapter.videoUrl) : null;
+  const isPremium = chapter.isPremium ?? false;
+  const priceUsdt = chapter.priceUsdt ?? 2;
+  const [unlocked, setUnlocked] = useState(false);
+  const locked = isPremium && !unlocked;
   const goToChapter = (id: string) => {
     const ch = comic.chapters.find((c) => c.id === id);
     navigate({ to: "/read/$comicId/$chapterId", params: { comicId: buildSlugId(comic.title, comic.id), chapterId: buildSlugId(ch?.title ?? "", id) } });
@@ -226,7 +231,16 @@ function Reader() {
 
       <h1 className="sr-only">{chapter.title} — {comic.title}</h1>
 
-      {chapter.pages.length === 0 ? (
+      {locked ? (
+        <main className="mx-auto max-w-3xl pt-14">
+          <PremiumGate
+            chapterId={chapter.id}
+            chapterTitle={chapter.title}
+            priceUsdt={priceUsdt}
+            onUnlocked={() => setUnlocked(true)}
+          />
+        </main>
+      ) : chapter.pages.length === 0 ? (
         <main className="mx-auto max-w-3xl pt-14">
           <VideoEmbed />
           {!embed && <div className="p-10 text-center text-muted-foreground">Album này chưa có nội dung.</div>}
