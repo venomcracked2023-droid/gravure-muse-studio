@@ -16,11 +16,11 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Không tìm thấy trang</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Trang bạn tìm không tồn tại hoặc đã bị di chuyển.</p>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <p className="mt-2 text-sm text-muted-foreground">The page you're looking for doesn't exist or has been moved.</p>
         <div className="mt-6">
           <Link to="/" className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
-            Về trang chủ
+            Back to home
           </Link>
         </div>
       </div>
@@ -34,14 +34,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">Trang này không tải được</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Có lỗi xảy ra. Thử tải lại hoặc về trang chủ.</p>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">This page failed to load</h1>
+        <p className="mt-2 text-sm text-muted-foreground">Something went wrong. Try reloading or return home.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button onClick={() => { router.invalidate(); reset(); }} className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
-            Thử lại
+            Try again
           </button>
           <a href="/" className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent">
-            Về trang chủ
+            Back to home
           </a>
         </div>
       </div>
@@ -54,21 +54,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "GravureHub — Bộ ảnh gravure cuộn dọc" },
-      { name: "description", content: "GravureHub — ngắm bộ ảnh gravure cuộn dọc miễn phí, cập nhật album mới mỗi ngày, mượt mà trên mọi thiết bị." },
+      { title: "GravureHub — Free vertical-scroll gravure photo albums" },
+      { name: "description", content: "GravureHub — browse free vertical-scroll gravure photo albums from Korean, Japanese and Vietnamese models. New albums added daily, smooth on any device." },
       { name: "author", content: "GravureHub" },
       { name: "robots", content: "index,follow,max-image-preview:large" },
       { name: "google-site-verification", content: "ABEQp0spMkYkrxY7BTrojPi32UhODPOsjv3HGSMiHD0" },
       { name: "theme-color", content: "#1a0a18" },
-      { name: "keywords", content: "gravure, người mẫu gravure, ảnh gravure, photobook, idol, GravureHub" },
+      { name: "keywords", content: "gravure, gravure idol, gravure models, photobook, vertical scroll, GravureHub" },
       { property: "og:site_name", content: "GravureHub" },
-      { property: "og:title", content: "GravureHub — Bộ ảnh gravure cuộn dọc" },
-      { property: "og:description", content: "GravureHub — ngắm bộ ảnh gravure cuộn dọc miễn phí, cập nhật album mới mỗi ngày, mượt mà trên mọi thiết bị." },
+      { property: "og:title", content: "GravureHub — Free vertical-scroll gravure photo albums" },
+      { property: "og:description", content: "GravureHub — browse free vertical-scroll gravure photo albums from Korean, Japanese and Vietnamese models. New albums added daily." },
       { property: "og:type", content: "website" },
-      { property: "og:locale", content: "vi_VN" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:locale:alternate", content: "vi_VN" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "GravureHub — Bộ ảnh gravure cuộn dọc" },
-      { name: "twitter:description", content: "GravureHub — ngắm bộ ảnh gravure cuộn dọc miễn phí, cập nhật album mới mỗi ngày, mượt mà trên mọi thiết bị." },
+      { name: "twitter:title", content: "GravureHub — Free vertical-scroll gravure photo albums" },
+      { name: "twitter:description", content: "GravureHub — browse free vertical-scroll gravure photo albums from Korean, Japanese and Vietnamese models." },
       { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
@@ -77,6 +78,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico" },
+      { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/` },
       { rel: "alternate", hrefLang: "vi", href: `${SITE_URL}/` },
       { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/` },
     ],
@@ -98,7 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: SITE_NAME, url: SITE_URL, inLanguage: "vi-VN",
+          name: SITE_NAME, url: SITE_URL, inLanguage: "en",
           potentialAction: {
             "@type": "SearchAction",
             target: `${SITE_URL}/?q={search_term_string}`,
@@ -116,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi">
+    <html lang="en">
       <head><HeadContent /></head>
       <body>
         {children}
