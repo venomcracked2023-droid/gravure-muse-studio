@@ -204,6 +204,30 @@ function ComicEditor({ comic, knownAuthors, knownGenres, onClose, onSave }: {
                       className={inputClass + " text-xs"}
                     />
                   </div>
+                  <div className="mt-2 flex items-center gap-3">
+                    <label className="inline-flex items-center gap-1.5 text-xs">
+                      <input
+                        type="checkbox"
+                        checked={ch.isPremium ?? false}
+                        onChange={(e) => updateChapter(ch.id, { isPremium: e.target.checked })}
+                        className="h-4 w-4"
+                      />
+                      <span>Premium</span>
+                    </label>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs text-muted-foreground">Giá</span>
+                      <input
+                        type="number"
+                        step="0.1"
+                        min="0.1"
+                        value={ch.priceUsdt ?? 2}
+                        disabled={!ch.isPremium}
+                        onChange={(e) => updateChapter(ch.id, { priceUsdt: Math.max(0.1, Number(e.target.value) || 0) })}
+                        className={inputClass + " w-20 text-xs disabled:opacity-40"}
+                      />
+                      <span className="text-xs text-muted-foreground">USDT</span>
+                    </div>
+                  </div>
                   <p className="mt-1 text-xs text-muted-foreground">{ch.pages.length} ảnh</p>
                 </div>
               ))}
