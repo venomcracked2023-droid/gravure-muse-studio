@@ -72,7 +72,12 @@ export const Route = createFileRoute("/api/public/plisio/callback")({
         // Idempotent: if already terminal, ack without change.
         if (TERMINAL.has(purchase.status)) return new Response("ok");
 
-        const patch: Record<string, unknown> = { status, raw: payload };
+        const patch: {
+          status: string;
+          raw: Record<string, string>;
+          amount?: number;
+          currency?: string;
+        } = { status, raw: payload };
         if (payload.amount) patch.amount = Number(payload.amount);
         if (payload.currency) patch.currency = String(payload.currency);
 

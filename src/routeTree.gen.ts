@@ -24,6 +24,7 @@ import { Route as BlogTop10GravureIdols2024RouteImport } from './routes/blog.top
 import { Route as BlogGravureIdolLaGiRouteImport } from './routes/blog.gravure-idol-la-gi'
 import { Route as ApiDriveFileRouteImport } from './routes/api/drive-file'
 import { Route as ReadComicIdChapterIdRouteImport } from './routes/read.$comicId.$chapterId'
+import { Route as ApiPublicPlisioCallbackRouteImport } from './routes/api/public/plisio/callback'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -101,6 +102,11 @@ const ReadComicIdChapterIdRoute = ReadComicIdChapterIdRouteImport.update({
   path: '/read/$comicId/$chapterId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPlisioCallbackRoute = ApiPublicPlisioCallbackRouteImport.update({
+  id: '/api/public/plisio/callback',
+  path: '/api/public/plisio/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
+  '/api/public/plisio/callback': typeof ApiPublicPlisioCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByTo {
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
+  '/api/public/plisio/callback': typeof ApiPublicPlisioCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
+  '/api/public/plisio/callback': typeof ApiPublicPlisioCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -172,6 +181,7 @@ export interface FileRouteTypes {
     | '/comic/$comicId'
     | '/genre/$slug'
     | '/read/$comicId/$chapterId'
+    | '/api/public/plisio/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -189,6 +199,7 @@ export interface FileRouteTypes {
     | '/comic/$comicId'
     | '/genre/$slug'
     | '/read/$comicId/$chapterId'
+    | '/api/public/plisio/callback'
   id:
     | '__root__'
     | '/'
@@ -206,6 +217,7 @@ export interface FileRouteTypes {
     | '/comic/$comicId'
     | '/genre/$slug'
     | '/read/$comicId/$chapterId'
+    | '/api/public/plisio/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -224,6 +236,7 @@ export interface RootRouteChildren {
   ComicComicIdRoute: typeof ComicComicIdRoute
   GenreSlugRoute: typeof GenreSlugRoute
   ReadComicIdChapterIdRoute: typeof ReadComicIdChapterIdRoute
+  ApiPublicPlisioCallbackRoute: typeof ApiPublicPlisioCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -333,6 +346,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReadComicIdChapterIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/plisio/callback': {
+      id: '/api/public/plisio/callback'
+      path: '/api/public/plisio/callback'
+      fullPath: '/api/public/plisio/callback'
+      preLoaderRoute: typeof ApiPublicPlisioCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -352,6 +372,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComicComicIdRoute: ComicComicIdRoute,
   GenreSlugRoute: GenreSlugRoute,
   ReadComicIdChapterIdRoute: ReadComicIdChapterIdRoute,
+  ApiPublicPlisioCallbackRoute: ApiPublicPlisioCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
