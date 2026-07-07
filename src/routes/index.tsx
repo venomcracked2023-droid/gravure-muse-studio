@@ -100,13 +100,13 @@ function Index() {
           />
           <div className="relative max-w-2xl animate-fade-in-up">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-primary" /> {t("hero.badge")}
+              <Sparkles className="h-3.5 w-3.5 text-primary" /> Gravure — cuộn dọc, ngắm liền mạch
             </span>
             <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
-              {t("hero.title1")} <span className="text-gradient-brand">{t("hero.title2")}</span>
+              GravureHub — <span className="text-gradient-brand">Bộ ảnh gravure cuộn dọc miễn phí</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-              {t("hero.desc")}
+              Khám phá bộ sưu tập album ảnh gravure đẹp nhất từ các model Hàn Quốc, Nhật Bản, Việt Nam. Xem miễn phí, cập nhật liên tục.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
