@@ -50,7 +50,7 @@ export const createPlisioInvoice = createServerFn({ method: "POST" })
     const orderNumber = `${data.chapterId}:${userId}:${Date.now()}`;
 
     const params = new URLSearchParams({
-      source_currency: "USDT",
+      source_currency: "USD",
       source_amount: price.toFixed(2),
       order_number: orderNumber,
       order_name: orderName,
@@ -77,7 +77,7 @@ export const createPlisioInvoice = createServerFn({ method: "POST" })
       txn_id: json.data.txn_id,
       invoice_url: json.data.invoice_url,
       source_amount: price,
-      source_currency: "USDT",
+      source_currency: "USD",
       status: "new",
     });
 
