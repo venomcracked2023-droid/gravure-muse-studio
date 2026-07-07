@@ -23,9 +23,9 @@ export const Route = createFileRoute("/")({
         : 1,
   }),
   head: () => {
-    const title = "GravureHub — Thư viện ảnh gravure miễn phí";
+    const title = "GravureHub — Free gravure photo library";
     const desc =
-      "Khám phá bộ sưu tập album ảnh gravure đẹp nhất từ các model Hàn Quốc, Nhật Bản, Việt Nam. Xem miễn phí, cập nhật liên tục.";
+      "Discover the best gravure photo albums from Korean, Japanese and Vietnamese models. Free to browse, updated continuously.";
     const url = `${SITE_URL}/`;
     const img = `${SITE_URL}/og-default.jpg`;
     return {
@@ -66,7 +66,7 @@ function Index() {
   const ld = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Thư viện GravureHub",
+    name: "GravureHub library",
     url: `${SITE_URL}/`,
     numberOfItems: filtered.length,
     itemListElement: filtered.slice(0, 30).map((c, i) => ({
@@ -100,13 +100,13 @@ function Index() {
           />
           <div className="relative max-w-2xl animate-fade-in-up">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-primary" /> Gravure — cuộn dọc, ngắm liền mạch
+              <Sparkles className="h-3.5 w-3.5 text-primary" /> Gravure — endless vertical scroll
             </span>
             <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
-              GravureHub — <span className="text-gradient-brand">Bộ ảnh gravure cuộn dọc miễn phí</span>
+              GravureHub — <span className="text-gradient-brand">Free vertical-scroll gravure albums</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-              Khám phá bộ sưu tập album ảnh gravure đẹp nhất từ các model Hàn Quốc, Nhật Bản, Việt Nam. Xem miễn phí, cập nhật liên tục.
+              Discover the best gravure photo albums from Korean, Japanese and Vietnamese models. Free to browse, updated continuously.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
@@ -222,7 +222,7 @@ function Index() {
                           page <= 1 && "pointer-events-none opacity-50",
                         )}
                       >
-                        <ChevronLeft className="h-4 w-4" /> Trước
+                        <ChevronLeft className="h-4 w-4" /> Prev
                       </Link>
                     </li>
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
@@ -252,7 +252,7 @@ function Index() {
                           page >= totalPages && "pointer-events-none opacity-50",
                         )}
                       >
-                        Sau <ChevronRight className="h-4 w-4" />
+                        Next <ChevronRight className="h-4 w-4" />
                       </Link>
                     </li>
                   </ul>
