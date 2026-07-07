@@ -14,14 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      album_purchases: {
+        Row: {
+          amount: number | null
+          chapter_id: string
+          created_at: string
+          currency: string | null
+          id: string
+          invoice_url: string | null
+          raw: Json | null
+          source_amount: number | null
+          source_currency: string | null
+          status: string
+          txn_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount?: number | null
+          chapter_id: string
+          created_at?: string
+          currency?: string | null
+          id?: string
+          invoice_url?: string | null
+          raw?: Json | null
+          source_amount?: number | null
+          source_currency?: string | null
+          status?: string
+          txn_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number | null
+          chapter_id?: string
+          created_at?: string
+          currency?: string | null
+          id?: string
+          invoice_url?: string | null
+          raw?: Json | null
+          source_amount?: number | null
+          source_currency?: string | null
+          status?: string
+          txn_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_purchases_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chapters: {
         Row: {
           comic_id: string
           cover_id: string
           created_at: string
           id: string
+          is_premium: boolean
           order_index: number
           pages: string[]
+          price_usdt: number
           title: string
           video_url: string
         }
@@ -30,8 +88,10 @@ export type Database = {
           cover_id?: string
           created_at?: string
           id?: string
+          is_premium?: boolean
           order_index?: number
           pages?: string[]
+          price_usdt?: number
           title: string
           video_url?: string
         }
@@ -40,8 +100,10 @@ export type Database = {
           cover_id?: string
           created_at?: string
           id?: string
+          is_premium?: boolean
           order_index?: number
           pages?: string[]
+          price_usdt?: number
           title?: string
           video_url?: string
         }

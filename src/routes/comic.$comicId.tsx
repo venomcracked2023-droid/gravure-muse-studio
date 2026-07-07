@@ -174,7 +174,14 @@ function ComicPage() {
                           <div className="h-36 w-36 shrink-0 rounded-xl border border-dashed border-border bg-secondary/40" />
                         );
                       })()}
-                      <span className="text-lg font-semibold tracking-tight group-hover:text-primary">{ch.title}</span>
+                      <span className="flex items-center gap-2 text-lg font-semibold tracking-tight group-hover:text-primary">
+                        {ch.title}
+                        {ch.isPremium && (
+                          <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
+                            ★ {ch.priceUsdt ?? 2} USDT
+                          </span>
+                        )}
+                      </span>
                     </div>
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
                       <span>{ch.pages.length} ảnh</span>

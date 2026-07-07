@@ -8,6 +8,8 @@ export type Chapter = {
   createdAt: number;
   coverId?: string;
   videoUrl?: string;
+  isPremium?: boolean;
+  priceUsdt?: number;
 };
 
 export type Comic = {
@@ -48,6 +50,8 @@ async function fetchAll(): Promise<void> {
         createdAt: new Date(ch.created_at).getTime(),
         coverId: (ch as any).cover_id ?? "",
         videoUrl: (ch as any).video_url ?? "",
+        isPremium: (ch as any).is_premium ?? false,
+        priceUsdt: Number((ch as any).price_usdt ?? 2),
       });
     }
   }
@@ -105,6 +109,8 @@ export async function upsertComic(c: Comic): Promise<void> {
       comic_id: comicId, title: ch.title, pages: ch.pages, order_index: i,
       cover_id: ch.coverId ?? "",
       video_url: ch.videoUrl ?? "",
+      is_premium: ch.isPremium ?? false,
+      price_usdt: ch.priceUsdt ?? 2,
     }));
     const { error: insErr } = await supabase.from("chapters").insert(rows);
     if (insErr) throw insErr;
