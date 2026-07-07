@@ -1,6 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { TRANSLATIONS, type Lang } from "./dict";
-import { detectLanguage } from "./detect.functions";
 
 const STORAGE_KEY = "gh.lang";
 
@@ -19,17 +18,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     const stored = typeof window !== "undefined" ? (localStorage.getItem(STORAGE_KEY) as Lang | null) : null;
     if (stored && stored in TRANSLATIONS) {
       setLangState(stored);
-      return;
     }
-    detectLanguage()
-      .then((r) => {
-        const l = (r?.lang as Lang) ?? "vi";
-        if (l in TRANSLATIONS) {
-          setLangState(l);
-          try { localStorage.setItem(STORAGE_KEY, l); } catch {}
-        }
-      })
-      .catch(() => {});
   }, []);
 
   useEffect(() => {
