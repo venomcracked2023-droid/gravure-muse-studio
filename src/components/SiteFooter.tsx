@@ -4,7 +4,7 @@ import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import { useComics } from "@/lib/comics-store";
 import { useI18n } from "@/lib/i18n/context";
-import { buildSlugId } from "@/lib/slug";
+import { buildSlugId, slugifyGenre } from "@/lib/slug";
 import { TelegramLink } from "@/components/TelegramLink";
 
 
@@ -63,7 +63,7 @@ export function SiteFooter() {
               <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">{t("footer.genres")}</h3>
               <ul className="mt-3 space-y-2 text-sm">
                 {genres.map((g) => (
-                  <li key={g}><Link to="/featured" className="text-muted-foreground hover:text-primary">{g}</Link></li>
+                  <li key={g}><Link to="/genre/$slug" params={{ slug: slugifyGenre(g) }} className="text-muted-foreground hover:text-primary">{g}</Link></li>
                 ))}
               </ul>
             </nav>
