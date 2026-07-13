@@ -9,6 +9,7 @@ import { RatingWidget } from "@/components/RatingWidget";
 import { SITE_URL, DEFAULT_CTA_URL } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { buildSlugId, extractId } from "@/lib/slug";
+import { slugifyGenre } from "@/lib/slug";
 import { renderMarkdown, stripMarkdown } from "@/lib/markdown";
 import { useAuth } from "@/lib/auth";
 import { useState } from "react";
