@@ -122,7 +122,7 @@ function ComicPage() {
             <div className="animate-fade-in-up">
               <div className="flex flex-wrap gap-2">
                 {comic.genres.map((g) => (
-                  <Link key={g} to="/genre/$slug" params={{ slug: g }} className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">{g}</Link>
+                  <Link key={g} to="/genre/$slug" params={{ slug: slugifyGenre(g) }} className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">{g}</Link>
                 ))}
               </div>
               <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">{comic.title}</h1>
