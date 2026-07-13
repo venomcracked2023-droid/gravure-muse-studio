@@ -4,6 +4,13 @@ import { SITE_URL } from "@/lib/seo";
 export const Route = createFileRoute("/robots.txt")({
   server: {
     handlers: {
+      HEAD: () =>
+        new Response(null, {
+          headers: {
+            "content-type": "text/plain; charset=utf-8",
+            "cache-control": "public, max-age=3600",
+          },
+        }),
       GET: () => {
         const origin = SITE_URL;
         const body = [
