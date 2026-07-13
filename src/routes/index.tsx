@@ -12,17 +12,15 @@ import { getLatestAlbums } from "@/lib/featured";
 import { FeaturedMarquee } from "@/components/FeaturedMarquee";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getHomeStats } from "@/lib/home-stats.functions";
 
 export const Route = createFileRoute("/")({
   component: Index,
-  loader: async () => await getHomeStats(),
   validateSearch: (s: Record<string, unknown>) => ({
     q: typeof s.q === "string" ? s.q : undefined,
     page:
       typeof s.page === "string" || typeof s.page === "number"
         ? Math.max(1, Number(s.page) || 1)
-        : undefined,
+        : 1,
   }),
   head: () => {
     const title = "GravureHub — Free gravure photo library";
@@ -50,7 +48,6 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const comics = useComics();
-  const stats = Route.useLoaderData();
   const { t } = useI18n();
   const { q, page: rawPage } = Route.useSearch();
   const navigate = useNavigate({ from: "/" });
@@ -66,8 +63,6 @@ function Index() {
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const featured = getLatestAlbums(comics, 12);
   const totalChapters = comics.reduce((s, c) => s + c.chapters.length, 0);
-  const modelsCount = comics.length || stats.models;
-  const albumsCount = totalChapters || stats.albums;
   const ld = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -131,13 +126,13 @@ function Index() {
               <div className="rounded-xl border border-border bg-background/40 px-3 py-2 backdrop-blur">
                 <dt className="text-xs text-muted-foreground">{t("stats.models")}</dt>
                 <dd className="mt-0.5 text-lg font-bold text-foreground tabular-nums">
-                  {modelsCount}
+                  {comics.length}
                 </dd>
               </div>
               <div className="rounded-xl border border-border bg-background/40 px-3 py-2 backdrop-blur">
                 <dt className="text-xs text-muted-foreground">{t("stats.albums")}</dt>
                 <dd className="mt-0.5 text-lg font-bold text-foreground tabular-nums">
-                  {albumsCount}
+                  {totalChapters}
                 </dd>
               </div>
               <div className="rounded-xl border border-border bg-background/40 px-3 py-2 backdrop-blur">
