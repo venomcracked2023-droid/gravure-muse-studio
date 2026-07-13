@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
     page:
       typeof s.page === "string" || typeof s.page === "number"
         ? Math.max(1, Number(s.page) || 1)
-        : 1,
+        : undefined,
   }),
   head: () => {
     const title = "GravureHub — Free gravure photo library";
