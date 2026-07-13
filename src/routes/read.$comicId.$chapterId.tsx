@@ -231,16 +231,7 @@ function Reader() {
 
       <h1 className="sr-only">{chapter.title} — {comic.title}</h1>
 
-      {locked ? (
-        <main className="mx-auto max-w-3xl pt-14">
-          <PremiumGate
-            chapterId={chapter.id}
-            chapterTitle={chapter.title}
-            priceUsdt={priceUsdt}
-            onUnlocked={() => setUnlocked(true)}
-          />
-        </main>
-      ) : chapter.pages.length === 0 ? (
+      {chapter.pages.length === 0 ? (
         <main className="mx-auto max-w-3xl pt-14">
           <VideoEmbed />
           {!embed && <div className="p-10 text-center text-muted-foreground">Album này chưa có nội dung.</div>}
@@ -268,6 +259,16 @@ function Reader() {
                 }} />
             </div>
           )} />
+      )}
+      {locked && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-background/40 backdrop-blur-md">
+          <PremiumGate
+            chapterId={chapter.id}
+            chapterTitle={chapter.title}
+            priceUsdt={priceUsdt}
+            onUnlocked={() => setUnlocked(true)}
+          />
+        </div>
       )}
       <StickyNav />
     </div>
