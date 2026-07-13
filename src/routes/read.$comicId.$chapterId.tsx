@@ -261,7 +261,7 @@ function Reader() {
           )} />
       )}
       {locked && (
-        <div className="fixed bottom-20 right-4 z-50 w-[min(92vw,340px)]">
+        <div className="fixed left-1/2 top-1/2 z-50 w-[min(92vw,340px)] -translate-x-1/2 -translate-y-1/2">
           <PremiumGate
             chapterId={chapter.id}
             chapterTitle={chapter.title}
