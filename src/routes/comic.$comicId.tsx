@@ -1,9 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ComicCover } from "@/components/ComicCover";
-import { useComics, useComicsLoaded, upsertComic, uid, type Chapter } from "@/lib/comics-store";
+import { useComics, useComicsLoaded, upsertComic, uid, type Chapter, type Comic } from "@/lib/comics-store";
 import { driveImageUrl, extractDriveId, parseDriveIds } from "@/lib/drive";
-import { BookOpen, CalendarCheck, ChevronRight, Layers, ShoppingBag, User } from "lucide-react";
+import { BookOpen, CalendarCheck, ChevronRight, Layers, ShoppingBag, User, Pencil } from "lucide-react";
 import { CommentSection } from "@/components/CommentSection";
 import { RatingWidget } from "@/components/RatingWidget";
 import { SITE_URL, DEFAULT_CTA_URL } from "@/lib/seo";
@@ -90,6 +90,7 @@ function ComicPage() {
   const realId = extractId(comicId);
   const comic = comics.find((c) => c.id === realId);
   const { isAdmin } = useAuth();
+  const [editing, setEditing] = useState(false);
 
   if (!loaded) return <div className="min-h-screen"><SiteHeader /><div className="p-20 text-center text-muted-foreground">Đang tải…</div></div>;
   if (!comic) throw notFound();
@@ -102,6 +103,17 @@ function ComicPage() {
           style={{ backgroundImage: `url(${driveImageUrl(comic.coverId, 800)})`, backgroundSize: "cover", backgroundPosition: "center" }} aria-hidden />
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background/70 via-background/85 to-background" aria-hidden />
         <main className="mx-auto max-w-5xl px-4 pb-10 pt-10 sm:pt-14">
+          {isAdmin && (
+            <div className="mb-4 flex justify-end">
+              <button onClick={() => setEditing((v) => !v)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20">
+                <Pencil className="h-3.5 w-3.5" /> {editing ? "Đóng chỉnh sửa" : "Chỉnh sửa Profile"}
+              </button>
+            </div>
+          )}
+          {isAdmin && editing ? (
+            <EditProfile comic={comic} onDone={() => setEditing(false)} />
+          ) : (
           <div className="grid gap-8 md:grid-cols-[240px_1fr]">
             <div className="hover-lift mx-auto aspect-[3/4] w-full max-w-[240px] overflow-hidden rounded-2xl border border-primary/30 bg-card shadow-glow">
               <ComicCover id={comic.coverId} title={comic.title} />
@@ -140,6 +152,7 @@ function ComicPage() {
               )}
             </div>
           </div>
+          )}
         </main>
       </div>
 
@@ -195,6 +208,83 @@ function ComicPage() {
         </section>
         <CommentSection comicId={comic.id} />
       </main>
+    </div>
+  );
+}
+
+function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
+  const [title, setTitle] = useState(comic.title);
+  const [author, setAuthor] = useState(comic.author);
+  const [description, setDescription] = useState(comic.description);
+  const [coverId, setCoverId] = useState(comic.coverId);
+  const [genres, setGenres] = useState(comic.genres.join(", "));
+  const [bookingUrl, setBookingUrl] = useState(comic.bookingUrl ?? "");
+  const [orderUrl, setOrderUrl] = useState(comic.orderUrl ?? "");
+  const [featured, setFeatured] = useState(comic.featured);
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    if (!title.trim()) return toast.error("Cần nhập tên");
+    setSaving(true);
+    try {
+      await upsertComic({
+        ...comic,
+        title: title.trim(),
+        author: author.trim(),
+        description,
+        coverId: coverId ? (extractDriveId(coverId) ?? coverId) : "",
+        genres: genres.split(",").map((g) => g.trim()).filter(Boolean),
+        bookingUrl: bookingUrl.trim(),
+        orderUrl: orderUrl.trim(),
+        featured,
+      });
+      toast.success("Đã lưu profile");
+      onDone();
+    } catch (e: any) {
+      toast.error(e.message ?? "Lỗi");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const inputClass = "w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring";
+
+  return (
+    <div className="rounded-2xl border border-primary/40 bg-card/70 p-5 backdrop-blur">
+      <h2 className="mb-4 text-lg font-bold text-primary">Chỉnh sửa Profile người mẫu</h2>
+      <div className="grid gap-3 md:grid-cols-2">
+        <label className="text-xs font-medium text-muted-foreground">Tên
+          <input value={title} onChange={(e) => setTitle(e.target.value)} className={inputClass + " mt-1"} />
+        </label>
+        <label className="text-xs font-medium text-muted-foreground">Nghệ danh / tác giả
+          <input value={author} onChange={(e) => setAuthor(e.target.value)} className={inputClass + " mt-1"} />
+        </label>
+        <label className="text-xs font-medium text-muted-foreground md:col-span-2">Ảnh đại diện (File ID / link Drive)
+          <input value={coverId} onChange={(e) => setCoverId(e.target.value)} className={inputClass + " mt-1 font-mono text-xs"} />
+        </label>
+        <label className="text-xs font-medium text-muted-foreground md:col-span-2">Thể loại (phân cách bằng dấu phẩy)
+          <input value={genres} onChange={(e) => setGenres(e.target.value)} className={inputClass + " mt-1"} />
+        </label>
+        <label className="text-xs font-medium text-muted-foreground">Booking URL
+          <input value={bookingUrl} onChange={(e) => setBookingUrl(e.target.value)} className={inputClass + " mt-1 text-xs"} />
+        </label>
+        <label className="text-xs font-medium text-muted-foreground">Order URL
+          <input value={orderUrl} onChange={(e) => setOrderUrl(e.target.value)} className={inputClass + " mt-1 text-xs"} />
+        </label>
+        <label className="text-xs font-medium text-muted-foreground md:col-span-2">Mô tả (Markdown)
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={6} className={inputClass + " mt-1"} />
+        </label>
+        <label className="inline-flex items-center gap-2 text-xs font-medium md:col-span-2">
+          <input type="checkbox" checked={featured} onChange={(e) => setFeatured(e.target.checked)} /> Nổi bật
+        </label>
+      </div>
+      <div className="mt-4 flex justify-end gap-2">
+        <button onClick={onDone} className="rounded-md border border-border px-4 py-2 text-sm hover:bg-secondary">Huỷ</button>
+        <button onClick={save} disabled={saving}
+          className="inline-flex items-center gap-2 rounded-md bg-gradient-brand px-4 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-40">
+          {saving ? "Đang lưu…" : "Lưu"}
+        </button>
+      </div>
     </div>
   );
 }
