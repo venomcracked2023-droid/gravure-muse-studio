@@ -6,13 +6,6 @@ import { SITE_URL } from "@/lib/seo";
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
-      HEAD: async () =>
-        new Response(null, {
-          headers: {
-            "content-type": "application/xml; charset=utf-8",
-            "cache-control": "public, max-age=900",
-          },
-        }),
       GET: async () => {
         const origin = SITE_URL;
         const { data: comics } = await supabase.from("comics").select("id,title,updated_at,genres").order("updated_at", { ascending: false }).limit(1000);
