@@ -40,9 +40,14 @@ function Page() {
     setApps((data ?? []) as App[]);
     const ids = Array.from(new Set((data ?? []).map((a: any) => a.user_id)));
     if (ids.length) {
-      const { data: p } = await supabase.from("profiles").select("id, display_name, email").in("id", ids);
+      const [{ data: p }, { data: emails }] = await Promise.all([
+        supabase.from("profiles").select("id, display_name").in("id", ids),
+        (supabase.rpc as any)("get_profile_emails", { _ids: ids }),
+      ]);
+      const emailMap: Record<string, string | null> = {};
+      for (const row of (emails ?? []) as Array<{ id: string; email: string | null }>) emailMap[row.id] = row.email;
       const map: Record<string, any> = {};
-      for (const row of p ?? []) map[row.id] = { display_name: row.display_name, email: row.email };
+      for (const row of p ?? []) map[row.id] = { display_name: row.display_name, email: emailMap[row.id] ?? null };
       setProfiles(map);
     }
   }
