@@ -25,12 +25,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   async function loadUserData(uid: string) {
-    const [{ data: rolesData }, { data: profileData }] = await Promise.all([
+    const [{ data: rolesData }, { data: profileData }, { data: emailData }] = await Promise.all([
       supabase.from("user_roles").select("role").eq("user_id", uid),
-      supabase.from("profiles").select("display_name, avatar_url, email").eq("id", uid).maybeSingle(),
+      supabase.from("profiles").select("display_name, avatar_url").eq("id", uid).maybeSingle(),
+      supabase.rpc("get_my_email"),
     ]);
     setRoles((rolesData ?? []).map((r) => r.role as Role));
-    setProfile(profileData ?? null);
+    setProfile(profileData ? { ...profileData, email: (emailData as unknown as string) ?? null } : null);
   }
 
   useEffect(() => {
