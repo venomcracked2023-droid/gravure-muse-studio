@@ -121,7 +121,7 @@ function ComicPage() {
   const comics = useComics();
   const loaded = useComicsLoaded();
   const realId = extractId(comicId);
-  const comic = comics.find((c) => c.id === realId) ?? (loaded ? undefined : loaderData?.comic);
+  const comic: Comic | undefined = comics.find((c) => c.id === realId) ?? (loaded ? undefined : loaderData?.comic);
   const { isAdmin } = useAuth();
   const [editing, setEditing] = useState(false);
 
