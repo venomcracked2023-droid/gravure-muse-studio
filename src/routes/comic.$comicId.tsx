@@ -19,8 +19,40 @@ export const Route = createFileRoute("/comic/$comicId")({
   component: ComicPage,
   loader: async ({ params }) => {
     const id = extractId(params.comicId);
-    const { data } = await supabase.from("comics").select("title,author,description,cover_id,genres").eq("id", id).maybeSingle();
-    return { meta: data, id };
+    const { data } = await supabase
+      .from("comics")
+      .select("id,title,author,description,cover_id,genres,booking_url,order_url,featured,created_at")
+      .eq("id", id)
+      .maybeSingle();
+    if (!data) throw notFound();
+    const { data: chapters } = await supabase
+      .from("chapters")
+      .select("*")
+      .eq("comic_id", id)
+      .order("order_index", { ascending: true });
+    const comic: Comic = {
+      id: data.id,
+      title: data.title,
+      author: data.author ?? "",
+      description: data.description ?? "",
+      coverId: data.cover_id ?? "",
+      genres: data.genres ?? [],
+      chapters: (chapters ?? []).map((ch: any) => ({
+        id: ch.id,
+        title: ch.title,
+        pages: ch.pages ?? [],
+        createdAt: new Date(ch.created_at).getTime(),
+        coverId: ch.cover_id ?? "",
+        videoUrl: ch.video_url ?? "",
+        isPremium: ch.is_premium ?? false,
+        priceUsdt: Number(ch.price_usdt ?? 2),
+      })),
+      createdAt: new Date(data.created_at).getTime(),
+      featured: (data as any).featured ?? false,
+      bookingUrl: (data as any).booking_url ?? "",
+      orderUrl: (data as any).order_url ?? "",
+    };
+    return { meta: data, id, comic };
   },
   head: ({ loaderData, params }) => {
     const m = loaderData?.meta;
@@ -85,15 +117,18 @@ export const Route = createFileRoute("/comic/$comicId")({
 
 function ComicPage() {
   const { comicId } = Route.useParams();
+  const loaderData = Route.useLoaderData();
   const comics = useComics();
   const loaded = useComicsLoaded();
   const realId = extractId(comicId);
-  const comic = comics.find((c) => c.id === realId);
+  const comic: Comic | undefined = comics.find((c) => c.id === realId) ?? (loaded ? undefined : loaderData?.comic);
   const { isAdmin } = useAuth();
   const [editing, setEditing] = useState(false);
 
-  if (!loaded) return <div className="min-h-screen"><SiteHeader /><div className="p-20 text-center text-muted-foreground">Đang tải…</div></div>;
-  if (!comic) throw notFound();
+  if (!comic) {
+    if (!loaded) return <div className="min-h-screen"><SiteHeader /><div className="p-20 text-center text-muted-foreground">Đang tải…</div></div>;
+    throw notFound();
+  }
 
   return (
     <div className="min-h-screen">
