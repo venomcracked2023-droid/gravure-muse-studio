@@ -32,7 +32,9 @@ async function parseBody(req: Request): Promise<Record<string, string>> {
   }
   const form = await req.formData();
   const out: Record<string, string> = {};
-  form.forEach((v, k) => { out[k] = typeof v === "string" ? v : ""; });
+  form.forEach((v, k) => {
+    out[k] = typeof v === "string" ? v : "";
+  });
   return out;
 }
 

@@ -24,19 +24,30 @@ export function PdfReader({ fileUrl, Footer, onFail }: Props) {
 
   return (
     <div ref={wrapRef} className="mx-auto max-w-3xl px-2">
-      <Document file={fileUrl}
+      <Document
+        file={fileUrl}
         onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-        onLoadError={(err) => { console.error("PDF load error", err); onFail?.(); }}
+        onLoadError={(err) => {
+          console.error("PDF load error", err);
+          onFail?.();
+        }}
         loading={<div className="p-10 text-center text-muted-foreground">Đang tải PDF…</div>}
-        error={<div className="p-10 text-center text-destructive">Không tải được PDF.</div>}>
+        error={<div className="p-10 text-center text-destructive">Không tải được PDF.</div>}
+      >
         {numPages && (
           <>
             <div className="h-14" />
             {Array.from({ length: numPages }, (_, i) => (
               <div key={i} className="flex justify-center py-2">
-                <Page pageNumber={i + 1} width={width}
-                  renderAnnotationLayer={false} renderTextLayer={false}
-                  loading={<div style={{ width, height: width * 1.4 }} className="bg-secondary/40" />} />
+                <Page
+                  pageNumber={i + 1}
+                  width={width}
+                  renderAnnotationLayer={false}
+                  renderTextLayer={false}
+                  loading={
+                    <div style={{ width, height: width * 1.4 }} className="bg-secondary/40" />
+                  }
+                />
               </div>
             ))}
             <Footer />

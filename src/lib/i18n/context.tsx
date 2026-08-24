@@ -15,7 +15,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("en");
 
   useEffect(() => {
-    const stored = typeof window !== "undefined" ? (localStorage.getItem(STORAGE_KEY) as Lang | null) : null;
+    const stored =
+      typeof window !== "undefined" ? (localStorage.getItem(STORAGE_KEY) as Lang | null) : null;
     if (stored && stored in TRANSLATIONS) {
       setLangState(stored);
     }
@@ -27,10 +28,15 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
-    try { localStorage.setItem(STORAGE_KEY, l); } catch {}
+    try {
+      localStorage.setItem(STORAGE_KEY, l);
+    } catch {}
   }, []);
 
-  const t = useCallback((key: string) => TRANSLATIONS[lang][key] ?? TRANSLATIONS.vi[key] ?? key, [lang]);
+  const t = useCallback(
+    (key: string) => TRANSLATIONS[lang][key] ?? TRANSLATIONS.vi[key] ?? key,
+    [lang],
+  );
 
   return <Ctx.Provider value={{ lang, setLang, t }}>{children}</Ctx.Provider>;
 }

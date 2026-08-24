@@ -1,4 +1,5 @@
 import { TELEGRAM_GROUP_URL } from "@/lib/seo";
+import { trackTelegramClick } from "@/lib/analytics";
 
 export { TELEGRAM_GROUP_URL };
 
@@ -17,12 +18,21 @@ export function TelegramIcon({ className }: { className?: string }) {
   );
 }
 
-export function TelegramLink({ className = "", label }: { className?: string; label?: string }) {
+export function TelegramLink({
+  className = "",
+  label,
+  location = "header",
+}: {
+  className?: string;
+  label?: string;
+  location?: "header" | "floating" | "footer" | "cta";
+}) {
   return (
     <a
       href={TELEGRAM_GROUP_URL}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => trackTelegramClick(location)}
       className={`inline-flex items-center gap-1.5 ${className}`}
       aria-label={label || "Join Telegram group"}
     >

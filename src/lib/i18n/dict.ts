@@ -61,7 +61,8 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "hero.badge": "Gravure — endless vertical scroll",
     "hero.title1": "Beautiful models,",
     "hero.title2": "endless scroll.",
-    "hero.desc": "Discover the world of gravure with GravureHub — smooth as silk, tastefully sensual.",
+    "hero.desc":
+      "Discover the world of gravure with GravureHub — smooth as silk, tastefully sensual.",
     "hero.cta.library": "Enter library",
     "hero.cta.featured": "Featured",
     "stats.models": "Models",

@@ -1,443 +1,435 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
-  }
+    PostgrestVersion: "14.5";
+  };
   public: {
     Tables: {
       album_purchases: {
         Row: {
-          amount: number | null
-          chapter_id: string
-          created_at: string
-          currency: string | null
-          id: string
-          invoice_url: string | null
-          raw: Json | null
-          source_amount: number | null
-          source_currency: string | null
-          status: string
-          txn_id: string | null
-          updated_at: string
-          user_id: string
-        }
+          amount: number | null;
+          chapter_id: string;
+          created_at: string;
+          currency: string | null;
+          id: string;
+          invoice_url: string | null;
+          raw: Json | null;
+          source_amount: number | null;
+          source_currency: string | null;
+          status: string;
+          txn_id: string | null;
+          updated_at: string;
+          user_id: string;
+        };
         Insert: {
-          amount?: number | null
-          chapter_id: string
-          created_at?: string
-          currency?: string | null
-          id?: string
-          invoice_url?: string | null
-          raw?: Json | null
-          source_amount?: number | null
-          source_currency?: string | null
-          status?: string
-          txn_id?: string | null
-          updated_at?: string
-          user_id: string
-        }
+          amount?: number | null;
+          chapter_id: string;
+          created_at?: string;
+          currency?: string | null;
+          id?: string;
+          invoice_url?: string | null;
+          raw?: Json | null;
+          source_amount?: number | null;
+          source_currency?: string | null;
+          status?: string;
+          txn_id?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
         Update: {
-          amount?: number | null
-          chapter_id?: string
-          created_at?: string
-          currency?: string | null
-          id?: string
-          invoice_url?: string | null
-          raw?: Json | null
-          source_amount?: number | null
-          source_currency?: string | null
-          status?: string
-          txn_id?: string | null
-          updated_at?: string
-          user_id?: string
-        }
+          amount?: number | null;
+          chapter_id?: string;
+          created_at?: string;
+          currency?: string | null;
+          id?: string;
+          invoice_url?: string | null;
+          raw?: Json | null;
+          source_amount?: number | null;
+          source_currency?: string | null;
+          status?: string;
+          txn_id?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "album_purchases_chapter_id_fkey"
-            columns: ["chapter_id"]
-            isOneToOne: false
-            referencedRelation: "chapters"
-            referencedColumns: ["id"]
+            foreignKeyName: "album_purchases_chapter_id_fkey";
+            columns: ["chapter_id"];
+            isOneToOne: false;
+            referencedRelation: "chapters";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       chapters: {
         Row: {
-          comic_id: string
-          cover_id: string
-          created_at: string
-          id: string
-          is_premium: boolean
-          order_index: number
-          pages: string[]
-          price_usdt: number
-          title: string
-          video_url: string
-        }
+          comic_id: string;
+          cover_id: string;
+          created_at: string;
+          id: string;
+          is_premium: boolean;
+          order_index: number;
+          pages: string[];
+          price_usdt: number;
+          title: string;
+          video_url: string;
+        };
         Insert: {
-          comic_id: string
-          cover_id?: string
-          created_at?: string
-          id?: string
-          is_premium?: boolean
-          order_index?: number
-          pages?: string[]
-          price_usdt?: number
-          title: string
-          video_url?: string
-        }
+          comic_id: string;
+          cover_id?: string;
+          created_at?: string;
+          id?: string;
+          is_premium?: boolean;
+          order_index?: number;
+          pages?: string[];
+          price_usdt?: number;
+          title: string;
+          video_url?: string;
+        };
         Update: {
-          comic_id?: string
-          cover_id?: string
-          created_at?: string
-          id?: string
-          is_premium?: boolean
-          order_index?: number
-          pages?: string[]
-          price_usdt?: number
-          title?: string
-          video_url?: string
-        }
+          comic_id?: string;
+          cover_id?: string;
+          created_at?: string;
+          id?: string;
+          is_premium?: boolean;
+          order_index?: number;
+          pages?: string[];
+          price_usdt?: number;
+          title?: string;
+          video_url?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "chapters_comic_id_fkey"
-            columns: ["comic_id"]
-            isOneToOne: false
-            referencedRelation: "comics"
-            referencedColumns: ["id"]
+            foreignKeyName: "chapters_comic_id_fkey";
+            columns: ["comic_id"];
+            isOneToOne: false;
+            referencedRelation: "comics";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       comics: {
         Row: {
-          author: string
-          booking_url: string | null
-          cover_id: string
-          created_at: string
-          created_by: string
-          description: string
-          featured: boolean
-          genres: string[]
-          id: string
-          order_url: string | null
-          title: string
-          updated_at: string
-        }
+          author: string;
+          booking_url: string | null;
+          cover_id: string;
+          created_at: string;
+          created_by: string;
+          description: string;
+          featured: boolean;
+          genres: string[];
+          id: string;
+          order_url: string | null;
+          title: string;
+          updated_at: string;
+        };
         Insert: {
-          author?: string
-          booking_url?: string | null
-          cover_id?: string
-          created_at?: string
-          created_by: string
-          description?: string
-          featured?: boolean
-          genres?: string[]
-          id?: string
-          order_url?: string | null
-          title: string
-          updated_at?: string
-        }
+          author?: string;
+          booking_url?: string | null;
+          cover_id?: string;
+          created_at?: string;
+          created_by: string;
+          description?: string;
+          featured?: boolean;
+          genres?: string[];
+          id?: string;
+          order_url?: string | null;
+          title: string;
+          updated_at?: string;
+        };
         Update: {
-          author?: string
-          booking_url?: string | null
-          cover_id?: string
-          created_at?: string
-          created_by?: string
-          description?: string
-          featured?: boolean
-          genres?: string[]
-          id?: string
-          order_url?: string | null
-          title?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
+          author?: string;
+          booking_url?: string | null;
+          cover_id?: string;
+          created_at?: string;
+          created_by?: string;
+          description?: string;
+          featured?: boolean;
+          genres?: string[];
+          id?: string;
+          order_url?: string | null;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       comments: {
         Row: {
-          chapter_id: string | null
-          comic_id: string
-          content: string
-          created_at: string
-          id: string
-          updated_at: string
-          user_id: string
-        }
+          chapter_id: string | null;
+          comic_id: string;
+          content: string;
+          created_at: string;
+          id: string;
+          updated_at: string;
+          user_id: string;
+        };
         Insert: {
-          chapter_id?: string | null
-          comic_id: string
-          content: string
-          created_at?: string
-          id?: string
-          updated_at?: string
-          user_id: string
-        }
+          chapter_id?: string | null;
+          comic_id: string;
+          content: string;
+          created_at?: string;
+          id?: string;
+          updated_at?: string;
+          user_id: string;
+        };
         Update: {
-          chapter_id?: string | null
-          comic_id?: string
-          content?: string
-          created_at?: string
-          id?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          chapter_id?: string | null;
+          comic_id?: string;
+          content?: string;
+          created_at?: string;
+          id?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       contributor_applications: {
         Row: {
-          created_at: string
-          id: string
-          pen_name: string
-          reason: string
-          reviewed_at: string | null
-          reviewed_by: string | null
-          sample_link: string | null
-          status: string
-          user_id: string
-        }
+          created_at: string;
+          id: string;
+          pen_name: string;
+          reason: string;
+          reviewed_at: string | null;
+          reviewed_by: string | null;
+          sample_link: string | null;
+          status: string;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          id?: string
-          pen_name: string
-          reason: string
-          reviewed_at?: string | null
-          reviewed_by?: string | null
-          sample_link?: string | null
-          status?: string
-          user_id: string
-        }
+          created_at?: string;
+          id?: string;
+          pen_name: string;
+          reason: string;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          sample_link?: string | null;
+          status?: string;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          id?: string
-          pen_name?: string
-          reason?: string
-          reviewed_at?: string | null
-          reviewed_by?: string | null
-          sample_link?: string | null
-          status?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          created_at?: string;
+          id?: string;
+          pen_name?: string;
+          reason?: string;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          sample_link?: string | null;
+          status?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
-          avatar_url: string | null
-          created_at: string
-          display_name: string | null
-          email: string | null
-          id: string
-        }
+          avatar_url: string | null;
+          created_at: string;
+          display_name: string | null;
+          email: string | null;
+          id: string;
+        };
         Insert: {
-          avatar_url?: string | null
-          created_at?: string
-          display_name?: string | null
-          email?: string | null
-          id: string
-        }
+          avatar_url?: string | null;
+          created_at?: string;
+          display_name?: string | null;
+          email?: string | null;
+          id: string;
+        };
         Update: {
-          avatar_url?: string | null
-          created_at?: string
-          display_name?: string | null
-          email?: string | null
-          id?: string
-        }
-        Relationships: []
-      }
+          avatar_url?: string | null;
+          created_at?: string;
+          display_name?: string | null;
+          email?: string | null;
+          id?: string;
+        };
+        Relationships: [];
+      };
       ratings: {
         Row: {
-          comic_id: string
-          created_at: string
-          id: string
-          score: number
-          updated_at: string
-          user_id: string
-        }
+          comic_id: string;
+          created_at: string;
+          id: string;
+          score: number;
+          updated_at: string;
+          user_id: string;
+        };
         Insert: {
-          comic_id: string
-          created_at?: string
-          id?: string
-          score: number
-          updated_at?: string
-          user_id: string
-        }
+          comic_id: string;
+          created_at?: string;
+          id?: string;
+          score: number;
+          updated_at?: string;
+          user_id: string;
+        };
         Update: {
-          comic_id?: string
-          created_at?: string
-          id?: string
-          score?: number
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          comic_id?: string;
+          created_at?: string;
+          id?: string;
+          score?: number;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       user_roles: {
         Row: {
-          created_at: string
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
+          created_at: string;
+          id: string;
+          role: Database["public"]["Enums"]["app_role"];
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          id?: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
+          created_at?: string;
+          id?: string;
+          role: Database["public"]["Enums"]["app_role"];
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
-    }
+          created_at?: string;
+          id?: string;
+          role?: Database["public"]["Enums"]["app_role"];
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
       has_role: {
         Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-    }
+          _role: Database["public"]["Enums"]["app_role"];
+          _user_id: string;
+        };
+        Returns: boolean;
+      };
+    };
     Enums: {
-      app_role: "admin" | "contributor" | "user"
-    }
+      app_role: "admin" | "contributor" | "user";
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">];
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
       DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] & DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R;
       }
       ? R
       : never
-    : never
+    : never;
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I
+        Insert: infer I;
       }
       ? I
       : never
-    : never
+    : never;
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U
+        Update: infer U;
       }
       ? U
       : never
-    : never
+    : never;
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never
+    : never;
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+    : never;
 
 export const Constants = {
   public: {
@@ -445,4 +437,4 @@ export const Constants = {
       app_role: ["admin", "contributor", "user"],
     },
   },
-} as const
+} as const;

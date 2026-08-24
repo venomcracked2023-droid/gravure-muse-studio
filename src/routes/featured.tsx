@@ -12,9 +12,9 @@ import { FeaturedMarquee } from "@/components/FeaturedMarquee";
 export const Route = createFileRoute("/featured")({
   component: FeaturedPage,
   head: () => {
-    const title = "Album mới — GravureHub";
+    const title = "Featured Albums — GravureHub";
     const desc =
-      "Những album gravure mới đăng gần đây trên GravureHub, cập nhật liên tục mỗi ngày.";
+      "Discover the best featured gravure photo albums and high-definition photobooks from top models on GravureHub. Updated daily.";
     const url = `${SITE_URL}/featured`;
     return {
       meta: [
@@ -32,39 +32,68 @@ export const Route = createFileRoute("/featured")({
 function FeaturedPage() {
   const comics = useComics();
   const featured = getLatestAlbums(comics, 24);
-  const ld = {
+
+  const ldBreadcrumb = {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "Album mới",
-    url: `${SITE_URL}/featured`,
-    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
-    mainEntity: {
-      "@type": "ItemList",
-      itemListElement: featured.slice(0, 30).map((a, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        url: `${SITE_URL}/read/${buildSlugId(a.comic.title, a.comic.id)}/${buildSlugId(a.chapter.title, a.chapter.id)}`,
-        name: a.chapter.title,
-        image:
-          a.chapter.coverId || a.chapter.pages[0] || a.comic.coverId
-            ? driveImageUrl(a.chapter.coverId || a.chapter.pages[0] || a.comic.coverId, 600)
-            : undefined,
-      })),
-    },
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Featured Albums", item: `${SITE_URL}/featured` },
+    ],
   };
+
+  const ldItemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Featured Albums",
+    description: "Curated collection of top gravure albums on GravureHub",
+    url: `${SITE_URL}/featured`,
+    numberOfItems: featured.length,
+    itemListElement: featured.slice(0, 24).map((a, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `${SITE_URL}/read/${buildSlugId(a.comic.title, a.comic.id)}/${buildSlugId(a.chapter.title, a.chapter.id)}`,
+      name: `${a.chapter.title} — ${a.comic.title}`,
+      image:
+        a.chapter.coverId || a.chapter.pages[0] || a.comic.coverId
+          ? driveImageUrl(a.chapter.coverId || a.chapter.pages[0] || a.comic.coverId, 600)
+          : undefined,
+    })),
+  };
+
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldBreadcrumb) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldItemList) }}
+      />
       <main className="mx-auto max-w-6xl px-4 pb-20 pt-6">
+        {/* Visual Breadcrumb (Task 16) */}
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground"
+        >
+          <Link to="/" className="hover:text-primary transition-colors">
+            Home
+          </Link>
+          <span>&gt;</span>
+          <span className="font-medium text-foreground">Featured Albums</span>
+        </nav>
+
         <header className="mb-6">
           <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight">
-            <Star className="h-6 w-6 fill-primary text-primary" /> Album mới đăng
+            <Star className="h-6 w-6 fill-primary text-primary" /> Featured Albums
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {featured.length} album mới nhất, tự động cập nhật.
+            {featured.length} curated high-definition gravure albums, updated continuously.
           </p>
         </header>
+
         {featured.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground">
             Chưa có album nào.{" "}

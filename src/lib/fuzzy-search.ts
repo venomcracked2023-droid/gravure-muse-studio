@@ -1,5 +1,11 @@
 export function normalizeVi(input: string): string {
-  return input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "d").toLowerCase().trim();
+  return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "d")
+    .toLowerCase()
+    .trim();
 }
 function isSubsequence(needle: string, haystack: string): boolean {
   if (!needle) return true;
@@ -10,12 +16,16 @@ function isSubsequence(needle: string, haystack: string): boolean {
 function levenshtein(a: string, b: string, max: number): number {
   if (a === b) return 0;
   if (Math.abs(a.length - b.length) > max) return max + 1;
-  const m = a.length, n = b.length;
-  if (!m) return n; if (!n) return m;
-  let prev = new Array(n + 1), curr = new Array(n + 1);
+  const m = a.length,
+    n = b.length;
+  if (!m) return n;
+  if (!n) return m;
+  let prev = new Array(n + 1),
+    curr = new Array(n + 1);
   for (let j = 0; j <= n; j++) prev[j] = j;
   for (let i = 1; i <= m; i++) {
-    curr[0] = i; let rowMin = curr[0];
+    curr[0] = i;
+    let rowMin = curr[0];
     for (let j = 1; j <= n; j++) {
       const cost = a[i - 1] === b[j - 1] ? 0 : 1;
       curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
@@ -27,7 +37,8 @@ function levenshtein(a: string, b: string, max: number): number {
   return prev[n];
 }
 export function fuzzyScoreVi(query: string, text: string): number | null {
-  const q = normalizeVi(query), t = normalizeVi(text);
+  const q = normalizeVi(query),
+    t = normalizeVi(text);
   if (!q) return 0;
   if (!t) return null;
   const idx = t.indexOf(q);

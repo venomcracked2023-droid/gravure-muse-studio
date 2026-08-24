@@ -25,7 +25,9 @@ export function LanguageSwitcher() {
         className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-2 text-sm text-muted-foreground transition hover:bg-secondary hover:text-foreground"
       >
         <Globe className="h-4 w-4" />
-        <span className="hidden sm:inline">{current.flag} {current.code.toUpperCase()}</span>
+        <span className="hidden sm:inline">
+          {current.flag} {current.code.toUpperCase()}
+        </span>
         <span className="sm:hidden">{current.flag}</span>
       </button>
       {open && (
@@ -33,7 +35,10 @@ export function LanguageSwitcher() {
           {LANGS.map((l) => (
             <button
               key={l.code}
-              onClick={() => { setLang(l.code as Lang); setOpen(false); }}
+              onClick={() => {
+                setLang(l.code as Lang);
+                setOpen(false);
+              }}
               className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition hover:bg-secondary ${
                 l.code === lang ? "bg-secondary/60 text-foreground" : "text-muted-foreground"
               }`}

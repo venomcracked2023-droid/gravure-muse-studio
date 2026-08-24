@@ -16,11 +16,11 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   component: Index,
   validateSearch: (s: Record<string, unknown>) => ({
-    q: typeof s.q === "string" ? s.q : undefined,
+    q: typeof s.q === "string" && s.q.trim() ? s.q.trim() : undefined,
     page:
-      typeof s.page === "string" || typeof s.page === "number"
-        ? Math.max(1, Number(s.page) || 1)
-        : 1,
+      (typeof s.page === "string" || typeof s.page === "number") && Number(s.page) > 1
+        ? Number(s.page)
+        : undefined,
   }),
   head: () => {
     const title = "GravureHub — Free gravure photo library";
@@ -103,10 +103,12 @@ function Index() {
               <Sparkles className="h-3.5 w-3.5 text-primary" /> Gravure — endless vertical scroll
             </span>
             <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
-              GravureHub — <span className="text-gradient-brand">Free vertical-scroll gravure albums</span>
+              GravureHub —{" "}
+              <span className="text-gradient-brand">Free vertical-scroll gravure albums</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-              Discover the best gravure photo albums from Korean, Japanese and Vietnamese models. Free to browse, updated continuously.
+              Discover the best gravure photo albums from Korean, Japanese and Vietnamese models.
+              Free to browse, updated continuously.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
@@ -145,6 +147,23 @@ function Index() {
           </div>
         </section>
 
+        {/* Rich SEO Content Block (Task 13) */}
+        <section className="mt-8 rounded-2xl border border-border/80 bg-card/40 p-6 backdrop-blur sm:p-8">
+          <h2 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+            Welcome to GravureHub — Free Vertical-Scroll Gravure Photo Library
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            GravureHub is a free, high-definition vertical-scroll gravure photo library featuring
+            top Korean, Japanese, and Vietnamese models. We update new albums and photobooks daily
+            with crystal-clear image quality and optimized mobile performance. Whether you love
+            classic Japanese gravure idols, trendy Korean visual models, or contemporary Vietnamese
+            photobooks, our curated collections offer an effortless, distraction-free reading
+            experience without watermarks or intrusive interruptions. Browse our featured
+            collections above or explore the complete model library below to discover stunning free
+            visual sets.
+          </p>
+        </section>
+
         {featured.length > 0 && (
           <section className="mt-14 animate-fade-in-up">
             <div className="mb-6 flex items-end justify-between">
@@ -159,22 +178,37 @@ function Index() {
           </section>
         )}
 
-        <section id="library" className="mt-14 scroll-mt-24">
-          <div className="mb-6 flex items-end justify-between">
-            <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
-              <Library className="h-5 w-5 text-primary" />
-              {term ? `${t("section.results")} "${q}"` : t("section.library")}
-            </h2>
-            <span className="text-sm text-muted-foreground">
-              {filtered.length}/{comics.length}
-            </span>
+        <section id="library" className="mt-14">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">{t("section.library")}</h2>
+              <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+                {term
+                  ? `${t("section.found")} ${filtered.length} ${t("section.modelsMatching")} "${q}"`
+                  : `${t("section.total")} ${comics.length} ${t("section.modelsCount")}`}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs">
+              {["Korean", "Japanese", "Vietnamese"].map((tag) => (
+                <Link
+                  key={tag}
+                  to="/genre/$slug"
+                  params={{ slug: tag.toLowerCase() }}
+                  className="rounded-full border border-border bg-card/60 px-3 py-1 text-muted-foreground hover:border-primary/60 hover:text-foreground"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
           </div>
-          {comics.length === 0 ? (
-            <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border bg-card/40 p-12 text-center text-muted-foreground">
-              <BookOpen className="h-10 w-10 text-primary/60" />
-              <p>{t("empty.noModels")}</p>
-              <Link to="/admin" className="text-primary hover:underline">
-                {t("empty.goAdmin")}
+
+          {term && filtered.length > 0 ? (
+            <div className="mb-4 flex items-center justify-between rounded-xl border border-primary/30 bg-primary/10 px-4 py-2 text-xs">
+              <span>
+                {t("section.showingResults")} <strong>"{q}"</strong> ({filtered.length})
+              </span>
+              <Link to="/" search={{}} className="font-medium text-primary hover:underline">
+                {t("search.clear")}
               </Link>
             </div>
           ) : filtered.length === 0 ? (
@@ -184,7 +218,7 @@ function Index() {
           ) : (
             <>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                {paginated.map((c) => (
+                {paginated.map((c, i) => (
                   <Link
                     key={c.id}
                     to="/comic/$comicId"
@@ -195,6 +229,7 @@ function Index() {
                       <ComicCover
                         id={c.coverId}
                         title={c.title}
+                        priority={i < 4}
                         className="transition duration-500 group-hover:scale-110"
                       />
                     </div>
@@ -215,7 +250,7 @@ function Index() {
                     <li>
                       <Link
                         to="/"
-                        search={{ q, page: Math.max(1, page - 1) }}
+                        search={{ q, page: page - 1 > 1 ? page - 1 : undefined }}
                         className={cn(
                           buttonVariants({ variant: "ghost", size: "default" }),
                           "gap-1 pl-2.5",
@@ -229,7 +264,7 @@ function Index() {
                       <li key={p}>
                         <Link
                           to="/"
-                          search={{ q, page: p }}
+                          search={{ q, page: p > 1 ? p : undefined }}
                           aria-current={p === page ? "page" : undefined}
                           className={cn(
                             buttonVariants({
@@ -245,7 +280,13 @@ function Index() {
                     <li>
                       <Link
                         to="/"
-                        search={{ q, page: Math.min(totalPages, page + 1) }}
+                        search={{
+                          q,
+                          page:
+                            Math.min(totalPages, page + 1) > 1
+                              ? Math.min(totalPages, page + 1)
+                              : undefined,
+                        }}
                         className={cn(
                           buttonVariants({ variant: "ghost", size: "default" }),
                           "gap-1 pr-2.5",

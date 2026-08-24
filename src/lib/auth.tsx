@@ -31,14 +31,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       (supabase.rpc as any)("get_my_email"),
     ]);
     setRoles((rolesData ?? []).map((r) => r.role as Role));
-    setProfile(profileData ? { ...profileData, email: (emailData as unknown as string) ?? null } : null);
+    setProfile(
+      profileData ? { ...profileData, email: (emailData as unknown as string) ?? null } : null,
+    );
   }
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
       setSession(s);
       if (s?.user) setTimeout(() => loadUserData(s.user.id), 0);
-      else { setRoles([]); setProfile(null); }
+      else {
+        setRoles([]);
+        setProfile(null);
+      }
     });
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
@@ -56,8 +61,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     profile,
     isAdmin: roles.includes("admin"),
     isContributor: roles.includes("contributor") || roles.includes("admin"),
-    refresh: async () => { if (session?.user) await loadUserData(session.user.id); },
-    signOut: async () => { await supabase.auth.signOut(); },
+    refresh: async () => {
+      if (session?.user) await loadUserData(session.user.id);
+    },
+    signOut: async () => {
+      await supabase.auth.signOut();
+    },
   };
 
   return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;

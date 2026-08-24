@@ -24,7 +24,10 @@ export function PremiumGate({ chapterId, chapterTitle, priceUsdt, onUnlocked }: 
   useEffect(() => {
     let cancelled = false;
     async function check() {
-      if (!user) { setChecking(false); return; }
+      if (!user) {
+        setChecking(false);
+        return;
+      }
       const { data } = await supabase
         .from("album_purchases")
         .select("id")
@@ -33,11 +36,16 @@ export function PremiumGate({ chapterId, chapterTitle, priceUsdt, onUnlocked }: 
         .eq("status", "completed")
         .maybeSingle();
       if (cancelled) return;
-      if (data) { setOwned(true); onUnlocked?.(); }
+      if (data) {
+        setOwned(true);
+        onUnlocked?.();
+      }
       setChecking(false);
     }
     check();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [user, chapterId, onUnlocked]);
 
   // Return early after paid=1 redirect: poll once for webhook completion.
@@ -53,10 +61,17 @@ export function PremiumGate({ chapterId, chapterTitle, priceUsdt, onUnlocked }: 
         .eq("chapter_id", chapterId)
         .eq("status", "completed")
         .maybeSingle();
-      if (data) { setOwned(true); onUnlocked?.(); clearInterval(iv); }
+      if (data) {
+        setOwned(true);
+        onUnlocked?.();
+        clearInterval(iv);
+      }
     }, 4000);
     const stop = setTimeout(() => clearInterval(iv), 120000);
-    return () => { clearInterval(iv); clearTimeout(stop); };
+    return () => {
+      clearInterval(iv);
+      clearTimeout(stop);
+    };
   }, [user, chapterId, onUnlocked]);
 
   if (checking || owned) return null;
@@ -66,7 +81,11 @@ export function PremiumGate({ chapterId, chapterTitle, priceUsdt, onUnlocked }: 
     setLoading(true);
     try {
       const res = await createInvoice({ data: { chapterId } });
-      if (res.alreadyOwned) { setOwned(true); onUnlocked?.(); return; }
+      if (res.alreadyOwned) {
+        setOwned(true);
+        onUnlocked?.();
+        return;
+      }
       window.location.href = res.invoiceUrl;
     } catch (e: any) {
       setError(e?.message ?? "Không tạo được hoá đơn");
@@ -83,19 +102,28 @@ export function PremiumGate({ chapterId, chapterTitle, priceUsdt, onUnlocked }: 
       <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">{chapterTitle}</p>
       <div className="mt-2 text-2xl font-bold text-gradient-brand">{priceUsdt} USDT</div>
       <p className="mt-0.5 text-[10px] text-muted-foreground">USDT-TRC20 · BTC · ETH</p>
-        {!user ? (
-          <Link to="/login" className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-gradient-brand px-4 py-2 text-xs font-semibold text-primary-foreground">
-            Sign in to unlock
-          </Link>
-        ) : (
-          <button
-            disabled={loading}
-            onClick={handleUnlock}
-            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-brand px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:scale-[1.02] disabled:opacity-60"
-          >
-            {loading ? <><Loader2 className="h-3.5 w-3.5 animate-spin" /> Creating invoice…</> : <>Unlock with crypto</>}
-          </button>
-        )}
+      {!user ? (
+        <Link
+          to="/login"
+          className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-gradient-brand px-4 py-2 text-xs font-semibold text-primary-foreground"
+        >
+          Sign in to unlock
+        </Link>
+      ) : (
+        <button
+          disabled={loading}
+          onClick={handleUnlock}
+          className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-brand px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:scale-[1.02] disabled:opacity-60"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="h-3.5 w-3.5 animate-spin" /> Creating invoice…
+            </>
+          ) : (
+            <>Unlock with crypto</>
+          )}
+        </button>
+      )}
       {error && <p className="mt-2 text-[10px] text-destructive">{error}</p>}
     </div>
   );

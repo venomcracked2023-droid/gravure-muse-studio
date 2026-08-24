@@ -4,7 +4,11 @@ import { getRequestHeader } from "@tanstack/react-start/server";
 const COUNTRY_TO_LANG: Record<string, string> = {
   VN: "vi",
   JP: "ja",
-  CN: "zh", TW: "zh", HK: "zh", MO: "zh", SG: "zh",
+  CN: "zh",
+  TW: "zh",
+  HK: "zh",
+  MO: "zh",
+  SG: "zh",
   KR: "ko",
 };
 

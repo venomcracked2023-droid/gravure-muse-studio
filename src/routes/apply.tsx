@@ -10,11 +10,13 @@ export const Route = createFileRoute("/apply")({
   component: ApplyPage,
   head: () => {
     const title = "Ứng tuyển cộng tác viên — GravureHub";
-    const desc = "Đăng ký trở thành cộng tác viên GravureHub để đăng tải và quản lý các album ảnh gravure chất lượng cao trên nền tảng.";
+    const desc =
+      "Đăng ký trở thành cộng tác viên GravureHub để đăng tải và quản lý các album ảnh gravure chất lượng cao trên nền tảng.";
     const url = `${SITE_URL}/apply`;
     return {
       meta: [
-        { title }, { name: "description", content: desc },
+        { title },
+        { name: "description", content: desc },
         { name: "robots", content: "noindex,follow" },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
@@ -25,7 +27,14 @@ export const Route = createFileRoute("/apply")({
   },
 });
 
-type Application = { id: string; status: string; pen_name: string; reason: string; sample_link: string | null; created_at: string };
+type Application = {
+  id: string;
+  status: string;
+  pen_name: string;
+  reason: string;
+  sample_link: string | null;
+  created_at: string;
+};
 
 function ApplyPage() {
   const { user, loading, isContributor, refresh } = useAuth();
@@ -37,12 +46,22 @@ function ApplyPage() {
   const [sample, setSample] = useState("");
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => { if (!loading && !user) navigate({ to: "/login" }); }, [user, loading, navigate]);
+  useEffect(() => {
+    if (!loading && !user) navigate({ to: "/login" });
+  }, [user, loading, navigate]);
   useEffect(() => {
     if (!user) return;
-    supabase.from("contributor_applications").select("*").eq("user_id", user.id)
-      .order("created_at", { ascending: false }).limit(1).maybeSingle()
-      .then(({ data }) => { setApp(data as Application | null); setFetching(false); });
+    supabase
+      .from("contributor_applications")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        setApp(data as Application | null);
+        setFetching(false);
+      });
   }, [user]);
 
   async function submit(e: React.FormEvent) {
@@ -50,28 +69,45 @@ function ApplyPage() {
     if (!user) return;
     setBusy(true);
     try {
-      const { data, error } = await supabase.from("contributor_applications")
+      const { data, error } = await supabase
+        .from("contributor_applications")
         .insert({ user_id: user.id, pen_name: penName, reason, sample_link: sample || null })
-        .select("*").single();
+        .select("*")
+        .single();
       if (error) throw error;
       setApp(data as Application);
       toast.success("Đã gửi đơn. Chờ admin duyệt.");
       await refresh();
-    } catch (e: any) { toast.error(e.message ?? "Lỗi"); } finally { setBusy(false); }
+    } catch (e: any) {
+      toast.error(e.message ?? "Lỗi");
+    } finally {
+      setBusy(false);
+    }
   }
 
-  if (loading || fetching) return <div className="min-h-screen"><SiteHeader /><main className="p-20 text-center text-muted-foreground">Đang tải…</main></div>;
+  if (loading || fetching)
+    return (
+      <div className="min-h-screen">
+        <SiteHeader />
+        <main className="p-20 text-center text-muted-foreground">Đang tải…</main>
+      </div>
+    );
 
   return (
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-2xl px-4 py-12">
         <h1 className="text-3xl font-bold tracking-tight">Ứng tuyển cộng tác viên</h1>
-        <p className="mt-2 text-muted-foreground">Trở thành CTV để đăng album ảnh lên GravureHub.</p>
+        <p className="mt-2 text-muted-foreground">
+          Trở thành CTV để đăng album ảnh lên GravureHub.
+        </p>
 
         {isContributor && (
           <div className="mt-6 rounded-xl border border-primary/30 bg-primary/10 p-4 text-sm">
-            ✅ Bạn đã là CTV. <Link to="/admin" className="text-primary underline">Đến trang quản lý</Link>
+            ✅ Bạn đã là CTV.{" "}
+            <Link to="/admin" className="text-primary underline">
+              Đến trang quản lý
+            </Link>
           </div>
         )}
 
@@ -80,32 +116,63 @@ function ApplyPage() {
             <div className="text-sm text-muted-foreground">Đơn gần nhất</div>
             <div className="mt-1 font-semibold">{app.pen_name}</div>
             <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs">
-              Trạng thái: <span className={app.status === "approved" ? "text-primary" : app.status === "rejected" ? "text-destructive" : "text-muted-foreground"}>
-                {app.status === "pending" ? "Chờ duyệt" : app.status === "approved" ? "Đã duyệt" : "Từ chối"}
+              Trạng thái:{" "}
+              <span
+                className={
+                  app.status === "approved"
+                    ? "text-primary"
+                    : app.status === "rejected"
+                      ? "text-destructive"
+                      : "text-muted-foreground"
+                }
+              >
+                {app.status === "pending"
+                  ? "Chờ duyệt"
+                  : app.status === "approved"
+                    ? "Đã duyệt"
+                    : "Từ chối"}
               </span>
             </div>
           </div>
         )}
 
         {!isContributor && (!app || app.status === "rejected") && (
-          <form onSubmit={submit} className="mt-6 space-y-3 rounded-2xl border border-border bg-card p-5">
+          <form
+            onSubmit={submit}
+            className="mt-6 space-y-3 rounded-2xl border border-border bg-card p-5"
+          >
             <div>
               <label className="text-sm font-medium">Bút danh</label>
-              <input required value={penName} onChange={(e) => setPenName(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring" />
+              <input
+                required
+                value={penName}
+                onChange={(e) => setPenName(e.target.value)}
+                className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring"
+              />
             </div>
             <div>
               <label className="text-sm font-medium">Lý do tham gia</label>
-              <textarea required value={reason} onChange={(e) => setReason(e.target.value)} rows={4}
-                className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring" />
+              <textarea
+                required
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                rows={4}
+                className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring"
+              />
             </div>
             <div>
               <label className="text-sm font-medium">Link mẫu (tuỳ chọn)</label>
-              <input value={sample} onChange={(e) => setSample(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring" />
+              <input
+                value={sample}
+                onChange={(e) => setSample(e.target.value)}
+                className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring"
+              />
             </div>
-            <button type="submit" disabled={busy}
-              className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50">
+            <button
+              type="submit"
+              disabled={busy}
+              className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
+            >
               Gửi đơn
             </button>
           </form>

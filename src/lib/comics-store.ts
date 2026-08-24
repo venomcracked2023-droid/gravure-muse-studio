@@ -32,21 +32,33 @@ let cache: Comic[] = [];
 let loaded = false;
 let loading: Promise<void> | null = null;
 
-function emit() { listeners.forEach((l) => l()); }
+function emit() {
+  listeners.forEach((l) => l());
+}
 
 async function fetchAll(): Promise<void> {
   const { data: comics, error } = await supabase
-    .from("comics").select("*").order("created_at", { ascending: false });
-  if (error) { console.error(error); return; }
+    .from("comics")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.error(error);
+    return;
+  }
   const ids = (comics ?? []).map((c) => c.id);
   const chaptersByComic: Record<string, Chapter[]> = {};
   if (ids.length) {
     const { data: chapters, error: chErr } = await supabase
-      .from("chapters").select("*").in("comic_id", ids).order("order_index", { ascending: true });
+      .from("chapters")
+      .select("*")
+      .in("comic_id", ids)
+      .order("order_index", { ascending: true });
     if (chErr) console.error(chErr);
     for (const ch of chapters ?? []) {
       (chaptersByComic[ch.comic_id] ||= []).push({
-        id: ch.id, title: ch.title, pages: ch.pages ?? [],
+        id: ch.id,
+        title: ch.title,
+        pages: ch.pages ?? [],
         createdAt: new Date(ch.created_at).getTime(),
         coverId: (ch as any).cover_id ?? "",
         videoUrl: (ch as any).video_url ?? "",
@@ -75,11 +87,15 @@ async function fetchAll(): Promise<void> {
 
 export function loadComics(): Promise<void> {
   if (loading) return loading;
-  loading = fetchAll().finally(() => { loading = null; });
+  loading = fetchAll().finally(() => {
+    loading = null;
+  });
   return loading;
 }
 
-export function getComics(): Comic[] { return cache; }
+export function getComics(): Comic[] {
+  return cache;
+}
 
 export async function upsertComic(c: Comic): Promise<void> {
   const { data: userData } = await supabase.auth.getUser();
@@ -87,15 +103,22 @@ export async function upsertComic(c: Comic): Promise<void> {
   if (!userId) throw new Error("Bạn cần đăng nhập");
   const isNew = !cache.some((x) => x.id === c.id);
   const payload = {
-    title: c.title, author: c.author, description: c.description,
-    cover_id: c.coverId, genres: c.genres, featured: c.featured,
+    title: c.title,
+    author: c.author,
+    description: c.description,
+    cover_id: c.coverId,
+    genres: c.genres,
+    featured: c.featured,
     booking_url: c.bookingUrl ?? "",
     order_url: c.orderUrl ?? "",
   };
   let comicId = c.id;
   if (isNew) {
-    const { data, error } = await supabase.from("comics")
-      .insert({ ...payload, created_by: userId }).select("id").single();
+    const { data, error } = await supabase
+      .from("comics")
+      .insert({ ...payload, created_by: userId })
+      .select("id")
+      .single();
     if (error) throw error;
     comicId = data.id;
   } else {
@@ -106,7 +129,10 @@ export async function upsertComic(c: Comic): Promise<void> {
   }
   if (c.chapters.length) {
     const rows = c.chapters.map((ch, i) => ({
-      comic_id: comicId, title: ch.title, pages: ch.pages, order_index: i,
+      comic_id: comicId,
+      title: ch.title,
+      pages: ch.pages,
+      order_index: i,
       cover_id: ch.coverId ?? "",
       video_url: ch.videoUrl ?? "",
       is_premium: ch.isPremium ?? false,
@@ -139,7 +165,9 @@ export function useComics(): Comic[] {
     listeners.add(cb);
     if (!loaded && !loading) loadComics();
     else cb();
-    return () => { listeners.delete(cb); };
+    return () => {
+      listeners.delete(cb);
+    };
   }, []);
   return cache;
 }
@@ -151,13 +179,15 @@ export function useComicsLoaded(): boolean {
     listeners.add(cb);
     if (!loaded && !loading) loadComics();
     cb();
-    return () => { listeners.delete(cb); };
+    return () => {
+      listeners.delete(cb);
+    };
   }, []);
   return val;
 }
 
 export function uid(): string {
-  return (typeof crypto !== "undefined" && "randomUUID" in crypto)
+  return typeof crypto !== "undefined" && "randomUUID" in crypto
     ? crypto.randomUUID()
     : Math.random().toString(36).slice(2) + Date.now().toString(36);
 }

@@ -119,14 +119,21 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
     meta: [
       { title: TITLE },
       { name: "description", content: DESC },
-      { name: "keywords", content: "top gravure idol 2024, người mẫu áo tắm nhật bản, gravure idol nổi tiếng, gravure idol là gì, bảng xếp hạng gravure idol" },
+      {
+        name: "keywords",
+        content:
+          "top gravure idol 2024, người mẫu áo tắm nhật bản, gravure idol nổi tiếng, gravure idol là gì, bảng xếp hạng gravure idol",
+      },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
       { property: "og:url", content: URL },
       { property: "og:type", content: "article" },
       { property: "article:published_time", content: PUBLISHED },
       { property: "article:modified_time", content: PUBLISHED },
-      { property: "article:tag", content: "gravure idol, người mẫu Nhật Bản, bikini, tạp chí Nhật" },
+      {
+        property: "article:tag",
+        content: "gravure idol, người mẫu Nhật Bản, bikini, tạp chí Nhật",
+      },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESC },
@@ -169,11 +176,11 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-              { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
-              { "@type": "ListItem", position: 3, name: "Top 10 gravure idol 2024", item: URL },
-            ],
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+            { "@type": "ListItem", position: 3, name: "Top 10 gravure idol 2024", item: URL },
+          ],
         }),
       },
     ],
@@ -186,9 +193,13 @@ function Page() {
       <SiteHeader />
       <main className="mx-auto max-w-3xl px-4 py-10">
         <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
-          <Link to="/" className="hover:text-primary">Trang chủ</Link>
+          <Link to="/" className="hover:text-primary">
+            Trang chủ
+          </Link>
           <span className="mx-1.5">/</span>
-          <Link to="/blog/gravure-idol-la-gi" className="hover:text-primary">Blog</Link>
+          <Link to="/blog/gravure-idol-la-gi" className="hover:text-primary">
+            Blog
+          </Link>
           <span className="mx-1.5">/</span>
           <span className="text-foreground">Top 10 gravure idol 2024</span>
         </nav>
@@ -200,19 +211,23 @@ function Page() {
               Cập nhật: <time dateTime={PUBLISHED}>22/06/2026</time> · GravureHub
             </p>
             <p className="lead">
-              <strong>Gravure idol</strong> luôn là chủ đề thu hút đông đảo người hâm mộ văn hoá Nhật Bản. Năm 2024
-              chứng kiến sự trở lại của nhiều tên tuổi kỳ cựu lẫn sự bùng nổ của các gương mặt trẻ. Bài viết này tổng hợp
-              <strong> top 10 gravure idol Nhật Bản nổi bật nhất 2024</strong>, dựa trên độ phủ sóng tạp chí, doanh số
-              photobook và mức độ tương tác trên mạng xã hội — dành cho những ai đang tìm kiếm
-              <em> người mẫu áo tắm Nhật Bản</em> hay đơn giản là muốn khám phá thêm về <em>gravure idol</em>.
+              <strong>Gravure idol</strong> luôn là chủ đề thu hút đông đảo người hâm mộ văn hoá
+              Nhật Bản. Năm 2024 chứng kiến sự trở lại của nhiều tên tuổi kỳ cựu lẫn sự bùng nổ của
+              các gương mặt trẻ. Bài viết này tổng hợp
+              <strong> top 10 gravure idol Nhật Bản nổi bật nhất 2024</strong>, dựa trên độ phủ sóng
+              tạp chí, doanh số photobook và mức độ tương tác trên mạng xã hội — dành cho những ai
+              đang tìm kiếm
+              <em> người mẫu áo tắm Nhật Bản</em> hay đơn giản là muốn khám phá thêm về{" "}
+              <em>gravure idol</em>.
             </p>
           </header>
 
           <h2>Tiêu chí xếp hạng</h2>
           <p>
-            Bảng xếp hạng dưới đây không chỉ dựa vào nhan sắc mà còn xem xét các yếu tố: số lần xuất hiện trên tạp chí
-            lớn (Weekly Playboy, Young Magazine, Young Jump, FLASH, Friday), doanh thu photobook/DVD, lượt tìm kiếm trên
-            Google và mạng xã hội Nhật Bản, cũng như sức ảnh hưởng đến cộng đồng fan gravure quốc tế.
+            Bảng xếp hạng dưới đây không chỉ dựa vào nhan sắc mà còn xem xét các yếu tố: số lần xuất
+            hiện trên tạp chí lớn (Weekly Playboy, Young Magazine, Young Jump, FLASH, Friday), doanh
+            thu photobook/DVD, lượt tìm kiếm trên Google và mạng xã hội Nhật Bản, cũng như sức ảnh
+            hưởng đến cộng đồng fan gravure quốc tế.
           </p>
 
           {IDOLS.map((idol) => (
@@ -233,31 +248,77 @@ function Page() {
           <h2>Tại sao bảng xếp hạng này quan trọng với người xem Việt Nam?</h2>
           <p>
             Cộng đồng yêu thích gravure tại Việt Nam ngày càng lớn. Nhiều người tìm kiếm từ khoá như
-            <em> gravure idol là gì</em>, <em>người mẫu áo tắm Nhật Bản</em>, hay <em>top gravure idol</em> để khám phá
-            những gương mặt mới. Bảng xếp hạng trên giúp bạn nhanh chóng nắm bắt xu hướng gravure 2024 và tìm được
-            người mẫu phù hợp với gu thẩm mỹ của mình.
+            <em> gravure idol là gì</em>, <em>người mẫu áo tắm Nhật Bản</em>, hay{" "}
+            <em>top gravure idol</em> để khám phá những gương mặt mới. Bảng xếp hạng trên giúp bạn
+            nhanh chóng nắm bắt xu hướng gravure 2024 và tìm được người mẫu phù hợp với gu thẩm mỹ
+            của mình.
           </p>
 
           <h2>Câu hỏi thường gặp</h2>
           <h3>Top gravure idol 2024 có thay đổi nhiều so với 2023 không?</h3>
           <p>
-            Có. Năm 2024 đánh dấu sự trở lại của Ogura Yuka và sự vươn lên của các gương mặt trẻ như Teramoto Rio và
-            Sekine Yuna, trong khi các tên tuổi kỳ cựu như Nagasawa Marina và Tomaru Sayaka vẫn giữ vững phong độ.
+            Có. Năm 2024 đánh dấu sự trở lại của Ogura Yuka và sự vươn lên của các gương mặt trẻ như
+            Teramoto Rio và Sekine Yuna, trong khi các tên tuổi kỳ cựu như Nagasawa Marina và Tomaru
+            Sayaka vẫn giữ vững phong độ.
           </p>
 
           <h3>Làm sao để xem ảnh gravure chất lượng cao?</h3>
           <p>
             Bạn có thể khám phá album cuộn dọc miễn phí tại{" "}
-            <Link to="/" className="text-primary hover:underline">GravureHub</Link>, hoặc tìm đọc thêm bài giải thích{" "}
-            <Link to="/blog/gravure-idol-la-gi" className="text-primary hover:underline">gravure idol là gì</Link> để
-            hiểu rõ hơn về thể loại này.
+            <Link to="/" className="text-primary hover:underline">
+              GravureHub
+            </Link>
+            , hoặc tìm đọc thêm bài giải thích{" "}
+            <Link to="/blog/gravure-idol-la-gi" className="text-primary hover:underline">
+              gravure idol là gì
+            </Link>{" "}
+            để hiểu rõ hơn về thể loại này.
           </p>
 
-          <hr />
-          <p className="text-sm text-muted-foreground">
-            Bài viết được biên soạn bởi đội ngũ {SITE_NAME} nhằm cung cấp thông tin tham khảo về các gravure idol nổi
-            bật tại Nhật Bản. Xếp hạng mang tính chủ quan dựa trên dữ liệu công khai và có thể thay đổi theo thời gian.
-          </p>
+          {/* Author Bio Box (Task 13) */}
+          <div className="not-prose mt-10 flex items-center gap-4 rounded-2xl border border-border bg-card/60 p-5 backdrop-blur">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-brand text-sm font-bold text-primary-foreground">
+              GH
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-foreground">GravureHub Editorial Team</h4>
+              <p className="text-xs text-muted-foreground">
+                Curating free, high-definition vertical-scroll gravure photo sets and model profiles
+                since 2024.
+              </p>
+            </div>
+          </div>
+
+          {/* Related Articles & Internal Links (Task 13 & 14) */}
+          <div className="not-prose mt-8 border-t border-border pt-6">
+            <h3 className="text-base font-semibold text-foreground">
+              Related Articles &amp; Collections
+            </h3>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <Link
+                to="/blog/gravure-idol-la-gi"
+                className="group flex flex-col gap-1 rounded-xl border border-border bg-card/40 p-4 transition hover:border-primary/60 hover:bg-card"
+              >
+                <span className="text-xs font-semibold text-primary group-hover:underline">
+                  Gravure idol là gì? →
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  Định nghĩa, lịch sử và sự khác biệt giữa gravure idol và idol thông thường.
+                </span>
+              </Link>
+              <Link
+                to="/featured"
+                className="group flex flex-col gap-1 rounded-xl border border-border bg-card/40 p-4 transition hover:border-primary/60 hover:bg-card"
+              >
+                <span className="text-xs font-semibold text-primary group-hover:underline">
+                  Featured Albums Collection →
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  Khám phá các bộ ảnh gravure chọn lọc mới nhất trên hệ thống.
+                </span>
+              </Link>
+            </div>
+          </div>
         </article>
       </main>
       <SiteFooter />

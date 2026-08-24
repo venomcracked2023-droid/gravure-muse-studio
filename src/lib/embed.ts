@@ -17,7 +17,9 @@ export function parseEmbed(input: string): EmbedInfo | null {
   try {
     const u = new URL(s);
     if (VIDEO_EXT_RE.test(u.pathname)) return { kind: "video", url: s };
-  } catch { /* not a URL */ }
+  } catch {
+    /* not a URL */
+  }
   const iframe = toEmbedUrl(s);
   return iframe ? { kind: "iframe", url: iframe } : null;
 }
