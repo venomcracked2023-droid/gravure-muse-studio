@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Heart, Star } from "lucide-react";
 import gravureLogo from "@/assets/gravure-logo.png";
-import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { SITE_NAME } from "@/lib/seo";
 import { useComics } from "@/lib/comics-store";
 import { useI18n } from "@/lib/i18n/context";
 import { buildSlugId } from "@/lib/slug";
@@ -42,49 +42,49 @@ export function SiteFooter() {
             </h3>
             <ul className="mt-3 space-y-2 text-sm">
               <li>
-                <Link to="/" className="text-muted-foreground hover:text-primary">
+                <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">
                   {t("footer.home")}
                 </Link>
               </li>
               <li>
-                <Link to="/featured" className="text-muted-foreground hover:text-primary">
+                <Link to="/featured" className="text-muted-foreground hover:text-primary transition-colors">
                   {t("footer.featured")}
                 </Link>
               </li>
               <li>
-                <Link to="/latest" className="text-muted-foreground hover:text-primary">
+                <Link to="/latest" className="text-muted-foreground hover:text-primary transition-colors">
                   {t("footer.latest")}
                 </Link>
               </li>
               <li>
                 <TelegramLink
-                  className="text-muted-foreground hover:text-[#29A9EA]"
+                  className="text-muted-foreground hover:text-[#29A9EA] transition-colors"
                   label={t("footer.telegram") ?? "Telegram group"}
                 />
               </li>
               <li>
                 <Link
                   to="/blog/gravure-idol-la-gi"
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Gravure idol là gì?
+                  {t("footer.blogPost1")}
                 </Link>
               </li>
               <li>
                 <Link
                   to="/blog/top-10-gravure-idols-2024"
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Top 10 gravure idol 2024
+                  {t("footer.blogPost2")}
                 </Link>
               </li>
             </ul>
           </nav>
 
           {topModels.length > 0 && (
-            <nav aria-label="Top Models">
+            <nav aria-label={t("footer.topModels")}>
               <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
-                Top Models
+                {t("footer.topModels")}
               </h3>
               <ul className="mt-3 space-y-2 text-sm">
                 {topModels.map((c) => (
@@ -113,7 +113,7 @@ export function SiteFooter() {
                     <Link
                       to="/genre/$slug"
                       params={{ slug: g.toLowerCase() }}
-                      className="text-muted-foreground hover:text-primary"
+                      className="text-muted-foreground hover:text-primary transition-colors"
                     >
                       {g}
                     </Link>
@@ -129,7 +129,7 @@ export function SiteFooter() {
             © <time dateTime={String(year)}>{year}</time> {SITE_NAME}. {t("footer.rights")}
           </p>
           <p className="inline-flex items-center gap-1.5">
-            Made with <Heart className="h-3.5 w-3.5 fill-primary text-primary" /> by team{" "}
+            {t("footer.madeWith")} <Heart className="h-3.5 w-3.5 fill-primary text-primary" /> {t("footer.byTeam")}{" "}
             <span className="inline-flex items-center gap-1 font-medium text-foreground">
               <Star className="h-3 w-3 fill-primary text-primary" /> {SITE_NAME}
             </span>

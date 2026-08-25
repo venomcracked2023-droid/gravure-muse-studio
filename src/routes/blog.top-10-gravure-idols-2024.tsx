@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 
 const PATH = "/blog/top-10-gravure-idols-2024";
@@ -321,7 +320,6 @@ function Page() {
           </div>
         </article>
       </main>
-      <SiteFooter />
     </div>
   );
 }

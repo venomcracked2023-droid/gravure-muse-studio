@@ -20,6 +20,7 @@ import { parseEmbed } from "@/lib/embed";
 import { buildSlugId, extractId, isUUID, slugifyGenre } from "@/lib/slug";
 import { PremiumGate } from "@/components/PremiumGate";
 import { trackAlbumOpen } from "@/lib/analytics";
+import { useI18n } from "@/lib/i18n/context";
 
 export const Route = createFileRoute("/read/$comicId/$chapterId")({
   component: Reader,
@@ -230,6 +231,7 @@ function Reader() {
   const navigate = useNavigate();
   const comics = useComics();
   const loaded = useComicsLoaded();
+  const { t } = useI18n();
 
   const realComicId = loaderData?.comicId || extractId(comicId);
   const realChapterId = loaderData?.chapterId || extractId(chapterId);
@@ -332,17 +334,17 @@ function Reader() {
           params={{ comicId: buildSlugId(comic.title, comic.id) }}
           className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-semibold text-foreground backdrop-blur transition hover:border-primary hover:text-primary"
         >
-          <ArrowLeft className="h-3.5 w-3.5" /> Back to {comic.title} profile
+          <ArrowLeft className="h-3.5 w-3.5" /> {t("reader.backToProfile").replace("{name}", comic.title)}
         </Link>
         <Link to="/" className="text-xs text-muted-foreground hover:text-primary transition-colors">
-          Explore all models →
+          {t("reader.exploreAll")}
         </Link>
       </div>
 
       {otherChapters.length > 0 && (
         <section className="mt-8">
           <h3 className="text-sm font-semibold tracking-tight text-foreground">
-            Other albums by {comic.title}
+            {t("reader.otherAlbums").replace("{name}", comic.title)}
           </h3>
           <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {otherChapters.map((ch) => {
@@ -372,7 +374,7 @@ function Reader() {
                     {ch.title}
                   </span>
                   <span className="text-[10px] text-muted-foreground">
-                    {ch.pages.length} photos
+                    {ch.pages.length} {t("reader.photos")}
                   </span>
                 </Link>
               );
@@ -383,7 +385,7 @@ function Reader() {
 
       {featuredOthers.length > 0 && (
         <section className="mt-8">
-          <h3 className="text-sm font-semibold tracking-tight text-foreground">Featured Models</h3>
+          <h3 className="text-sm font-semibold tracking-tight text-foreground">{t("reader.featuredModels")}</h3>
           <div className="mt-3 grid grid-cols-3 gap-3">
             {featuredOthers.map((om) => (
               <Link
@@ -406,7 +408,7 @@ function Reader() {
                   {om.title}
                 </span>
                 <span className="text-[10px] text-muted-foreground">
-                  {om.chapters.length} albums
+                  {om.chapters.length} {t("card.albums")}
                 </span>
               </Link>
             ))}
@@ -571,7 +573,7 @@ function Reader() {
           <VideoEmbed />
           {!embed && (
             <div className="p-10 text-center text-muted-foreground">
-              Album này chưa có nội dung.
+              {t("reader.emptyAlbum")}
             </div>
           )}
           <Footer />
