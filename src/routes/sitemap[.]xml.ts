@@ -49,6 +49,11 @@ export const Route = createFileRoute("/sitemap.xml")({
           `<url><loc>${origin}/</loc><lastmod>${now}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`,
           `<url><loc>${origin}/featured</loc><lastmod>${now}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>`,
           `<url><loc>${origin}/latest</loc><lastmod>${now}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>`,
+          `<url><loc>${origin}/pricing</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>`,
+          `<url><loc>${origin}/about</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`,
+          `<url><loc>${origin}/terms</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>`,
+          `<url><loc>${origin}/privacy</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>`,
+          `<url><loc>${origin}/contact</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`,
           `<url><loc>${origin}/blog/gravure-idol-la-gi</loc><lastmod>2026-06-09T00:00:00.000Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`,
           `<url><loc>${origin}/blog/top-10-gravure-idols-2024</loc><lastmod>2026-06-22T00:00:00.000Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`,
         ];

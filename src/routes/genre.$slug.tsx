@@ -24,7 +24,11 @@ export const Route = createFileRoute("/genre/$slug")({
       },
       { property: "og:url", content: `${SITE_URL}/genre/${params.slug}` },
     ],
-    links: [{ rel: "canonical", href: `${SITE_URL}/genre/${params.slug}` }],
+    links: [
+      { rel: "canonical", href: `${SITE_URL}/genre/${params.slug}` },
+      { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/genre/${params.slug}` },
+      { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/genre/${params.slug}` },
+    ],
   }),
 });
 

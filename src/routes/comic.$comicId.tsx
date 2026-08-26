@@ -151,6 +151,8 @@ export const Route = createFileRoute("/comic/$comicId")({
       ],
       links: [
         { rel: "canonical", href: url },
+        { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "x-default", href: url },
         ...(m.cover_id
           ? [{ rel: "preload", as: "image", href: driveImageUrl(m.cover_id, 600) }]
           : []),

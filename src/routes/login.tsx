@@ -18,12 +18,16 @@ export const Route = createFileRoute("/login")({
       meta: [
         { title },
         { name: "description", content: desc },
-        { name: "robots", content: "noindex,follow" },
+        { name: "robots", content: "index,follow" },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:url", content: url },
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [
+        { rel: "canonical", href: url },
+        { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "x-default", href: url },
+      ],
     };
   },
 });

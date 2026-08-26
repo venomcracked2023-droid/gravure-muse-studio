@@ -34,6 +34,9 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">{t("footer.tagline")}</p>
+            <p className="mt-2 max-w-sm text-xs leading-relaxed text-muted-foreground/80">
+              <span className="font-semibold text-foreground/80">duahaumanga.com</span> is the official home of GravureHub.
+            </p>
           </div>
 
           <nav aria-label={t("footer.explore")}>
@@ -57,10 +60,43 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link to="/pricing" className="text-muted-foreground hover:text-primary transition-colors">
+                  Pricing & VIP
+                </Link>
+              </li>
+              <li>
                 <TelegramLink
                   className="text-muted-foreground hover:text-[#29A9EA] transition-colors"
                   label={t("footer.telegram") ?? "Telegram group"}
                 />
+              </li>
+            </ul>
+          </nav>
+
+          <nav aria-label="About & Legal">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
+              About & Legal
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm">
+              <li>
+                <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
+                  About GravureHub
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="text-muted-foreground hover:text-primary transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+                  Contact Support
+                </Link>
               </li>
               <li>
                 <Link
@@ -81,34 +117,32 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          {topModels.length > 0 && (
-            <nav aria-label={t("footer.topModels")}>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
-                {t("footer.topModels")}
-              </h3>
-              <ul className="mt-3 space-y-2 text-sm">
-                {topModels.map((c) => (
-                  <li key={c.id}>
-                    <Link
-                      to="/comic/$comicId"
-                      params={{ comicId: buildSlugId(c.title, c.id) }}
-                      className="line-clamp-1 text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      {c.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
-
-          {genres.length > 0 && (
+          {genres.length > 0 ? (
             <nav aria-label={t("footer.genres")}>
               <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
                 {t("footer.genres")}
               </h3>
               <ul className="mt-3 space-y-2 text-sm">
                 {genres.map((g) => (
+                  <li key={g}>
+                    <Link
+                      to="/genre/$slug"
+                      params={{ slug: g.toLowerCase() }}
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      {g}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ) : (
+            <nav aria-label="Quick Categories">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
+                Categories
+              </h3>
+              <ul className="mt-3 space-y-2 text-sm">
+                {["Japanese", "Korean", "Vietnamese", "Bikini", "Cosplay"].map((g) => (
                   <li key={g}>
                     <Link
                       to="/genre/$slug"

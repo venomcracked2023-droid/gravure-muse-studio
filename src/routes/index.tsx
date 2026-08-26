@@ -41,7 +41,11 @@ export const Route = createFileRoute("/")({
         { name: "twitter:description", content: desc },
         { name: "twitter:image", content: img },
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [
+        { rel: "canonical", href: url },
+        { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "x-default", href: url },
+      ],
     };
   },
 });
@@ -212,8 +216,38 @@ function Index() {
               </Link>
             </div>
           ) : filtered.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border bg-card/40 p-12 text-center text-muted-foreground">
-              {t("empty.noResults")} "{q}".
+            <div className="rounded-3xl border border-dashed border-border bg-card/60 p-10 text-center backdrop-blur">
+              <Sparkles className="mx-auto h-8 w-8 text-primary/80 animate-pulse-glow" />
+              <h3 className="mt-3 text-lg font-bold text-foreground">
+                {term ? `${t("empty.noResults")} "${q}"` : "Thư viện đang cập nhật album mới"}
+              </h3>
+              <p className="mx-auto mt-2 max-w-md text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                {term
+                  ? "Vui lòng thử tìm kiếm với từ khoá khác hoặc xem các thể loại gợi ý."
+                  : "Các bộ ảnh chất lượng cao đang được tuyển chọn và tải lên hàng ngày. Tham gia cộng đồng Telegram để nhận thông báo sớm nhất!"}
+              </p>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href="https://t.me/+8xnMvFtjulkyNzE1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#29A9EA] px-5 py-2 text-xs font-semibold text-white shadow-md shadow-[#29A9EA]/30 transition hover:scale-105"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                    <path d="M21.6 4.8c-.5-.4-1.1-.4-1.6-.2L2.8 11.3c-.9.3-1.1 1.1-.5 1.6l3.4 2.6 2.3 7.1c.2.6.8.9 1.4.5l3-2.3 3.8 3.1c.6.5 1.5.3 1.8-.5l4.5-13.2c.3-.9-.2-1.5-1.1-1.8-.1-.1-.2-.1-.3-.1-.2-.1-.3-.2-.5-.3zM9.8 17.2l.6-4.1 6.5-5.8-8.5 7.5 1.4 2.4z" />
+                  </svg>
+                  Tham gia Telegram GravureHub
+                </a>
+                {term && (
+                  <Link
+                    to="/"
+                    search={{}}
+                    className="inline-flex items-center rounded-full border border-border bg-background/50 px-4 py-2 text-xs font-medium text-foreground hover:bg-secondary"
+                  >
+                    Xem tất cả người mẫu
+                  </Link>
+                )}
+              </div>
             </div>
           ) : (
             <>

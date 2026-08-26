@@ -26,7 +26,11 @@ export const Route = createFileRoute("/latest")({
       },
       { property: "og:url", content: `${SITE_URL}/latest` },
     ],
-    links: [{ rel: "canonical", href: `${SITE_URL}/latest` }],
+    links: [
+      { rel: "canonical", href: `${SITE_URL}/latest` },
+      { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/latest` },
+      { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/latest` },
+    ],
   }),
 });
 
