@@ -74,6 +74,19 @@ export const Route = createFileRoute("/sitemap.xml")({
           }
         }
 
+        const genres = Array.from(
+          new Set(
+            (comics ?? [])
+              .flatMap((c) => (c.genres ?? []).map((g: string) => g.trim().toLowerCase()))
+              .filter(Boolean),
+          ),
+        );
+        for (const g of genres) {
+          urls.push(
+            `<url><loc>${origin}/genre/${encodeURIComponent(g)}</loc><lastmod>${now}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>`,
+          );
+        }
+
         const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>`;
         return new Response(xml, {
           headers: {
