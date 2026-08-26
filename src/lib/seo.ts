@@ -6,9 +6,9 @@ export const SOCIAL_LINKS: string[] = [TELEGRAM_GROUP_URL];
 export const DEFAULT_CTA_URL = "https://omg10.com/4/6070118";
 
 export function getModelCountry(model: {
-  author?: string;
-  genres?: string[];
-  description?: string;
+  author?: string | null;
+  genres?: string[] | null;
+  description?: string | null;
 }): string {
   const text =
     `${model.author || ""} ${(model.genres || []).join(" ")} ${model.description || ""}`.toLowerCase();
@@ -45,7 +45,7 @@ export function getModelCountry(model: {
   return "Asia";
 }
 
-export function getModelStyle(model: { genres?: string[]; description?: string }): string {
+export function getModelStyle(model: { genres?: string[] | null; description?: string | null }): string {
   const genres = model.genres || [];
   if (genres.length > 0) {
     return genres.slice(0, 3).join(", ");
@@ -57,7 +57,7 @@ export function getModelStyle(model: { genres?: string[]; description?: string }
  * Concise SEO meta description under 160 characters (Task 4)
  */
 export function generateModelMetaDescription(
-  model: { title: string; author?: string; genres?: string[] },
+  model: { title: string; author?: string | null; genres?: string[] | null },
   albumCount: number,
 ): string {
   const count = albumCount || 1;
@@ -69,7 +69,7 @@ export function generateModelMetaDescription(
  * Rich, unique model description (80-150 words) for server-rendered page content (Task 5)
  */
 export function generateModelDescription(
-  model: { title: string; author?: string; genres?: string[]; description?: string },
+  model: { title: string; author?: string | null; genres?: string[] | null; description?: string | null },
   albumCount: number,
 ): string {
   const country = getModelCountry(model);

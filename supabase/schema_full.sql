@@ -31,6 +31,12 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
+-- Ensure all columns exist even if table was pre-created
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS display_name text;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS avatar_url text;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS email text;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now();
+
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
 DO $$ BEGIN
@@ -199,6 +205,9 @@ CREATE TABLE IF NOT EXISTS public.comics (
 );
 
 CREATE INDEX IF NOT EXISTS idx_comics_featured ON public.comics (featured) WHERE featured = true;
+ALTER TABLE public.comics ADD COLUMN IF NOT EXISTS booking_url text;
+ALTER TABLE public.comics ADD COLUMN IF NOT EXISTS order_url text;
+ALTER TABLE public.comics ADD COLUMN IF NOT EXISTS featured boolean NOT NULL DEFAULT false;
 ALTER TABLE public.comics ENABLE ROW LEVEL SECURITY;
 
 DO $$ BEGIN
@@ -236,6 +245,10 @@ CREATE TABLE IF NOT EXISTS public.chapters (
 );
 
 CREATE INDEX IF NOT EXISTS idx_chapters_comic_order ON public.chapters(comic_id, order_index);
+ALTER TABLE public.chapters ADD COLUMN IF NOT EXISTS cover_id text NOT NULL DEFAULT '';
+ALTER TABLE public.chapters ADD COLUMN IF NOT EXISTS video_url text NOT NULL DEFAULT '';
+ALTER TABLE public.chapters ADD COLUMN IF NOT EXISTS is_premium boolean NOT NULL DEFAULT false;
+ALTER TABLE public.chapters ADD COLUMN IF NOT EXISTS price_usdt numeric(10,2) NOT NULL DEFAULT 2.00;
 ALTER TABLE public.chapters ENABLE ROW LEVEL SECURITY;
 
 DO $$ BEGIN

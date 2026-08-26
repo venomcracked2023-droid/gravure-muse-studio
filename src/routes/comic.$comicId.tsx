@@ -33,7 +33,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { buildSlugId, extractId, isUUID, slugifyGenre } from "@/lib/slug";
 import { renderMarkdown } from "@/lib/markdown";
 import { useAuth } from "@/lib/auth";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { trackModelView } from "@/lib/analytics";
@@ -235,6 +235,18 @@ function ComicPage() {
       );
     throw notFound();
   }
+
+  const relatedModels = useMemo(() => {
+    if (!comic) return [];
+    const others = comics.filter((c) => c.id !== comic.id);
+    const genreSet = new Set(comic.genres);
+    const scored = others.map((c) => {
+      const common = (c.genres || []).filter((g) => genreSet.has(g)).length;
+      return { comic: c, score: common };
+    });
+    scored.sort((a, b) => b.score - a.score || b.comic.createdAt - a.comic.createdAt);
+    return scored.slice(0, 4).map((s) => s.comic);
+  }, [comics, comic]);
 
   const uniqueDescription = generateModelDescription(comic, comic.chapters.length);
 

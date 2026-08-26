@@ -36,11 +36,11 @@ export const Route = createFileRoute("/sitemap.xml")({
         if (comicIds.length) {
           const { data: chapters } = await supabase
             .from("chapters")
-            .select("id,title,updated_at,created_at,comic_id")
+            .select("id,title,created_at,comic_id")
             .in("comic_id", comicIds)
             .order("order_index", { ascending: true });
 
-          for (const ch of chapters ?? []) {
+          for (const ch of (chapters ?? []) as Array<{ id: string; title: string; created_at: string; comic_id: string }>) {
             (chaptersByComic[ch.comic_id] ||= []).push(ch);
           }
         }
