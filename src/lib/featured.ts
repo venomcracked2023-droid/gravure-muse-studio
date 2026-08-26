@@ -13,8 +13,15 @@ function latestActivity(c: Comic): number {
  * Admin no longer hand-picks — the newest content always shows up here.
  */
 export function getAutoFeatured(comics: Comic[], limit = 12): Comic[] {
-  return [...comics]
-    .filter((c) => c.chapters.length > 0 || c.coverId)
+  const seen = new Set<string>();
+  const list: Comic[] = [];
+  for (const c of comics) {
+    if (!seen.has(c.id) && (c.chapters.length > 0 || c.coverId)) {
+      seen.add(c.id);
+      list.push(c);
+    }
+  }
+  return list
     .sort((a, b) => latestActivity(b) - latestActivity(a))
     .slice(0, limit);
 }
@@ -34,9 +41,13 @@ function albumThumbnail(a: FeaturedAlbum): string | undefined {
  */
 export function getLatestAlbums(comics: Comic[], limit = 12): FeaturedAlbum[] {
   const albums: FeaturedAlbum[] = [];
+  const seenChapterIds = new Set<string>();
   for (const comic of comics) {
     for (const chapter of comic.chapters) {
-      albums.push({ comic, chapter });
+      if (!seenChapterIds.has(chapter.id)) {
+        seenChapterIds.add(chapter.id);
+        albums.push({ comic, chapter });
+      }
     }
   }
   return albums

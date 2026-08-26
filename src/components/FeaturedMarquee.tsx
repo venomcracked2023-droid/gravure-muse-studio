@@ -10,7 +10,47 @@ type Props = { items: FeaturedAlbum[]; speedSec?: number };
 export function FeaturedMarquee({ items, speedSec = 40 }: Props) {
   const { t } = useI18n();
   if (items.length === 0) return null;
-  // duplicate the list so the translateX(-50%) loop is seamless
+
+  // If there are few items (less than 5), render a clean grid/row without looping duplication
+  if (items.length < 5) {
+    return (
+      <div className="flex flex-wrap gap-4 py-2" aria-label={t("section.featured")}>
+        {items.map((a) => (
+          <div key={a.chapter.id} className="w-[160px] shrink-0 sm:w-[180px] md:w-[200px]">
+            <Link
+              to="/read/$comicId/$chapterId"
+              params={{
+                comicId: buildSlugId(a.comic.title, a.comic.id),
+                chapterId: buildSlugId(a.chapter.title, a.chapter.id),
+              }}
+              className="group flex flex-col gap-2"
+            >
+              <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-primary/40 bg-card shadow-lg">
+                <ComicCover
+                  id={a.chapter.coverId || a.chapter.pages[0] || a.comic.coverId}
+                  title={a.chapter.title}
+                  className="transition duration-500 group-hover:scale-110"
+                />
+                <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-primary/90 px-2 py-0.5 text-[10px] font-semibold text-primary-foreground">
+                  <Star className="h-3 w-3 fill-current" /> {t("section.featured")}
+                </span>
+              </div>
+              <div>
+                <h3 className="line-clamp-1 text-sm font-semibold group-hover:text-primary">
+                  {a.chapter.title}
+                </h3>
+                <p className="line-clamp-1 text-xs text-muted-foreground">
+                  {a.comic.title} · {a.comic.chapters.length} {t("card.albums")}
+                </p>
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // Duplicate for seamless infinite loop when there are 5+ items
   const loop = [...items, ...items];
   return (
     <div

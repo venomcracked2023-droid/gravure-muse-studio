@@ -7,7 +7,6 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { driveImageUrl } from "@/lib/drive";
 import { buildSlugId } from "@/lib/slug";
 import { getLatestAlbums } from "@/lib/featured";
-import { FeaturedMarquee } from "@/components/FeaturedMarquee";
 
 export const Route = createFileRoute("/featured")({
   component: FeaturedPage,
@@ -106,12 +105,8 @@ function FeaturedPage() {
             </Link>
           </div>
         ) : (
-          <>
-            <div className="mb-10">
-              <FeaturedMarquee items={featured.slice(0, 12)} />
-            </div>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {featured.map((a) => (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {featured.map((a) => (
                 <Link
                   key={a.chapter.id}
                   to="/read/$comicId/$chapterId"
@@ -139,7 +134,6 @@ function FeaturedPage() {
                 </Link>
               ))}
             </div>
-          </>
         )}
       </main>
     </div>
