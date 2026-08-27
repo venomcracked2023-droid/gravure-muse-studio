@@ -24,8 +24,32 @@ export const Route = createFileRoute("/contact")({
       ],
       links: [
         { rel: "canonical", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: "Liên hệ", item: url },
+            ],
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            name: title,
+            description: desc,
+            url,
+          }),
+        },
       ],
     };
   },

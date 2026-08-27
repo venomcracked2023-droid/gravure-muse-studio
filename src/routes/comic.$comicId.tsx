@@ -133,24 +133,45 @@ export const Route = createFileRoute("/comic/$comicId")({
     const url = `${SITE_URL}/comic/${slug}`;
     const country = getModelCountry(m);
 
+    const chapters = loaderData?.comic?.chapters ?? [];
+    const ldItemList = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `Albums by ${m.title}`,
+      url,
+      numberOfItems: chapters.length,
+      itemListElement: chapters.map((ch, idx) => {
+        const chSlug = buildSlugId(ch.title, ch.id);
+        const chThumb = ch.coverId || (ch.pages[0] ? (extractDriveId(ch.pages[0]) ?? ch.pages[0]) : "");
+        return {
+          "@type": "ListItem",
+          position: idx + 1,
+          name: `${ch.title} — ${m.title}`,
+          url: `${SITE_URL}/read/${slug}/${chSlug}`,
+          image: chThumb ? driveImageUrl(chThumb, 600) : img,
+        };
+      }),
+    };
+
     return {
       meta: [
         { title },
         { name: "description", content: desc },
-        { property: "og:title", content: `${m.title} — Gravure Albums` },
-        { property: "og:description", content: `Free gravure photo albums by ${m.title}` },
+        { property: "og:title", content: `${m.title} — Gravure Albums | duahaumanga.com` },
+        { property: "og:description", content: `Khám phá các bộ ảnh gravure cuộn dọc miễn phí của ${m.title} trên GravureHub.` },
         { property: "og:image", content: img },
         { property: "og:image:width", content: "1200" },
         { property: "og:image:height", content: "630" },
         { property: "og:url", content: url },
-        { property: "og:type", content: "website" },
+        { property: "og:type", content: "profile" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: `${m.title} — Gravure Albums` },
-        { name: "twitter:description", content: `Free gravure photo albums by ${m.title}` },
+        { name: "twitter:description", content: `Khám phá các bộ ảnh gravure cuộn dọc miễn phí của ${m.title} trên GravureHub.` },
         { name: "twitter:image", content: img },
       ],
       links: [
         { rel: "canonical", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
         ...(m.cover_id
@@ -164,8 +185,8 @@ export const Route = createFileRoute("/comic/$comicId")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-              { "@type": "ListItem", position: 2, name: "Models", item: `${SITE_URL}/#library` },
+              { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: "Thư viện Người mẫu", item: `${SITE_URL}/#library` },
               { "@type": "ListItem", position: 3, name: m.title, item: url },
             ],
           }),
@@ -186,6 +207,10 @@ export const Route = createFileRoute("/comic/$comicId")({
               ...(m.author ? { alternateName: m.author } : {}),
             },
           }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(ldItemList),
         },
       ],
     };

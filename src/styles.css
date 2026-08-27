@@ -280,8 +280,12 @@
   will-change: transform;
 }
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee-x {
-    animation: none;
+  .animate-marquee-x,
+  .animate-fade-in-up,
+  .animate-float-slow,
+  .animate-pulse-glow {
+    animation: none !important;
+    transition: none !important;
   }
 }
 
@@ -289,6 +293,19 @@
 .image-container,
 .aspect-portrait {
   aspect-ratio: 3 / 4;
+}
+
+/* Rendering performance optimization for large card lists */
+.card-grid-item {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 340px;
+}
+
+/* Hardware accelerated backdrop blur */
+.backdrop-blur,
+.backdrop-blur-xl {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Mobile optimization & overflow constraints */

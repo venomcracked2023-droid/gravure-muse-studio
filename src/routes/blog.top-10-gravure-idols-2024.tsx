@@ -141,6 +141,7 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
     links: [
       { rel: "canonical", href: URL },
       { rel: "alternate", hrefLang: "vi", href: URL },
+      { rel: "alternate", hrefLang: "en", href: URL },
       { rel: "alternate", hrefLang: "x-default", href: URL },
     ],
     scripts: [
@@ -148,9 +149,22 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog/top-10-gravure-idols-2024` },
+            { "@type": "ListItem", position: 3, name: TITLE, item: URL },
+          ],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
           "@type": "Article",
           headline: TITLE,
           description: DESC,
+          image: `${SITE_URL}/og-default.jpg`,
           datePublished: PUBLISHED,
           dateModified: PUBLISHED,
           inLanguage: "vi-VN",

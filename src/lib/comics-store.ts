@@ -36,61 +36,76 @@ function emit() {
   listeners.forEach((l) => l());
 }
 
-async function fetchAll(): Promise<void> {
-  const { data: comics, error } = await supabase
-    .from("comics")
-    .select("*")
-    .order("created_at", { ascending: false });
-  if (error) {
-    console.error(error);
-    return;
-  }
-  const ids = (comics ?? []).map((c) => c.id);
-  const chaptersByComic: Record<string, Chapter[]> = {};
-  if (ids.length) {
-    const { data: chapters, error: chErr } = await supabase
-      .from("chapters")
+export async function fetchComicsData(): Promise<Comic[]> {
+  try {
+    const { data: comics, error } = await supabase
+      .from("comics")
       .select("*")
-      .in("comic_id", ids)
-      .order("order_index", { ascending: true });
-    if (chErr) console.error(chErr);
-    for (const ch of chapters ?? []) {
-      (chaptersByComic[ch.comic_id] ||= []).push({
-        id: ch.id,
-        title: ch.title,
-        pages: ch.pages ?? [],
-        createdAt: new Date(ch.created_at).getTime(),
-        coverId: (ch as any).cover_id ?? "",
-        videoUrl: (ch as any).video_url ?? "",
-        isPremium: (ch as any).is_premium ?? false,
-        priceUsdt: Number((ch as any).price_usdt ?? 2),
-      });
+      .order("created_at", { ascending: false });
+    if (error) {
+      console.error("fetchComicsData comics error:", error);
+      return cache;
     }
+    const ids = (comics ?? []).map((c) => c.id);
+    const chaptersByComic: Record<string, Chapter[]> = {};
+    if (ids.length) {
+      const { data: chapters, error: chErr } = await supabase
+        .from("chapters")
+        .select("*")
+        .in("comic_id", ids)
+        .order("order_index", { ascending: true });
+      if (chErr) console.error("fetchComicsData chapters error:", chErr);
+      for (const ch of chapters ?? []) {
+        (chaptersByComic[ch.comic_id] ||= []).push({
+          id: ch.id,
+          title: ch.title,
+          pages: ch.pages ?? [],
+          createdAt: new Date(ch.created_at).getTime(),
+          coverId: (ch as any).cover_id ?? "",
+          videoUrl: (ch as any).video_url ?? "",
+          isPremium: (ch as any).is_premium ?? false,
+          priceUsdt: Number((ch as any).price_usdt ?? 2),
+        });
+      }
+    }
+    const result: Comic[] = (comics ?? []).map((c) => ({
+      id: c.id,
+      title: c.title,
+      author: c.author ?? "",
+      description: c.description ?? "",
+      coverId: c.cover_id ?? "",
+      genres: c.genres ?? [],
+      chapters: chaptersByComic[c.id] ?? [],
+      createdAt: new Date(c.created_at).getTime(),
+      createdBy: c.created_by,
+      featured: (c as any).featured ?? false,
+      bookingUrl: (c as any).booking_url ?? "",
+      orderUrl: (c as any).order_url ?? "",
+    }));
+    cache = result;
+    loaded = true;
+    emit();
+    return result;
+  } catch (err) {
+    console.error("fetchComicsData uncaught error:", err);
+    return cache;
   }
-  cache = (comics ?? []).map((c) => ({
-    id: c.id,
-    title: c.title,
-    author: c.author ?? "",
-    description: c.description ?? "",
-    coverId: c.cover_id ?? "",
-    genres: c.genres ?? [],
-    chapters: chaptersByComic[c.id] ?? [],
-    createdAt: new Date(c.created_at).getTime(),
-    createdBy: c.created_by,
-    featured: (c as any).featured ?? false,
-    bookingUrl: (c as any).booking_url ?? "",
-    orderUrl: (c as any).order_url ?? "",
-  }));
-  loaded = true;
-  emit();
 }
 
-export function loadComics(): Promise<void> {
-  if (loading) return loading;
-  loading = fetchAll().finally(() => {
+export function setComicsCache(comics: Comic[]) {
+  if (comics && comics.length > 0) {
+    cache = comics;
+    loaded = true;
+    emit();
+  }
+}
+
+export function loadComics(): Promise<Comic[]> {
+  if (loading) return loading as unknown as Promise<Comic[]>;
+  loading = fetchComicsData().finally(() => {
     loading = null;
-  });
-  return loading;
+  }) as unknown as Promise<void>;
+  return loading as unknown as Promise<Comic[]>;
 }
 
 export function getComics(): Comic[] {
@@ -158,7 +173,11 @@ export async function setFeatured(id: string, featured: boolean): Promise<void> 
   emit();
 }
 
-export function useComics(): Comic[] {
+export function useComics(initialComics?: Comic[]): Comic[] {
+  if (initialComics && initialComics.length > 0 && (!loaded || cache.length === 0)) {
+    cache = initialComics;
+    loaded = true;
+  }
   const [, setTick] = useState(0);
   useEffect(() => {
     const cb = () => setTick((n) => n + 1);
@@ -169,7 +188,7 @@ export function useComics(): Comic[] {
       listeners.delete(cb);
     };
   }, []);
-  return cache;
+  return (initialComics && initialComics.length > 0 && cache.length === 0) ? initialComics : cache;
 }
 
 export function useComicsLoaded(): boolean {

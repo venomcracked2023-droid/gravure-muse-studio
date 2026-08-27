@@ -1,11 +1,23 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ComicCover } from "@/components/ComicCover";
-import { useComics } from "@/lib/comics-store";
+import { useComics, fetchComicsData, type Comic } from "@/lib/comics-store";
 import { useI18n } from "@/lib/i18n/context";
-import { BookOpen, ChevronLeft, ChevronRight, Library, Sparkles, Star } from "lucide-react";
+import {
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  Compass,
+  FileText,
+  Flame,
+  Library,
+  Sparkles,
+  Star,
+  Tag,
+} from "lucide-react";
 import gravureLogo from "@/assets/gravure-logo.png";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_NAME, SITE_URL, SITE_BRAND_FULL } from "@/lib/seo";
 import { buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
 import { getLatestAlbums } from "@/lib/featured";
@@ -14,7 +26,10 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  loader: async () => {
+    const comics = await fetchComicsData();
+    return { comics };
+  },
   validateSearch: (s: Record<string, unknown>) => ({
     q: typeof s.q === "string" && s.q.trim() ? s.q.trim() : undefined,
     page:
@@ -23,9 +38,9 @@ export const Route = createFileRoute("/")({
         : undefined,
   }),
   head: () => {
-    const title = "GravureHub — Free gravure photo library";
+    const title = "GravureHub — Dưa Hấu Manga | Free gravure photo library";
     const desc =
-      "Discover the best gravure photo albums from Korean, Japanese and Vietnamese models. Free to browse, updated continuously.";
+      "Khám phá các bộ ảnh gravure cuộn dọc chuẩn HD từ người mẫu Hàn Quốc, Nhật Bản và Việt Nam trên GravureHub (duahaumanga.com). Miễn phí, cập nhật liên tục.";
     const url = `${SITE_URL}/`;
     const img = `${SITE_URL}/og-default.jpg`;
     return {
@@ -34,7 +49,7 @@ export const Route = createFileRoute("/")({
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
-        { property: "og:url", content: url },
+        { property: "og:url", url },
         { property: "og:type", content: "website" },
         { property: "og:image", content: img },
         { name: "twitter:title", content: title },
@@ -43,15 +58,18 @@ export const Route = createFileRoute("/")({
       ],
       links: [
         { rel: "canonical", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
       ],
     };
   },
+  component: Index,
 });
 
 function Index() {
-  const comics = useComics();
+  const loaderData = Route.useLoaderData();
+  const comics = useComics(loaderData?.comics);
   const { t } = useI18n();
   const { q, page: rawPage } = Route.useSearch();
   const navigate = useNavigate({ from: "/" });
@@ -67,10 +85,19 @@ function Index() {
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const featured = getLatestAlbums(comics, 12);
   const totalChapters = comics.reduce((s, c) => s + c.chapters.length, 0);
+  const ldBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Thư viện Người mẫu", item: `${SITE_URL}/#library` },
+    ],
+  };
+
   const ld = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "GravureHub library",
+    name: "GravureHub Library",
     url: `${SITE_URL}/`,
     numberOfItems: filtered.length,
     itemListElement: filtered.slice(0, 30).map((c, i) => ({
@@ -81,9 +108,11 @@ function Index() {
       image: c.coverId ? driveImageUrl(c.coverId, 600) : undefined,
     })),
   };
+
   return (
     <div className="min-h-screen">
       <SiteHeader />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldBreadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <main className="mx-auto max-w-6xl px-4 pb-20">
         <section className="relative mt-6 overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card via-secondary to-card px-6 py-9 sm:px-12 sm:py-12">
@@ -94,7 +123,7 @@ function Index() {
           />
           <img
             src={gravureLogo}
-            alt=""
+            alt="GravureHub Logo"
             aria-hidden
             width={112}
             height={112}
@@ -104,15 +133,15 @@ function Index() {
           />
           <div className="relative max-w-2xl animate-fade-in-up">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-primary" /> Gravure — endless vertical scroll
+              <Sparkles className="h-3.5 w-3.5 text-primary" /> duahaumanga.com — Thư viện ảnh gravure cuộn dọc
             </span>
             <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
               GravureHub —{" "}
-              <span className="text-gradient-brand">Free vertical-scroll gravure albums</span>
+              <span className="text-gradient-brand">Thư viện ảnh Gravure cuộn dọc</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-              Discover the best gravure photo albums from Korean, Japanese and Vietnamese models.
-              Free to browse, updated continuously.
+              Khám phá các bộ ảnh gravure và photobook nghệ thuật từ người mẫu Hàn Quốc, Nhật Bản và
+              Việt Nam. Trải nghiệm xem cuộn dọc mượt mà, tối ưu hoàn hảo trên di động và máy tính.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
@@ -126,6 +155,12 @@ function Index() {
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-5 py-2.5 text-sm backdrop-blur transition hover:border-primary/60 hover:bg-secondary"
               >
                 <Star className="h-4 w-4 text-primary" /> {t("hero.cta.featured")}
+              </Link>
+              <Link
+                to="/latest"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-5 py-2.5 text-sm backdrop-blur transition hover:border-primary/60 hover:bg-secondary"
+              >
+                <Clock className="h-4 w-4 text-primary" /> Mới cập nhật
               </Link>
             </div>
             <dl className="mt-5 grid max-w-md grid-cols-3 gap-3 text-sm">
@@ -151,20 +186,82 @@ function Index() {
           </div>
         </section>
 
-        {/* Rich SEO Content Block (Task 13) */}
+        {/* Quick Portal Navigation */}
+        <section className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Link
+            to="/featured"
+            className="group flex items-center gap-3 rounded-2xl border border-border/80 bg-card/40 p-4 backdrop-blur transition hover:border-primary/60 hover:bg-card/70"
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-gradient-brand group-hover:text-primary-foreground transition">
+              <Star className="h-5 w-5 fill-current" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-semibold text-sm text-foreground group-hover:text-primary">
+                Album Nổi Bật
+              </div>
+              <div className="text-xs text-muted-foreground truncate">{featured.length} album tuyển chọn</div>
+            </div>
+          </Link>
+
+          <Link
+            to="/latest"
+            className="group flex items-center gap-3 rounded-2xl border border-border/80 bg-card/40 p-4 backdrop-blur transition hover:border-primary/60 hover:bg-card/70"
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-gradient-brand group-hover:text-primary-foreground transition">
+              <Clock className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-semibold text-sm text-foreground group-hover:text-primary">
+                Mới Cập Nhật
+              </div>
+              <div className="text-xs text-muted-foreground truncate">Bộ ảnh cập nhật hàng ngày</div>
+            </div>
+          </Link>
+
+          <Link
+            to="/genre/$slug"
+            params={{ slug: "japanese" }}
+            className="group flex items-center gap-3 rounded-2xl border border-border/80 bg-card/40 p-4 backdrop-blur transition hover:border-primary/60 hover:bg-card/70"
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-gradient-brand group-hover:text-primary-foreground transition">
+              <Tag className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-semibold text-sm text-foreground group-hover:text-primary">
+                Idol Nhật Bản
+              </div>
+              <div className="text-xs text-muted-foreground truncate">Photobook gravure kinh điển</div>
+            </div>
+          </Link>
+
+          <Link
+            to="/pricing"
+            className="group flex items-center gap-3 rounded-2xl border border-border/80 bg-card/40 p-4 backdrop-blur transition hover:border-primary/60 hover:bg-card/70"
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-gradient-brand group-hover:text-primary-foreground transition">
+              <Flame className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-semibold text-sm text-foreground group-hover:text-primary">
+                Gói VIP & Hỗ Trợ
+              </div>
+              <div className="text-xs text-muted-foreground truncate">Mở khoá album đặc biệt</div>
+            </div>
+          </Link>
+        </section>
+
+        {/* Rich SEO Content Block */}
         <section className="mt-8 rounded-2xl border border-border/80 bg-card/40 p-6 backdrop-blur sm:p-8">
           <h2 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
-            Welcome to GravureHub — Free Vertical-Scroll Gravure Photo Library
+            Chào mừng đến với GravureHub (duahaumanga.com) — Thư viện ảnh Gravure cuộn dọc
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            GravureHub is a free, high-definition vertical-scroll gravure photo library featuring
-            top Korean, Japanese, and Vietnamese models. We update new albums and photobooks daily
-            with crystal-clear image quality and optimized mobile performance. Whether you love
-            classic Japanese gravure idols, trendy Korean visual models, or contemporary Vietnamese
-            photobooks, our curated collections offer an effortless, distraction-free reading
-            experience without watermarks or intrusive interruptions. Browse our featured
-            collections above or explore the complete model library below to discover stunning free
-            visual sets.
+            <strong>GravureHub</strong> (trực thuộc domain <strong>duahaumanga.com</strong>) là nền
+            tảng trực tuyến chuyên tuyển chọn và mang đến trải nghiệm ngắm nhìn các bộ ảnh gravure,
+            photobook thời trang và nghệ thuật chân dung chất lượng cao từ các người mẫu hàng đầu
+            Hàn Quốc, Nhật Bản và Việt Nam. Với giao diện đọc cuộn dọc không ngắt quãng (vertical
+            scroll), bạn có thể dễ dàng thưởng thức trọn vẹn từng khung hình sắc nét, không lo quảng
+            cáo che khuất hay giảm trải nghiệm thị giác.
           </p>
         </section>
 
@@ -182,25 +279,99 @@ function Index() {
           </section>
         )}
 
-        <section id="library" className="mt-14">
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+        {/* Blog & Editorial Articles Spotlight */}
+        <section className="mt-14">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
+              <FileText className="h-5 w-5 text-primary" /> Cẩm nang & Bài viết nổi bật
+            </h2>
+            <Link to="/about" className="text-sm font-medium text-primary hover:underline">
+              Về chúng tôi →
+            </Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Link
+              to="/blog/gravure-idol-la-gi"
+              className="group flex flex-col justify-between rounded-2xl border border-border/80 bg-card/40 p-6 backdrop-blur transition hover:border-primary/60 hover:bg-card/70"
+            >
+              <div>
+                <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                  Kiến thức Gravure
+                </span>
+                <h3 className="mt-3 text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                  Gravure idol là gì? Nét đẹp nghệ thuật & văn hóa photobook Nhật Bản
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                  Tìm hiểu nguồn gốc, sự phát triển và giá trị thẩm mỹ của văn hoá gravure idol từ xứ sở hoa anh đào tới phong cách hiện đại.
+                </p>
+              </div>
+              <span className="mt-4 inline-flex items-center text-xs font-medium text-primary">
+                Đọc bài viết →
+              </span>
+            </Link>
+
+            <Link
+              to="/blog/top-10-gravure-idols-2024"
+              className="group flex flex-col justify-between rounded-2xl border border-border/80 bg-card/40 p-6 backdrop-blur transition hover:border-primary/60 hover:bg-card/70"
+            >
+              <div>
+                <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                  Bảng Xếp Hạng
+                </span>
+                <h3 className="mt-3 text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                  Top 10 gravure idol và người mẫu photobook được yêu thích nhất
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                  Danh sách tổng hợp những gương mặt nổi bật nhất trong làng gravure châu Á với visual cuốn hút và những photobook bán chạy.
+                </p>
+              </div>
+              <span className="mt-4 inline-flex items-center text-xs font-medium text-primary">
+                Đọc bài viết →
+              </span>
+            </Link>
+          </div>
+        </section>
+
+        <section id="library" className="mt-14 scroll-mt-20">
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">{t("section.library")}</h2>
+              <div className="flex items-center gap-2">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <Library className="h-4 w-4" />
+                </span>
+                <h2 className="text-2xl font-bold tracking-tight">{t("section.library")}</h2>
+              </div>
               <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                 {term
                   ? `${t("section.found")} ${filtered.length} ${t("section.modelsMatching")} "${q}"`
-                  : `${t("section.total")} ${comics.length} ${t("section.modelsCount")}`}
+                  : `${t("section.total")} ${comics.length} ${t("section.modelsCount")} — Duyệt theo người mẫu và khám phá các photobook chuẩn HD`}
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 text-xs">
-              {["Korean", "Japanese", "Vietnamese"].map((tag) => (
+            <div className="flex flex-wrap gap-1.5 text-xs">
+              <Link
+                to="/"
+                search={{}}
+                className={cn(
+                  "rounded-full border px-3 py-1.5 font-medium transition",
+                  !term ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card/60 text-muted-foreground hover:border-primary/60 hover:text-foreground",
+                )}
+              >
+                Tất cả
+              </Link>
+              {[
+                { tag: "Japanese", label: "Nhật Bản", slug: "japanese" },
+                { tag: "Korean", label: "Hàn Quốc", slug: "korean" },
+                { tag: "Vietnamese", label: "Việt Nam", slug: "vietnamese" },
+                { tag: "Bikini", label: "Bikini", slug: "bikini" },
+                { tag: "Cosplay", label: "Cosplay", slug: "cosplay" },
+              ].map(({ label, slug }) => (
                 <Link
-                  key={tag}
+                  key={slug}
                   to="/genre/$slug"
-                  params={{ slug: tag.toLowerCase() }}
-                  className="rounded-full border border-border bg-card/60 px-3 py-1 text-muted-foreground hover:border-primary/60 hover:text-foreground"
+                  params={{ slug }}
+                  className="rounded-full border border-border bg-card/60 px-3 py-1.5 text-muted-foreground hover:border-primary/60 hover:text-foreground transition"
                 >
-                  {tag}
+                  {label}
                 </Link>
               ))}
             </div>
@@ -252,31 +423,61 @@ function Index() {
           ) : (
             <>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                {paginated.map((c, i) => (
-                  <Link
-                    key={c.id}
-                    to="/comic/$comicId"
-                    params={{ comicId: buildSlugId(c.title, c.id) }}
-                    className="group flex flex-col gap-2"
-                  >
-                    <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-border bg-card group-hover:border-primary/60">
-                      <ComicCover
-                        id={c.coverId}
-                        title={c.title}
-                        priority={i < 4}
-                        className="transition duration-500 group-hover:scale-110"
-                      />
+                {paginated.map((c, i) => {
+                  const firstChapter = c.chapters[0];
+                  const comicSlug = buildSlugId(c.title, c.id);
+                  const firstChapterSlug = firstChapter ? buildSlugId(firstChapter.title, firstChapter.id) : "";
+                  return (
+                    <div
+                      key={c.id}
+                      className="card-grid-item group flex flex-col justify-between rounded-xl border border-border bg-card/50 p-2.5 transition hover:border-primary/60 hover:bg-card/90"
+                    >
+                      <Link
+                        to="/comic/$comicId"
+                        params={{ comicId: comicSlug }}
+                        className="flex flex-col gap-2"
+                      >
+                        <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-lg border border-border/80 bg-background/60">
+                          <ComicCover
+                            id={c.coverId}
+                            title={c.title}
+                            priority={i < 4}
+                            className="transition duration-500 group-hover:scale-105"
+                          />
+                          <span className="absolute bottom-2 left-2 rounded-md bg-black/75 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
+                            {c.chapters.length} {t("card.albums")}
+                          </span>
+                        </div>
+                        <div>
+                          <h3 className="line-clamp-1 text-sm font-semibold group-hover:text-primary transition-colors">
+                            {c.title}
+                          </h3>
+                          <p className="line-clamp-1 text-xs text-muted-foreground">
+                            {c.author || t("card.anonymous")}
+                          </p>
+                        </div>
+                      </Link>
+                      {firstChapter && (
+                        <div className="mt-2 pt-2 border-t border-border/40 flex items-center justify-between text-[11px]">
+                          <Link
+                            to="/read/$comicId/$chapterId"
+                            params={{ comicId: comicSlug, chapterId: firstChapterSlug }}
+                            className="font-medium text-primary hover:underline inline-flex items-center gap-0.5"
+                          >
+                            Xem album 1 →
+                          </Link>
+                          <Link
+                            to="/comic/$comicId"
+                            params={{ comicId: comicSlug }}
+                            className="text-muted-foreground hover:text-foreground"
+                          >
+                            Hồ sơ
+                          </Link>
+                        </div>
+                      )}
                     </div>
-                    <div>
-                      <h3 className="line-clamp-1 text-sm font-semibold group-hover:text-primary">
-                        {c.title}
-                      </h3>
-                      <p className="line-clamp-1 text-xs text-muted-foreground">
-                        {c.chapters.length} {t("card.albums")} · {c.author || t("card.anonymous")}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
+                  );
+                })}
               </div>
               {totalPages > 1 && (
                 <nav role="navigation" aria-label="Pagination" className="mt-8 flex justify-center">

@@ -1,19 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ComicCover } from "@/components/ComicCover";
-import { useComics } from "@/lib/comics-store";
+import { useComics, fetchComicsData } from "@/lib/comics-store";
 import { Star } from "lucide-react";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, SITE_BRAND_FULL } from "@/lib/seo";
 import { driveImageUrl } from "@/lib/drive";
 import { buildSlugId } from "@/lib/slug";
 import { getLatestAlbums } from "@/lib/featured";
 
 export const Route = createFileRoute("/featured")({
-  component: FeaturedPage,
+  loader: async () => {
+    const comics = await fetchComicsData();
+    return { comics };
+  },
   head: () => {
-    const title = "Featured Albums — GravureHub";
+    const title = "Featured Albums — GravureHub (Dưa Hấu Manga)";
     const desc =
-      "Discover the best featured gravure photo albums and high-definition photobooks from top models on GravureHub. Updated daily.";
+      "Discover the best featured gravure photo albums and high-definition photobooks from top models on GravureHub (duahaumanga.com). Updated daily.";
     const url = `${SITE_URL}/featured`;
     return {
       meta: [
@@ -25,15 +28,18 @@ export const Route = createFileRoute("/featured")({
       ],
       links: [
         { rel: "canonical", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
       ],
     };
   },
+  component: FeaturedPage,
 });
 
 function FeaturedPage() {
-  const comics = useComics();
+  const loaderData = Route.useLoaderData();
+  const comics = useComics(loaderData?.comics);
   const featured = getLatestAlbums(comics, 24);
 
   const ldBreadcrumb = {

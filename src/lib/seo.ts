@@ -1,5 +1,14 @@
 export const SITE_URL = "https://duahaumanga.com";
+export const SITE_DOMAIN = "duahaumanga.com";
 export const SITE_NAME = "GravureHub";
+export const SITE_BRAND_FULL = "GravureHub (Dưa Hấu Manga)";
+export const SITE_ALT_NAMES: string[] = [
+  "GravureHub",
+  "DuaHauManga",
+  "Dưa Hấu Manga",
+  "duahaumanga.com",
+  "GravureHub - Dưa Hấu Manga",
+];
 export const SITE_LOGO = `${SITE_URL}/og-default.jpg`;
 export const TELEGRAM_GROUP_URL = "https://t.me/+8xnMvFtjulkyNzE1";
 export const SOCIAL_LINKS: string[] = [TELEGRAM_GROUP_URL];

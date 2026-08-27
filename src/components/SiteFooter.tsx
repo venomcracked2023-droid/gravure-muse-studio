@@ -35,7 +35,7 @@ export function SiteFooter() {
             </Link>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">{t("footer.tagline")}</p>
             <p className="mt-2 max-w-sm text-xs leading-relaxed text-muted-foreground/80">
-              <span className="font-semibold text-foreground/80">duahaumanga.com</span> is the official home of GravureHub.
+              <span className="font-semibold text-foreground/80">duahaumanga.com</span> (Dưa Hấu Manga) là website chính thức của <strong>GravureHub</strong> — Thư viện ảnh gravure cuộn dọc chuẩn HD.
             </p>
           </div>
 

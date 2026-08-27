@@ -23,8 +23,32 @@ export const Route = createFileRoute("/about")({
       ],
       links: [
         { rel: "canonical", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: "Giới thiệu", item: url },
+            ],
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            name: title,
+            description: desc,
+            url,
+          }),
+        },
       ],
     };
   },

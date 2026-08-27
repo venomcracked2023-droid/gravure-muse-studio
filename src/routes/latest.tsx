@@ -1,41 +1,47 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ComicCover } from "@/components/ComicCover";
-import { useComics } from "@/lib/comics-store";
+import { useComics, fetchComicsData } from "@/lib/comics-store";
 import { Clock } from "lucide-react";
 import { useMemo } from "react";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, SITE_BRAND_FULL } from "@/lib/seo";
 import { driveImageUrl } from "@/lib/drive";
 import { buildSlugId } from "@/lib/slug";
 
 export const Route = createFileRoute("/latest")({
-  component: LatestPage,
+  loader: async () => {
+    const comics = await fetchComicsData();
+    return { comics };
+  },
   head: () => ({
     meta: [
-      { title: "Latest Updates — GravureHub" },
+      { title: "Latest Updates — GravureHub (Dưa Hấu Manga)" },
       {
         name: "description",
         content:
-          "Browse the latest updated gravure photo albums and new model photobooks on GravureHub.",
+          "Browse the latest updated gravure photo albums and new model photobooks on GravureHub (duahaumanga.com).",
       },
-      { property: "og:title", content: "Latest Updates — GravureHub" },
+      { property: "og:title", content: "Latest Updates — GravureHub (duahaumanga.com)" },
       {
         property: "og:description",
         content:
-          "Browse the latest updated gravure photo albums and new model photobooks on GravureHub.",
+          "Browse the latest updated gravure photo albums and new model photobooks on GravureHub (duahaumanga.com).",
       },
       { property: "og:url", content: `${SITE_URL}/latest` },
     ],
     links: [
       { rel: "canonical", href: `${SITE_URL}/latest` },
+      { rel: "alternate", hrefLang: "vi", href: `${SITE_URL}/latest` },
       { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/latest` },
       { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/latest` },
     ],
   }),
+  component: LatestPage,
 });
 
 function LatestPage() {
-  const comics = useComics();
+  const loaderData = Route.useLoaderData();
+  const comics = useComics(loaderData?.comics);
   const latest = useMemo(
     () =>
       [...comics]

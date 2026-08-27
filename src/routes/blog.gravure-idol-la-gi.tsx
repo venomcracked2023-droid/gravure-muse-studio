@@ -33,9 +33,22 @@ export const Route = createFileRoute("/blog/gravure-idol-la-gi")({
     links: [
       { rel: "canonical", href: URL },
       { rel: "alternate", hrefLang: "vi", href: URL },
+      { rel: "alternate", hrefLang: "en", href: URL },
       { rel: "alternate", hrefLang: "x-default", href: URL },
     ],
     scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog/gravure-idol-la-gi` },
+            { "@type": "ListItem", position: 3, name: TITLE, item: URL },
+          ],
+        }),
+      },
       {
         type: "application/ld+json",
         children: JSON.stringify({
@@ -47,6 +60,7 @@ export const Route = createFileRoute("/blog/gravure-idol-la-gi")({
           dateModified: PUBLISHED,
           inLanguage: "vi-VN",
           mainEntityOfPage: URL,
+          image: `${SITE_URL}/og-default.jpg`,
           author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
           publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
         }),

@@ -11,7 +11,7 @@ import appCss from "../styles.css?url";
 import { AuthProvider } from "@/lib/auth";
 import { I18nProvider } from "@/lib/i18n/context";
 import { Toaster } from "sonner";
-import { SITE_LOGO, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "@/lib/seo";
+import { SITE_ALT_NAMES, SITE_BRAND_FULL, SITE_DOMAIN, SITE_LOGO, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "@/lib/seo";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingTelegramButton } from "@/components/FloatingTelegramButton";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -181,36 +181,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "GravureHub — Free vertical-scroll gravure photo albums" },
+      { title: "GravureHub — Dưa Hấu Manga | Free vertical-scroll gravure albums" },
       {
         name: "description",
         content:
-          "GravureHub — browse free vertical-scroll gravure photo albums from Korean, Japanese and Vietnamese models. New albums added daily, smooth on any device.",
+          "GravureHub (duahaumanga.com) — Thư viện ảnh gravure cuộn dọc miễn phí từ người mẫu Hàn Quốc, Nhật Bản và Việt Nam. Cập nhật liên tục photobook HD chất lượng cao.",
       },
-      { name: "author", content: "GravureHub" },
+      { name: "author", content: "GravureHub — duahaumanga.com" },
       { name: "robots", content: "index,follow,max-image-preview:large" },
       { name: "google-site-verification", content: "ABEQp0spMkYkrxY7BTrojPi32UhODPOsjv3HGSMiHD0" },
       { name: "theme-color", content: "#1a0a18" },
       {
         name: "keywords",
-        content: "gravure, gravure idol, gravure models, photobook, vertical scroll, GravureHub",
+        content: "gravure, gravure idol, gravure models, photobook, duahaumanga, duahaumanga.com, GravureHub, Dưa Hấu Manga, vertical scroll",
       },
-      { property: "og:site_name", content: "GravureHub" },
-      { property: "og:title", content: "GravureHub — Free vertical-scroll gravure photo albums" },
+      { property: "og:site_name", content: "GravureHub (duahaumanga.com)" },
+      { property: "og:title", content: "GravureHub — Dưa Hấu Manga | Free vertical-scroll gravure albums" },
       {
         property: "og:description",
         content:
-          "GravureHub — browse free vertical-scroll gravure photo albums from Korean, Japanese and Vietnamese models. New albums added daily.",
+          "GravureHub (duahaumanga.com) — Thư viện ảnh gravure cuộn dọc miễn phí từ người mẫu Hàn Quốc, Nhật Bản và Việt Nam. Cập nhật liên tục.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:locale", content: "en_US" },
+      { property: "og:locale", content: "vi_VN" },
       { name: "twitter:card", content: "summary_large_image" },
-
-      { name: "twitter:title", content: "GravureHub — Free vertical-scroll gravure photo albums" },
+      { name: "twitter:site", content: "@duahaumanga" },
+      { name: "twitter:title", content: "GravureHub — Dưa Hấu Manga | Free vertical-scroll gravure albums" },
       {
         name: "twitter:description",
         content:
-          "GravureHub — browse free vertical-scroll gravure photo albums from Korean, Japanese and Vietnamese models.",
+          "GravureHub (duahaumanga.com) — Thư viện ảnh gravure cuộn dọc miễn phí từ người mẫu Hàn Quốc, Nhật Bản và Việt Nam.",
       },
       { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
       { property: "og:image:width", content: "1200" },
@@ -232,6 +232,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Organization",
           name: SITE_NAME,
+          alternateName: SITE_ALT_NAMES,
           url: SITE_URL,
           logo: SITE_LOGO,
           sameAs: SOCIAL_LINKS,
@@ -242,9 +243,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: SITE_NAME,
+          name: SITE_BRAND_FULL,
+          alternateName: SITE_ALT_NAMES,
           url: SITE_URL,
-          inLanguage: "en",
+          inLanguage: ["vi", "en"],
           potentialAction: {
             "@type": "SearchAction",
             target: `${SITE_URL}/?q={search_term_string}`,
@@ -262,7 +264,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <head>
         <HeadContent />
       </head>

@@ -44,8 +44,14 @@ export function SiteHeader() {
               className="h-8 w-8 object-contain transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110"
             />
           </span>
-          <span className="text-lg font-bold tracking-tight text-gradient-brand">GravureHub</span>
-          <span className="hidden text-xs text-muted-foreground sm:inline">/ Gravure</span>
+          <div className="flex flex-col">
+            <span className="text-lg font-bold leading-none tracking-tight text-gradient-brand">
+              GravureHub
+            </span>
+            <span className="text-[10px] font-medium leading-tight text-muted-foreground/80 tracking-wide">
+              duahaumanga.com
+            </span>
+          </div>
         </Link>
 
         <form

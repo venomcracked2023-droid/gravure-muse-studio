@@ -143,8 +143,8 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Models", item: `${SITE_URL}/#library` },
+        { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Người mẫu", item: `${SITE_URL}/#library` },
         { "@type": "ListItem", position: 3, name: ct, item: `${SITE_URL}/comic/${comicSlug}` },
         { "@type": "ListItem", position: 4, name: ch, item: url },
       ],
@@ -163,9 +163,30 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       image: imageList,
     };
 
+    const ldArticle = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: `${ch} — ${ct}`,
+      description: desc,
+      image: imageList,
+      datePublished: uploadDate,
+      dateModified: uploadDate,
+      mainEntityOfPage: url,
+      author: {
+        "@type": "Person",
+        name: ct,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: SITE_NAME,
+        url: SITE_URL,
+      },
+    };
+
     const scripts: Array<{ type: string; children: string }> = [
       { type: "application/ld+json", children: JSON.stringify(ldBreadcrumb) },
       { type: "application/ld+json", children: JSON.stringify(ldImageGallery) },
+      { type: "application/ld+json", children: JSON.stringify(ldArticle) },
     ];
 
     if (videoUrl) {
@@ -188,7 +209,7 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
     const meta = [
       { title },
       { name: "description", content: desc },
-      { property: "og:title", content: `${ch} — ${ct}` },
+      { property: "og:title", content: `${ch} — ${ct} | GravureHub` },
       { property: "og:description", content: desc },
       { property: "og:image", content: img },
       { property: "og:image:width", content: "1200" },
@@ -207,6 +228,7 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       meta,
       links: [
         { rel: "canonical", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
         ...(preloadImg

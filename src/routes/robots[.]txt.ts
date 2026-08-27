@@ -8,6 +8,7 @@ export const Route = createFileRoute("/robots.txt")({
         const origin = SITE_URL;
         const body = [
           "User-agent: *",
+          "Content-Signal: ai-train=no, ai-input=no, search=yes",
           "Allow: /",
           "Disallow: /admin",
           "Disallow: /admin-applications",
@@ -18,10 +19,22 @@ export const Route = createFileRoute("/robots.txt")({
           "User-agent: GPTBot",
           "Disallow: /",
           "",
+          "User-agent: ChatGPT-User",
+          "Disallow: /",
+          "",
           "User-agent: CCBot",
           "Disallow: /",
           "",
           "User-agent: ClaudeBot",
+          "Disallow: /",
+          "",
+          "User-agent: anthropic-ai",
+          "Disallow: /",
+          "",
+          "User-agent: Google-Extended",
+          "Disallow: /",
+          "",
+          "User-agent: Bytespider",
           "Disallow: /",
           "",
           `Sitemap: ${origin}/sitemap.xml`,
@@ -31,6 +44,7 @@ export const Route = createFileRoute("/robots.txt")({
           headers: {
             "content-type": "text/plain; charset=utf-8",
             "cache-control": "public, max-age=3600",
+            "Content-Signal": "ai-train=no, ai-input=no, search=yes",
           },
         });
       },

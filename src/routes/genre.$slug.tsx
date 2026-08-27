@@ -1,40 +1,46 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ComicCover } from "@/components/ComicCover";
-import { useComics } from "@/lib/comics-store";
+import { useComics, fetchComicsData } from "@/lib/comics-store";
 import { Tag } from "lucide-react";
 import { useMemo } from "react";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, SITE_BRAND_FULL } from "@/lib/seo";
 import { slugifyGenre, buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
 
 export const Route = createFileRoute("/genre/$slug")({
-  component: GenrePage,
+  loader: async () => {
+    const comics = await fetchComicsData();
+    return { comics };
+  },
   head: ({ params }) => ({
     meta: [
-      { title: `Category: ${params.slug} — GravureHub` },
+      { title: `Category: ${params.slug} — GravureHub (Dưa Hấu Manga)` },
       {
         name: "description",
-        content: `Explore gravure models and photobooks in category ${params.slug} on GravureHub.`,
+        content: `Explore gravure models and photobooks in category ${params.slug} on GravureHub (duahaumanga.com).`,
       },
-      { property: "og:title", content: `Category: ${params.slug} — GravureHub` },
+      { property: "og:title", content: `Category: ${params.slug} — GravureHub (duahaumanga.com)` },
       {
         property: "og:description",
-        content: `Explore gravure models and photobooks in category ${params.slug}.`,
+        content: `Explore gravure models and photobooks in category ${params.slug} on GravureHub (duahaumanga.com).`,
       },
       { property: "og:url", content: `${SITE_URL}/genre/${params.slug}` },
     ],
     links: [
       { rel: "canonical", href: `${SITE_URL}/genre/${params.slug}` },
+      { rel: "alternate", hrefLang: "vi", href: `${SITE_URL}/genre/${params.slug}` },
       { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/genre/${params.slug}` },
       { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/genre/${params.slug}` },
     ],
   }),
+  component: GenrePage,
 });
 
 function GenrePage() {
   const { slug } = Route.useParams();
-  const comics = useComics();
+  const loaderData = Route.useLoaderData();
+  const comics = useComics(loaderData?.comics);
   const { matched, displayName } = useMemo(() => {
     const list = comics.filter((c) => (c.genres ?? []).some((g) => slugifyGenre(g) === slug));
     const display =
