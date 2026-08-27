@@ -434,6 +434,7 @@ function Index() {
                       <Link
                         to="/comic/$comicId"
                         params={{ comicId: comicSlug }}
+                        preload="intent"
                         className="flex flex-col gap-2"
                       >
                         <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-lg border border-border/80 bg-background/60">
@@ -461,6 +462,7 @@ function Index() {
                           <Link
                             to="/read/$comicId/$chapterId"
                             params={{ comicId: comicSlug, chapterId: firstChapterSlug }}
+                            preload="intent"
                             className="font-medium text-primary hover:underline inline-flex items-center gap-0.5"
                           >
                             Read album 1 →
@@ -468,6 +470,7 @@ function Index() {
                           <Link
                             to="/comic/$comicId"
                             params={{ comicId: comicSlug }}
+                            preload="intent"
                             className="text-muted-foreground hover:text-foreground"
                           >
                             Profile

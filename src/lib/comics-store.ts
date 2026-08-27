@@ -27,12 +27,36 @@ export type Comic = {
   orderUrl?: string;
 };
 
+const CACHE_KEY = "gravure_comics_cache_v1";
+
 const listeners = new Set<() => void>();
-let cache: Comic[] = [];
-let loaded = false;
+let cache: Comic[] = (() => {
+  if (typeof window !== "undefined") {
+    try {
+      const stored = sessionStorage.getItem(CACHE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch {
+      // Ignore sessionStorage parsing errors
+    }
+  }
+  return [];
+})();
+let loaded = cache.length > 0;
 let loading: Promise<void> | null = null;
 
 function emit() {
+  if (typeof window !== "undefined" && cache.length > 0) {
+    try {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+    } catch {
+      // Storage quota or restriction ignored
+    }
+  }
   listeners.forEach((l) => l());
 }
 

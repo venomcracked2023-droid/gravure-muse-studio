@@ -1,4 +1,4 @@
-import { driveImageUrl } from "@/lib/drive";
+import { driveImageUrl, driveImageFallbackUrl } from "@/lib/drive";
 
 export function ComicCover({
   id,
@@ -41,6 +41,13 @@ export function ComicCover({
       width={600}
       height={800}
       className={"aspect-[3/4] h-full w-full object-cover " + (className ?? "")}
+      onError={(e) => {
+        const imgEl = e.currentTarget as HTMLImageElement;
+        if (!imgEl.dataset.fallback) {
+          imgEl.dataset.fallback = "1";
+          imgEl.src = driveImageFallbackUrl(id, 600);
+        }
+      }}
     />
   );
 }

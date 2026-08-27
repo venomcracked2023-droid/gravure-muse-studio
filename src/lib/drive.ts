@@ -15,7 +15,18 @@ export function extractDriveId(input: string): string | null {
   return null;
 }
 
-export function driveImageUrl(idOrUrl: string, width = 1600): string {
+/**
+ * High-speed Google User Content edge CDN with HTTP/3 & WebP compression (fastest).
+ */
+export function driveImageUrl(idOrUrl: string, width = 1200): string {
+  const id = extractDriveId(idOrUrl) ?? idOrUrl;
+  return `https://lh3.googleusercontent.com/d/${id}=w${width}`;
+}
+
+/**
+ * Fallback thumbnail endpoint if lh3 CDN is restricted or unavailable.
+ */
+export function driveImageFallbackUrl(idOrUrl: string, width = 1200): string {
   const id = extractDriveId(idOrUrl) ?? idOrUrl;
   return `https://drive.google.com/thumbnail?id=${id}&sz=w${width}`;
 }

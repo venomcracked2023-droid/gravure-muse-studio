@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useComics, useComicsLoaded } from "@/lib/comics-store";
-import { driveImageUrl, extractDriveId } from "@/lib/drive";
+import { driveImageUrl, driveImageFallbackUrl, extractDriveId } from "@/lib/drive";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -383,6 +383,7 @@ function Reader() {
                     comicId: buildSlugId(comic.title, comic.id),
                     chapterId: buildSlugId(ch.title, ch.id),
                   }}
+                  preload="intent"
                   className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-2 transition hover:border-primary/60 hover:bg-card"
                 >
                   <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-secondary/40">
@@ -417,6 +418,7 @@ function Reader() {
                 key={om.id}
                 to="/comic/$comicId"
                 params={{ comicId: buildSlugId(om.title, om.id) }}
+                preload="intent"
                 className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-2 transition hover:border-primary/60 hover:bg-card"
               >
                 <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-secondary/40">
@@ -616,7 +618,7 @@ function Reader() {
         <Virtuoso
           useWindowScroll
           data={chapter.pages}
-          increaseViewportBy={{ top: 1500, bottom: 2000 }}
+          increaseViewportBy={{ top: 1200, bottom: 1600 }}
           components={{
             Header: () => (embed ? <VideoEmbed /> : <div className="h-2" />),
             Footer,
@@ -626,15 +628,15 @@ function Reader() {
               <img
                 src={driveImageUrl(id, 1200)}
                 alt={`Gravure photo ${i + 1} — ${comic.title}, ${chapter.title}`}
-                loading="lazy"
+                loading={i < 2 ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : "auto"}
                 decoding="async"
                 className="block w-full min-h-[60vh] bg-secondary/40 object-contain"
                 onError={(e) => {
                   const imgEl = e.currentTarget as HTMLImageElement;
                   if (!imgEl.dataset.fallback) {
                     imgEl.dataset.fallback = "1";
-                    const m = imgEl.src.match(/[?&]id=([A-Za-z0-9_-]+)/);
-                    if (m) imgEl.src = `https://lh3.googleusercontent.com/d/${m[1]}=w1200`;
+                    imgEl.src = driveImageFallbackUrl(id, 1200);
                   } else {
                     imgEl.style.opacity = "0.3";
                   }

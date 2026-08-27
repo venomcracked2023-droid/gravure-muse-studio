@@ -218,6 +218,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
     ],
     links: [
+      { rel: "preconnect", href: "https://lh3.googleusercontent.com", crossOrigin: "" },
+      { rel: "preconnect", href: "https://drive.google.com", crossOrigin: "" },
+      { rel: "preconnect", href: "https://drive.usercontent.google.com", crossOrigin: "" },
+      { rel: "dns-prefetch", href: "https://lh3.googleusercontent.com" },
+      { rel: "dns-prefetch", href: "https://drive.google.com" },
+      { rel: "dns-prefetch", href: "https://yoiukejvpznfsnzjvzvm.supabase.co" },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico" },
     ],

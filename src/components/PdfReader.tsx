@@ -16,6 +16,73 @@ if (typeof window !== "undefined") {
   }
 }
 
+function LazyPdfPage({
+  pageNumber,
+  numPages,
+  width,
+}: {
+  pageNumber: number;
+  numPages: number;
+  width: number;
+}) {
+  const [isVisible, setIsVisible] = useState(pageNumber <= 2);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (pageNumber <= 2) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "800px 0px 800px 0px", // Preload pages 800px ahead before entering viewport
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [pageNumber]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="flex flex-col items-center justify-center py-2"
+      style={{ minHeight: Math.floor(width * 1.35) }}
+    >
+      {isVisible ? (
+        <Page
+          pageNumber={pageNumber}
+          width={width}
+          renderAnnotationLayer={false}
+          renderTextLayer={false}
+          renderMode="canvas"
+          loading={
+            <div
+              style={{ width, height: Math.floor(width * 1.35) }}
+              className="flex items-center justify-center rounded-xl bg-secondary/30 text-xs text-muted-foreground animate-pulse"
+            >
+              Loading page {pageNumber} of {numPages}…
+            </div>
+          }
+        />
+      ) : (
+        <div
+          style={{ width, height: Math.floor(width * 1.35) }}
+          className="flex items-center justify-center rounded-xl border border-dashed border-border/40 bg-card/20 text-xs text-muted-foreground/60"
+        >
+          Page {pageNumber} of {numPages}
+        </div>
+      )}
+    </div>
+  );
+}
+
 type Props = { fileUrl: string; Footer: React.ComponentType; onFail?: () => void };
 
 export function PdfReader({ fileUrl, Footer, onFail }: Props) {
@@ -86,23 +153,12 @@ export function PdfReader({ fileUrl, Footer, onFail }: Props) {
           <>
             <div className="h-8" />
             {Array.from({ length: numPages }, (_, i) => (
-              <div key={i} className="flex flex-col items-center justify-center py-2">
-                <Page
-                  pageNumber={i + 1}
-                  width={width}
-                  renderAnnotationLayer={false}
-                  renderTextLayer={false}
-                  renderMode="canvas"
-                  loading={
-                    <div
-                      style={{ width, height: width * 1.4 }}
-                      className="flex items-center justify-center rounded-lg bg-secondary/30 text-xs text-muted-foreground animate-pulse"
-                    >
-                      Loading page {i + 1} of {numPages}…
-                    </div>
-                  }
-                />
-              </div>
+              <LazyPdfPage
+                key={i + 1}
+                pageNumber={i + 1}
+                numPages={numPages}
+                width={width}
+              />
             ))}
             <Footer />
           </>
