@@ -4,9 +4,9 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 
 const PATH = "/blog/gravure-idol-la-gi";
 const URL = `${SITE_URL}${PATH}`;
-const TITLE = "Gravure idol là gì? Định nghĩa, lịch sử & văn hoá gravure";
+const TITLE = "What is a Gravure Idol? Definition, History & Gravure Culture Explained";
 const DESC =
-  "Gravure idol là gì? Tìm hiểu định nghĩa, nguồn gốc tại Nhật Bản, sự khác biệt với idol thông thường và sức ảnh hưởng của văn hoá gravure tại Việt Nam.";
+  "What is a gravure idol? Explore the origins in Japan, differences from mainstream idols, aesthetic photobooks, and the modern vertical-scroll photography culture.";
 const PUBLISHED = "2026-06-09";
 
 export const Route = createFileRoute("/blog/gravure-idol-la-gi")({
@@ -18,13 +18,13 @@ export const Route = createFileRoute("/blog/gravure-idol-la-gi")({
       {
         name: "keywords",
         content:
-          "gravure idol là gì, gravure là gì, gravure idol, người mẫu gravure, văn hoá gravure Nhật Bản",
+          "what is a gravure idol, gravure idol definition, japanese gravure models, gravure photobooks, japanese idol culture, vertical scroll gravure",
       },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
       { property: "og:url", content: URL },
       { property: "og:type", content: "article" },
-      { property: "og:locale", content: "vi_VN" },
+      { property: "og:locale", content: "en_US" },
       { property: "article:published_time", content: PUBLISHED },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
@@ -32,8 +32,8 @@ export const Route = createFileRoute("/blog/gravure-idol-la-gi")({
     ],
     links: [
       { rel: "canonical", href: URL },
-      { rel: "alternate", hrefLang: "vi", href: URL },
       { rel: "alternate", hrefLang: "en", href: URL },
+      { rel: "alternate", hrefLang: "vi", href: URL },
       { rel: "alternate", hrefLang: "x-default", href: URL },
     ],
     scripts: [
@@ -43,8 +43,8 @@ export const Route = createFileRoute("/blog/gravure-idol-la-gi")({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog/gravure-idol-la-gi` },
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
             { "@type": "ListItem", position: 3, name: TITLE, item: URL },
           ],
         }),
@@ -58,7 +58,7 @@ export const Route = createFileRoute("/blog/gravure-idol-la-gi")({
           description: DESC,
           datePublished: PUBLISHED,
           dateModified: PUBLISHED,
-          inLanguage: "vi-VN",
+          inLanguage: "en-US",
           mainEntityOfPage: URL,
           image: `${SITE_URL}/og-default.jpg`,
           author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
@@ -73,45 +73,28 @@ export const Route = createFileRoute("/blog/gravure-idol-la-gi")({
           mainEntity: [
             {
               "@type": "Question",
-              name: "Gravure idol là gì?",
+              name: "What is a gravure idol?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Gravure idol (グラビアアイドル) là người mẫu Nhật Bản chuyên chụp ảnh tạp chí, photobook và DVD theo phong cách gợi cảm nhưng vẫn giữ hình ảnh trong sáng, không khoả thân.",
+                text: "A gravure idol (グラビアアイドル) is a Japanese model who primarily models for magazines, photobooks, and visual media in swimsuits, casual wear, or lingerie with an emphasis on natural beauty, charisma, and soft glamour without explicit or adult content.",
               },
             },
             {
               "@type": "Question",
-              name: "Gravure khác gì idol thông thường?",
+              name: "How is a gravure idol different from regular musical idols?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Idol nhóm nhạc tập trung vào ca hát, nhảy và biểu diễn sân khấu, còn gravure idol lấy ảnh chụp – đặc biệt là bikini và trang phục nhẹ – làm hoạt động chính.",
+                text: "Musical idols primarily focus on singing, dancing, and stage performances, whereas gravure idols specialize in photography, printed photobooks, and digital pictorials.",
               },
             },
             {
               "@type": "Question",
-              name: "Gravure idol có phải nội dung 18+ không?",
+              name: "Is gravure considered explicit adult content (18+)?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Không. Gravure thuộc dòng ảnh nghệ thuật – thời trang gợi cảm, được phát hành công khai trên các tạp chí phổ thông như Weekly Playboy hay Young Magazine và hoàn toàn khác với nội dung khiêu dâm.",
+                text: "No. Gravure is a mainstream genre of sensual artistic and fashion portraiture published openly in mainstream national magazines like Weekly Playboy and Young Magazine, distinct from explicit adult entertainment.",
               },
             },
-          ],
-        }),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Blog",
-              item: `${SITE_URL}/blog/gravure-idol-la-gi`,
-            },
-            { "@type": "ListItem", position: 3, name: "Gravure idol là gì?", item: URL },
           ],
         }),
       },
@@ -124,7 +107,7 @@ function Page() {
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-3xl px-4 pb-20 pt-6">
-        {/* Visual Breadcrumb (Task 16) */}
+        {/* Visual Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
           className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground"
@@ -135,142 +118,125 @@ function Page() {
           <span>&gt;</span>
           <span className="text-muted-foreground">Blog</span>
           <span>&gt;</span>
-          <span className="font-medium text-foreground">Gravure idol là gì?</span>
+          <span className="font-medium text-foreground">What is a Gravure Idol?</span>
         </nav>
 
         <article className="md-content">
           <header className="not-prose mb-8 border-b border-border/60 pb-6">
             <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-              Kiến thức &amp; Văn hoá
+              Culture &amp; Insights
             </span>
             <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-              Gravure idol là gì? Định nghĩa, lịch sử &amp; sức hút của văn hoá gravure
+              What is a Gravure Idol? Definition, History &amp; the Allure of Gravure Culture
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Xuất bản: {PUBLISHED} · Tác giả: {SITE_NAME} Editorial Team · Thời gian đọc: ~5 phút
+              Published: {PUBLISHED} · Author: {SITE_NAME} Editorial Team · Read time: ~5 min
             </p>
           </header>
 
           <p className="lead">
-            Nếu bạn từng lướt các trang ảnh Nhật Bản, theo dõi idol J-Pop hay đơn giản là bắt gặp
-            cụm từ <strong>gravure idol</strong> (グラビアアイドル) trên mạng xã hội, bạn có thể đã
-            tự hỏi:{" "}
+            If you have ever browsed Japanese photo collections, followed J-Pop idols, or come across
+            the term <strong>gravure idol</strong> (グラビアアイドル) on social media, you might have wondered:{" "}
             <em>
-              Gravure thực chất là gì? Có phải là nội dung người lớn không? Tại sao lại phổ biến đến
-              vậy?
+              What exactly is gravure? Is it adult content? Why is it so immensely popular across Asia and worldwide?
             </em>
           </p>
           <p>
-            Bài viết này sẽ giải thích toàn diện từ khái niệm, nguồn gốc lịch sử, sự khác nhau giữa
-            gravure idol và idol thông thường, cho đến lý do hình thức này đang dần được đón nhận
-            rộng rãi tại Việt Nam.
+            This comprehensive guide explores the definition, historical origins, key differences between
+            gravure and other entertainment industries, and why vertical-scroll photography is revolutionizing
+            how fans enjoy gravure photobooks today.
           </p>
 
-          <h2>1. Định nghĩa: Gravure idol là gì?</h2>
+          <h2>1. Definition: What is a Gravure Idol?</h2>
           <p>
-            Từ <strong>"gravure"</strong> bắt nguồn từ kỹ thuật in ấn <em>rotogravure</em> (in ống
-            đồng) – một công nghệ in ảnh chất lượng cao từng được các tạp chí Nhật Bản sử dụng vào
-            giữa thế kỷ 20. Theo thời gian, từ ngữ này chuyển nghĩa để chỉ những bức ảnh người mẫu
-            được in trang trọng ở đầu hoặc giữa các tạp chí (trang màu glossy).
+            The word <strong>"gravure"</strong> originates from the printing technique <em>rotogravure</em>—a
+            high-fidelity intaglio photo printing process utilized by Japanese weekly magazines in the mid-20th
+            century. Over time, the term shifted in popular Japanese culture to refer to glossy pictorial centerfolds
+            and model photo spreads.
           </p>
           <p>
-            <strong>Gravure idol (グラビアアイドル)</strong> là thuật ngữ chỉ những người mẫu nữ
-            chuyên chụp ảnh cho các tạp chí giải trí, phát hành photobook (sách ảnh) và DVD hình
-            ảnh. Phong cách đặc trưng của họ là diện bikini, đồ lót thời trang, trang phục cosplay
-            hoặc đồ ngủ trong các khung cảnh tự nhiên (bãi biển, resort, phòng ngủ).
+            A <strong>gravure idol (グラビアアイドル, gurabia aidoru)</strong> is a model who specializes in posing
+            for popular entertainment magazines, digital photobooks, and image videos. Common themes feature
+            swimwear (bikinis), fashionable lingerie, cosplay outfits, or cozy loungewear in picturesque settings
+            such as tropical beaches, luxury resorts, and aesthetic indoor studios.
           </p>
           <p>
-            <strong>Điểm cốt lõi:</strong> Gravure idol <em>không chụp ảnh khoả thân</em> và{" "}
-            <em>không tham gia nội dung khiêu dâm</em>. Đây là dòng ảnh nghệ thuật gợi cảm nhẹ nhàng
-            (soft glamour), tôn vinh nét đẹp hình thể, nụ cười và thần thái cuốn hút của người phụ
-            nữ.
+            <strong>Core Distinction:</strong> Gravure idols <em>do not pose nude</em> and{" "}
+            <em>do not participate in explicit adult videos</em>. Gravure is centered on soft glamour, radiant smiles,
+            artistic body aesthetics, and approachable girl-next-door charm.
           </p>
 
-          <h2>2. Nguồn gốc và lịch sử phát triển tại Nhật Bản</h2>
+          <h2>2. Origins & Historical Evolution in Japan</h2>
           <p>
-            Văn hoá gravure bắt đầu định hình từ những năm 1970–1980 khi các tạp chí nam giới như{" "}
-            <em>Weekly Playboy</em> (週刊プレイボーイ), <em>Weekly Young Jump</em> hay{" "}
-            <em>Young Magazine</em> bắt đầu đưa ảnh người mẫu áo tắm lên trang bìa để thu hút độc
-            giả.
+            The modern gravure phenomenon took shape in the 1970s and 1980s when prominent Japanese men's and youth magazines—such as{" "}
+            <em>Weekly Playboy</em> (週刊プレイボーイ), <em>Weekly Young Jump</em>, and <em>Young Magazine</em>—began
+            featuring swimsuit models on their covers and color insert pages to boost readership.
           </p>
           <ul>
             <li>
-              <strong>Thập niên 1980–1990:</strong> Giai đoạn bùng nổ của các "nữ hoàng áo tắm"
-              (swimsuit queens). Nhiều gương mặt trở thành ngôi sao quốc dân.
+              <strong>1980s–1990s:</strong> The golden era of "swimsuit queens" (水着クイーン), where top models became household names and television celebrities.
             </li>
             <li>
-              <strong>Thập niên 2000:</strong> Gravure trở thành bệ phóng sự nghiệp (stepping stone)
-              quan trọng. Rất nhiều diễn viên, MC và ca sĩ nổi tiếng xuất thân từ gravure idol.
+              <strong>2000s:</strong> Gravure cemented itself as a prestigious stepping stone into mainstream entertainment, launching the careers of numerous renowned actresses, TV show hosts, and voice actors.
             </li>
             <li>
-              <strong>Từ 2010 đến nay:</strong> Sự giao thoa mạnh mẽ giữa thế giới idol âm nhạc (như
-              AKB48 Group, Sakamichi Series) và gravure. Các thành viên nhóm nhạc thường xuyên chụp
-              gravure để tăng độ nhận diện cá nhân.
+              <strong>2010s to Present:</strong> Strong synergy between musical idol groups (such as AKB48 Group and Sakamichi Series) and gravure publications, alongside digital photobooks optimized for mobile screens.
             </li>
           </ul>
 
-          <h2>3. Sự khác nhau giữa Gravure Idol và các hình thức khác</h2>
+          <h2>3. Key Differences: Gravure vs. Other Entertainment Genres</h2>
           <ul>
             <li>
-              <strong>Gravure idol vs. Idol âm nhạc:</strong> Idol âm nhạc tập trung ca hát và biểu
-              diễn, còn gravure idol lấy hình ảnh photobook làm trọng tâm.
+              <strong>Gravure Idols vs. Musical Idols:</strong> Musical idols primarily perform live songs and dance choreography, while gravure idols focus primarily on high-fashion photo shoots and visual curation.
             </li>
             <li>
-              <strong>Gravure idol vs. Người mẫu thời trang (Fashion model):</strong> Người mẫu thời
-              trang hướng tới khán giả nữ và trang phục thương hiệu; gravure idol hướng tới thẩm mỹ
-              gợi cảm, nét đẹp tự nhiên và cảm xúc gần gũi.
+              <strong>Gravure Idols vs. High-Fashion Models:</strong> High-fashion models emphasize runway couture and designer garments for female audiences; gravure models focus on natural charisma, sensual beauty, and accessible charm.
             </li>
             <li>
-              <strong>Gravure idol vs. Diễn viên AV:</strong> Đây là hai ngành công nghiệp hoàn toàn
-              tách biệt. Gravure idol xuất hiện trên truyền hình quốc gia và tạp chí đại chúng.
+              <strong>Gravure Idols vs. Adult Entertainment:</strong> These are completely distinct industries. Gravure idols appear on national television, mainstream billboards, and family-friendly press.
             </li>
           </ul>
 
-          <h2>4. Các hình thức phát hành gravure phổ biến</h2>
+          <h2>4. Popular Gravure Formats & Media</h2>
           <ul>
             <li>
-              <strong>Tạp chí tuần san / nguyệt san</strong>: Trang màu trung tâm và trang bìa.
+              <strong>Weekly &amp; Monthly Magazines</strong>: Featured cover models, glossy centerfold spreads, and exclusive promotional posters.
             </li>
             <li>
-              <strong>Photobook (Sách ảnh)</strong>: Tuyển tập ảnh nghệ thuật cao cấp, in ấn sắc
-              nét.
+              <strong>Deluxe Photobooks</strong>: Premium hardcover art books captured by celebrated professional photographers.
             </li>
             <li>
-              <strong>Digital Photobook (E-book) &amp; Cuộn dọc</strong>: Định dạng số tối ưu cho
-              smartphone, hỗ trợ cuộn ảnh mượt mà.
+              <strong>Digital Photobooks &amp; Vertical Scroll</strong>: Modern high-definition digital sets tailored for smooth, immersive smartphone reading.
             </li>
           </ul>
 
-          <h2>5. Văn hoá Gravure tại Việt Nam &amp; Xu hướng cuộn dọc</h2>
+          <h2>5. The Global Rise of Gravure & Vertical Scroll Experience</h2>
           <p>
-            Tại Việt Nam, sự quan tâm đến ảnh gravure nghệ thuật ngày càng gia tăng. Người xem hướng
-            đến những bộ ảnh chỉn chu, góc máy thẩm mỹ và phong cách tôn vinh vẻ đẹp tự nhiên.
+            Worldwide appreciation for Asian aesthetic photography continues to expand. Fans value high production standards, delicate lighting, and natural visual storytelling.
           </p>
           <p>
-            <strong>GravureHub</strong> mang đến trải nghiệm cuộn dọc không giới hạn, tổng hợp các
-            bộ ảnh gravure chất lượng cao từ người mẫu Hàn Quốc, Nhật Bản và Việt Nam.
+            <strong>GravureHub</strong> elevates this experience by providing an uninterrupted, vertical-scrolling reader featuring high-definition photobooks from Japanese, Korean, and Vietnamese models.
           </p>
 
-          <h2>6. Câu hỏi thường gặp (FAQ)</h2>
-          <h3>Gravure idol có phải nội dung 18+?</h3>
+          <h2>6. Frequently Asked Questions (FAQ)</h2>
+          <h3>Is gravure considered 18+ explicit content?</h3>
           <p>
-            Không. Gravure thuộc nhánh ảnh thời trang – nghệ thuật gợi cảm, được phát hành công khai
-            trên các tạp chí chính thống tại Nhật.
+            No. Gravure belongs to the soft glamour and artistic fashion photography sphere and is sold openly in mainstream bookstores throughout Japan and Asia.
           </p>
-          <h3>Làm sao để xem ảnh gravure chất lượng cao?</h3>
+          <h3>Where can I view high-definition gravure albums?</h3>
           <p>
-            Bạn có thể duyệt qua danh mục{" "}
+            You can browse curated collections on our{" "}
             <Link to="/featured" className="text-primary hover:underline">
               Featured Albums
             </Link>{" "}
-            hoặc{" "}
+            or check out the newest updates in{" "}
             <Link to="/latest" className="text-primary hover:underline">
               Latest Updates
             </Link>{" "}
-            tại GravureHub.
+            on GravureHub.
           </p>
 
-          {/* Author Bio Box (Task 13) */}
+          {/* Author Bio Box */}
           <div className="not-prose mt-10 flex items-center gap-4 rounded-2xl border border-border bg-card/60 p-5 backdrop-blur">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-brand text-sm font-bold text-primary-foreground">
               GH
@@ -278,13 +244,12 @@ function Page() {
             <div>
               <h4 className="text-sm font-semibold text-foreground">GravureHub Editorial Team</h4>
               <p className="text-xs text-muted-foreground">
-                Curating free, high-definition vertical-scroll gravure photo sets and model profiles
-                since 2024.
+                Curating free, high-definition vertical-scroll gravure photobooks and model profiles since 2024.
               </p>
             </div>
           </div>
 
-          {/* Related Articles & Internal Links (Task 13 & 14) */}
+          {/* Related Articles & Internal Links */}
           <div className="not-prose mt-8 border-t border-border pt-6">
             <h3 className="text-base font-semibold text-foreground">
               Related Articles &amp; Collections
@@ -295,10 +260,10 @@ function Page() {
                 className="group flex flex-col gap-1 rounded-xl border border-border bg-card/40 p-4 transition hover:border-primary/60 hover:bg-card"
               >
                 <span className="text-xs font-semibold text-primary group-hover:underline">
-                  Top 10 gravure idol 2024 →
+                  Top 10 Gravure Idols in 2024 →
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  Bảng xếp hạng 10 người mẫu gravure nổi bật nhất tại Nhật Bản.
+                  The definitive ranking of the top 10 most influential gravure models in Japan.
                 </span>
               </Link>
               <Link
@@ -309,7 +274,7 @@ function Page() {
                   Featured Albums →
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  Khám phá các album ảnh gravure chất lượng cao cập nhật liên tục.
+                  Explore high-definition gravure albums updated daily.
                 </span>
               </Link>
             </div>

@@ -21,9 +21,9 @@ import { MarkdownEditor } from "@/components/MarkdownEditor";
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
   head: () => {
-    const title = "Bảng quản lý nội dung — GravureHub";
+    const title = "Content Management Dashboard — GravureHub";
     const desc =
-      "Khu vực dành cho cộng tác viên GravureHub: tạo, chỉnh sửa và quản lý các bộ ảnh, album cùng người mẫu trên hệ thống.";
+      "Contributor dashboard on GravureHub: create, edit, and manage photo sets, albums, and models.";
     const url = `${SITE_URL}/admin`;
     return {
       meta: [
@@ -76,7 +76,7 @@ function AdminPage() {
     return (
       <div className="min-h-screen">
         <SiteHeader />
-        <main className="p-20 text-center text-muted-foreground">Đang tải…</main>
+        <main className="p-20 text-center text-muted-foreground">Loading…</main>
       </div>
     );
   if (!user)
@@ -84,7 +84,7 @@ function AdminPage() {
       <div className="min-h-screen">
         <SiteHeader />
         <main className="p-20 text-center">
-          <h1 className="text-2xl font-bold">Bạn cần đăng nhập</h1>
+          <h1 className="text-2xl font-bold">Sign-in Required</h1>
         </main>
       </div>
     );
@@ -93,8 +93,8 @@ function AdminPage() {
       <div className="min-h-screen">
         <SiteHeader />
         <main className="p-20 text-center">
-          <h1 className="text-2xl font-bold">Chưa có quyền CTV</h1>
-          <p className="mt-2 text-muted-foreground">Nộp đơn ứng tuyển và chờ admin duyệt.</p>
+          <h1 className="text-2xl font-bold">Contributor Access Required</h1>
+          <p className="mt-2 text-muted-foreground">Submit an application and await admin approval.</p>
         </main>
       </div>
     );
@@ -105,16 +105,16 @@ function AdminPage() {
       <main className="mx-auto max-w-5xl px-4 pb-20 pt-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Quản lý người mẫu</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Model Management</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Ảnh nhúng trực tiếp từ Google Drive.
+              Images embedded directly from Google Drive.
             </p>
           </div>
           <button
             onClick={() => setEditing(emptyComic())}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
           >
-            <Plus className="h-4 w-4" /> Thêm mới
+            <Plus className="h-4 w-4" /> Add New Model
           </button>
         </div>
 
@@ -130,10 +130,10 @@ function AdminPage() {
                   params={{ comicId: buildSlugId(c.title, c.id) }}
                   className="truncate font-semibold hover:text-primary"
                 >
-                  {c.title || "(chưa có tên)"}
+                  {c.title || "(Untitled)"}
                 </Link>
                 <p className="text-xs text-muted-foreground">
-                  {c.chapters.length} album · {c.author || "Ẩn danh"}
+                  {c.chapters.length} {c.chapters.length === 1 ? "album" : "albums"} · {c.author || "Anonymous"}
                 </p>
               </div>
               <div className="flex gap-2">
@@ -141,7 +141,7 @@ function AdminPage() {
                   onClick={() =>
                     setFeatured(c.id, !c.featured)
                       .then(() =>
-                        toast.success(c.featured ? "Đã bỏ nổi bật" : "Đã đánh dấu nổi bật"),
+                        toast.success(c.featured ? "Removed from featured" : "Marked as featured"),
                       )
                       .catch((e) => toast.error(e.message))
                   }
@@ -153,24 +153,24 @@ function AdminPage() {
                   }
                 >
                   <Star className={"h-3.5 w-3.5 " + (c.featured ? "fill-current" : "")} />
-                  {c.featured ? "Nổi bật" : "Đánh dấu"}
+                  {c.featured ? "Featured" : "Feature"}
                 </button>
                 <button
                   onClick={() => setEditing(JSON.parse(JSON.stringify(c)))}
                   className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-secondary"
                 >
-                  Sửa
+                  Edit
                 </button>
                 <button
                   onClick={() => {
-                    if (confirm(`Xoá "${c.title}"?`))
+                    if (confirm(`Delete "${c.title}"?`))
                       deleteComic(c.id)
-                        .then(() => toast.success("Đã xoá"))
+                        .then(() => toast.success("Deleted"))
                         .catch((e) => toast.error(e.message));
                   }}
                   className="inline-flex items-center gap-1 rounded-md border border-destructive/40 px-3 py-1.5 text-xs text-destructive hover:bg-destructive/10"
                 >
-                  <Trash2 className="h-3.5 w-3.5" /> Xoá
+                  <Trash2 className="h-3.5 w-3.5" /> Delete
                 </button>
               </div>
             </div>
@@ -187,10 +187,10 @@ function AdminPage() {
           onSave={async (c) => {
             try {
               await upsertComic(c);
-              toast.success("Đã lưu");
+              toast.success("Saved");
               setEditing(null);
             } catch (e: any) {
-              toast.error(e.message ?? "Lỗi");
+              toast.error(e.message ?? "Error");
             }
           }}
         />
@@ -252,16 +252,16 @@ function ComicEditor({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur">
       <div className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
         <header className="flex items-center justify-between border-b border-border px-5 py-3">
-          <h2 className="font-semibold">{comic.title ? `Sửa: ${comic.title}` : "Thêm mới"}</h2>
+          <h2 className="font-semibold">{comic.title ? `Edit: ${comic.title}` : "Add New Model"}</h2>
           <button onClick={onClose} className="text-sm text-muted-foreground hover:text-foreground">
-            Đóng
+            Close
           </button>
         </header>
         <div className="space-y-5 overflow-y-auto p-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <span className="mb-1.5 block text-xs font-medium text-muted-foreground">
-                Tên người mẫu
+                Model Name
               </span>
               <input
                 value={draft.title}
@@ -271,7 +271,7 @@ function ComicEditor({
             </label>
             <label className="block">
               <span className="mb-1.5 block text-xs font-medium text-muted-foreground">
-                Studio / Tác giả
+                Studio / Pen Name
               </span>
               <input
                 value={draft.author}
@@ -287,11 +287,11 @@ function ComicEditor({
             </label>
           </div>
           <div className="block">
-            <span className="mb-1.5 block text-xs font-medium text-muted-foreground">Mô tả</span>
+            <span className="mb-1.5 block text-xs font-medium text-muted-foreground">Description</span>
             <MarkdownEditor
               value={draft.description}
               onChange={(v) => patch({ description: v })}
-              placeholder="Giới thiệu về người mẫu… Hỗ trợ Markdown."
+              placeholder="Model biography and description… Markdown supported."
               minRows={5}
               maxLength={5000}
             />
@@ -299,7 +299,7 @@ function ComicEditor({
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <span className="mb-1.5 block text-xs font-medium text-muted-foreground">
-                Thể loại (phẩy)
+                Genres (comma-separated)
               </span>
               <input
                 value={draft.genres.join(", ")}
@@ -339,7 +339,7 @@ function ComicEditor({
             </label>
             <label className="block">
               <span className="mb-1.5 block text-xs font-medium text-muted-foreground">
-                Ảnh đại diện (Drive ID/link)
+                Cover Photo (Drive ID / link)
               </span>
               <input
                 value={draft.coverId}
@@ -354,7 +354,7 @@ function ComicEditor({
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <span className="mb-1.5 block text-xs font-medium text-muted-foreground">
-                Link Booking
+                Booking URL
               </span>
               <input
                 value={draft.bookingUrl ?? ""}
@@ -365,7 +365,7 @@ function ComicEditor({
             </label>
             <label className="block">
               <span className="mb-1.5 block text-xs font-medium text-muted-foreground">
-                Link Order New Album
+                Order New Album URL
               </span>
               <input
                 value={draft.orderUrl ?? ""}
@@ -378,12 +378,12 @@ function ComicEditor({
 
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <h3 className="font-semibold">Album ảnh</h3>
+              <h3 className="font-semibold">Photo Albums</h3>
               <button
                 onClick={addChapter}
                 className="inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-xs hover:bg-secondary"
               >
-                <Plus className="h-3.5 w-3.5" /> Thêm album
+                <Plus className="h-3.5 w-3.5" /> Add Album
               </button>
             </div>
             <div className="space-y-3">
@@ -419,7 +419,7 @@ function ComicEditor({
                     value={ch.pages.join("\n")}
                     onChange={(e) => updateChapter(ch.id, { pages: parseDriveIds(e.target.value) })}
                     rows={4}
-                    placeholder="Mỗi dòng một File ID hoặc link Drive"
+                    placeholder="One File ID or Drive link per line"
                     className={inputClass + " mt-2 font-mono text-xs"}
                   />
                   <div className="mt-2 flex items-center gap-2">
@@ -430,7 +430,7 @@ function ComicEditor({
                           coverId: extractDriveId(e.target.value) ?? e.target.value,
                         })
                       }
-                      placeholder="Ảnh đại diện album (Drive ID/link) — bỏ trống để dùng ảnh đầu"
+                      placeholder="Album cover image (Drive ID/link) — leave empty for 1st photo"
                       className={inputClass + " flex-1 text-xs"}
                     />
                   </div>
@@ -438,7 +438,7 @@ function ComicEditor({
                     <input
                       value={ch.videoUrl ?? ""}
                       onChange={(e) => updateChapter(ch.id, { videoUrl: e.target.value })}
-                      placeholder="Link video nhúng (YouTube, Vimeo, Drive…) — không bắt buộc"
+                      placeholder="Embed video URL (YouTube, Vimeo, Drive…) — optional"
                       className={inputClass + " text-xs"}
                     />
                   </div>
@@ -453,7 +453,7 @@ function ComicEditor({
                       <span>Premium</span>
                     </label>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-xs text-muted-foreground">Giá</span>
+                      <span className="text-xs text-muted-foreground">Price</span>
                       <input
                         type="number"
                         step="0.1"
@@ -470,12 +470,12 @@ function ComicEditor({
                       <span className="text-xs text-muted-foreground">USDT</span>
                     </div>
                   </div>
-                  <p className="mt-1 text-xs text-muted-foreground">{ch.pages.length} ảnh</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{ch.pages.length} {ch.pages.length === 1 ? "photo" : "photos"}</p>
                 </div>
               ))}
               {draft.chapters.length === 0 && (
                 <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-                  Chưa có album nào.
+                  No albums added yet.
                 </div>
               )}
             </div>
@@ -486,14 +486,14 @@ function ComicEditor({
             onClick={onClose}
             className="rounded-md border border-border px-4 py-2 text-sm hover:bg-secondary"
           >
-            Huỷ
+            Cancel
           </button>
           <button
             onClick={() => onSave(draft)}
             disabled={!draft.title.trim()}
             className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-40 hover:opacity-90"
           >
-            <Save className="h-4 w-4" /> Lưu
+            <Save className="h-4 w-4" /> Save
           </button>
         </footer>
       </div>

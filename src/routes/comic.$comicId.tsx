@@ -122,10 +122,10 @@ export const Route = createFileRoute("/comic/$comicId")({
   },
   head: ({ loaderData }) => {
     const m = loaderData?.meta;
-    if (!m) return { meta: [{ title: "Người mẫu — GravureHub" }] };
+    if (!m) return { meta: [{ title: "Model Profile — GravureHub" }] };
 
     const count = loaderData?.chapterCount || (loaderData?.comic?.chapters?.length ?? 1);
-    const title = `${m.title} — Albums | GravureHub`;
+    const title = `${m.title} — Gravure Albums | GravureHub`;
     const desc = generateModelMetaDescription(m, count);
     const uniqueDescription = generateModelDescription(m, count);
     const img = m.cover_id ? driveImageUrl(m.cover_id, 1200) : `${SITE_URL}/og-default.jpg`;
@@ -158,7 +158,7 @@ export const Route = createFileRoute("/comic/$comicId")({
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: `${m.title} — Gravure Albums | duahaumanga.com` },
-        { property: "og:description", content: `Khám phá các bộ ảnh gravure cuộn dọc miễn phí của ${m.title} trên GravureHub.` },
+        { property: "og:description", content: `Explore free vertical-scroll gravure photo sets of ${m.title} on GravureHub.` },
         { property: "og:image", content: img },
         { property: "og:image:width", content: "1200" },
         { property: "og:image:height", content: "630" },
@@ -166,13 +166,13 @@ export const Route = createFileRoute("/comic/$comicId")({
         { property: "og:type", content: "profile" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: `${m.title} — Gravure Albums` },
-        { name: "twitter:description", content: `Khám phá các bộ ảnh gravure cuộn dọc miễn phí của ${m.title} trên GravureHub.` },
+        { name: "twitter:description", content: `Explore free vertical-scroll gravure photo sets of ${m.title} on GravureHub.` },
         { name: "twitter:image", content: img },
       ],
       links: [
         { rel: "canonical", href: url },
-        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
         ...(m.cover_id
           ? [{ rel: "preload", as: "image", href: driveImageUrl(m.cover_id, 600) }]
@@ -185,8 +185,8 @@ export const Route = createFileRoute("/comic/$comicId")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-              { "@type": "ListItem", position: 2, name: "Thư viện Người mẫu", item: `${SITE_URL}/#library` },
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: "Model Library", item: `${SITE_URL}/#library` },
               { "@type": "ListItem", position: 3, name: m.title, item: url },
             ],
           }),
@@ -219,12 +219,12 @@ export const Route = createFileRoute("/comic/$comicId")({
     <div className="min-h-screen">
       <SiteHeader />
       <div className="p-20 text-center">
-        <h1 className="text-2xl font-bold">404 - Không tìm thấy người mẫu</h1>
+        <h1 className="text-2xl font-bold">404 - Model Not Found</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Người mẫu bạn đang tìm kiếm không tồn tại hoặc đã bị gỡ.
+          The model you are looking for does not exist or has been removed.
         </p>
         <Link to="/" className="mt-4 inline-block text-primary underline">
-          Về trang chủ
+          Back to Home
         </Link>
       </div>
     </div>
@@ -257,7 +257,7 @@ function ComicPage() {
       return (
         <div className="min-h-screen">
           <SiteHeader />
-          <div className="p-20 text-center text-muted-foreground">Đang tải…</div>
+          <div className="p-20 text-center text-muted-foreground">Loading…</div>
         </div>
       );
     throw notFound();
@@ -320,7 +320,7 @@ function ComicPage() {
                 className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20"
               >
                 <Pencil className="h-3.5 w-3.5" />{" "}
-                {editing ? "Đóng chỉnh sửa" : "Chỉnh sửa Profile"}
+                {editing ? "Close Editor" : "Edit Profile"}
               </button>
             </div>
           )}
@@ -354,7 +354,7 @@ function ComicPage() {
                 <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
                   <User className="h-3.5 w-3.5" /> {comic.author || "Gravure Model"}
                   <span className="mx-2 text-border">·</span>
-                  <BookOpen className="h-3.5 w-3.5" /> {comic.chapters.length} album
+                  <BookOpen className="h-3.5 w-3.5" /> {comic.chapters.length} {comic.chapters.length === 1 ? "album" : "albums"}
                 </p>
 
                 <div className="mt-4 rounded-2xl border border-primary/20 bg-card/60 p-4 text-sm leading-relaxed text-foreground/90 shadow-sm backdrop-blur">
@@ -392,7 +392,7 @@ function ComicPage() {
                     }}
                     className="group mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition hover:scale-105 active:scale-95"
                   >
-                    Xem album đầu{" "}
+                    Read First Album{" "}
                     <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 )}
@@ -406,14 +406,14 @@ function ComicPage() {
         <section className="mt-10">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-bold tracking-tight">
-              Danh sách Album ({comic.chapters.length})
+              Album Collection ({comic.chapters.length})
             </h2>
             {isAdmin && <QuickAddChapter comic={comic} />}
           </div>
 
           {comic.chapters.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border bg-card/40 p-12 text-center text-muted-foreground">
-              Chưa có album nào cho người mẫu này.
+              No albums available yet for this model.
             </div>
           ) : (
             <ul className="divide-y divide-border/60 overflow-hidden rounded-2xl border border-border bg-card/40 backdrop-blur">
@@ -458,7 +458,7 @@ function ComicPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                      <span>{ch.pages.length} ảnh</span>
+                      <span>{ch.pages.length} photos</span>
                       <ChevronRight className="h-4 w-4 group-hover:text-primary" />
                     </div>
                   </Link>
@@ -530,7 +530,7 @@ function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
   const [saving, setSaving] = useState(false);
 
   async function save() {
-    if (!title.trim()) return toast.error("Cần nhập tên");
+    if (!title.trim()) return toast.error("Please enter a name");
     setSaving(true);
     try {
       await upsertComic({
@@ -547,10 +547,10 @@ function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
         orderUrl: orderUrl.trim(),
         featured,
       });
-      toast.success("Đã lưu profile");
+      toast.success("Profile saved successfully");
       onDone();
     } catch (e: any) {
-      toast.error(e.message ?? "Lỗi");
+      toast.error(e.message ?? "Error");
     } finally {
       setSaving(false);
     }
@@ -561,10 +561,10 @@ function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
 
   return (
     <div className="rounded-2xl border border-primary/40 bg-card/70 p-5 backdrop-blur">
-      <h2 className="mb-4 text-lg font-bold text-primary">Chỉnh sửa Profile người mẫu</h2>
+      <h2 className="mb-4 text-lg font-bold text-primary">Edit Model Profile</h2>
       <div className="grid gap-3 md:grid-cols-2">
         <label className="text-xs font-medium text-muted-foreground">
-          Tên
+          Name
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -572,7 +572,7 @@ function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
           />
         </label>
         <label className="text-xs font-medium text-muted-foreground">
-          Nghệ danh / tác giả
+          Author / Stage Name
           <input
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
@@ -580,7 +580,7 @@ function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
           />
         </label>
         <label className="text-xs font-medium text-muted-foreground md:col-span-2">
-          Ảnh đại diện (File ID / link Drive)
+          Cover Image (File ID / Drive Link)
           <input
             value={coverId}
             onChange={(e) => setCoverId(e.target.value)}
@@ -588,7 +588,7 @@ function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
           />
         </label>
         <label className="text-xs font-medium text-muted-foreground md:col-span-2">
-          Thể loại (phân cách bằng dấu phẩy)
+          Genres (comma-separated)
           <input
             value={genres}
             onChange={(e) => setGenres(e.target.value)}
@@ -612,7 +612,7 @@ function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
           />
         </label>
         <label className="text-xs font-medium text-muted-foreground md:col-span-2">
-          Mô tả (Markdown)
+          Description (Markdown)
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -626,7 +626,7 @@ function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
             checked={featured}
             onChange={(e) => setFeatured(e.target.checked)}
           />{" "}
-          Nổi bật
+          Featured
         </label>
       </div>
       <div className="mt-4 flex justify-end gap-2">
@@ -634,14 +634,14 @@ function EditProfile({ comic, onDone }: { comic: Comic; onDone: () => void }) {
           onClick={onDone}
           className="rounded-md border border-border px-4 py-2 text-sm hover:bg-secondary"
         >
-          Huỷ
+          Cancel
         </button>
         <button
           onClick={save}
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-md bg-gradient-brand px-4 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-40"
         >
-          {saving ? "Đang lưu…" : "Lưu"}
+          {saving ? "Saving…" : "Save Profile"}
         </button>
       </div>
     </div>
@@ -658,8 +658,8 @@ function QuickAddChapter({ comic }: { comic: ReturnType<typeof useComics>[number
 
   async function save() {
     const pages = parseDriveIds(pagesText);
-    if (!title.trim()) return toast.error("Cần nhập tên album");
-    if (!pages.length && !videoUrl.trim()) return toast.error("Cần ít nhất 1 ảnh hoặc 1 video");
+    if (!title.trim()) return toast.error("Please enter an album title");
+    if (!pages.length && !videoUrl.trim()) return toast.error("Requires at least 1 image or 1 video");
     setSaving(true);
     try {
       const ch: Chapter = {
@@ -671,14 +671,14 @@ function QuickAddChapter({ comic }: { comic: ReturnType<typeof useComics>[number
         createdAt: Date.now(),
       };
       await upsertComic({ ...comic, chapters: [...comic.chapters, ch] });
-      toast.success("Đã thêm album");
+      toast.success("Album added successfully");
       setOpen(false);
       setTitle(`Album ${comic.chapters.length + 2}`);
       setPagesText("");
       setCoverId("");
       setVideoUrl("");
     } catch (e: any) {
-      toast.error(e.message ?? "Lỗi");
+      toast.error(e.message ?? "Error");
     } finally {
       setSaving(false);
     }
@@ -694,7 +694,7 @@ function QuickAddChapter({ comic }: { comic: ReturnType<typeof useComics>[number
           onClick={() => setOpen(true)}
           className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-4 py-2 text-sm font-semibold text-primary-foreground shadow-glow hover:opacity-90"
         >
-          <Plus className="h-4 w-4" /> Thêm album nhanh
+          <Plus className="h-4 w-4" /> Quick Add Album
         </button>
       </div>
     );
@@ -703,38 +703,38 @@ function QuickAddChapter({ comic }: { comic: ReturnType<typeof useComics>[number
   return (
     <div className="mb-5 rounded-2xl border border-primary/40 bg-background/60 p-4">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-primary">Thêm album nhanh (Admin)</h3>
+        <h3 className="text-sm font-semibold text-primary">Quick Add Album (Admin)</h3>
         <button
           onClick={() => setOpen(false)}
           className="text-xs text-muted-foreground hover:text-foreground"
         >
-          Đóng
+          Close
         </button>
       </div>
       <div className="grid gap-3">
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Tên album"
+          placeholder="Album Title"
           className={inputClass}
         />
         <textarea
           value={pagesText}
           onChange={(e) => setPagesText(e.target.value)}
           rows={5}
-          placeholder="Mỗi dòng một File ID hoặc link Drive"
+          placeholder="One File ID or Drive link per line"
           className={inputClass + " font-mono text-xs"}
         />
         <input
           value={coverId}
           onChange={(e) => setCoverId(e.target.value)}
-          placeholder="Ảnh đại diện (tuỳ chọn)"
+          placeholder="Cover Image (optional)"
           className={inputClass + " text-xs"}
         />
         <input
           value={videoUrl}
           onChange={(e) => setVideoUrl(e.target.value)}
-          placeholder="Link video nhúng (tuỳ chọn)"
+          placeholder="Embed Video URL (optional)"
           className={inputClass + " text-xs"}
         />
         <div className="flex justify-end gap-2">
@@ -742,14 +742,14 @@ function QuickAddChapter({ comic }: { comic: ReturnType<typeof useComics>[number
             onClick={() => setOpen(false)}
             className="rounded-md border border-border px-4 py-2 text-sm hover:bg-secondary"
           >
-            Huỷ
+            Cancel
           </button>
           <button
             onClick={save}
             disabled={saving}
             className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-40 hover:opacity-90"
           >
-            <Plus className="h-4 w-4" /> {saving ? "Đang lưu…" : "Lưu album"}
+            <Plus className="h-4 w-4" /> {saving ? "Saving…" : "Save Album"}
           </button>
         </div>
       </div>

@@ -12,7 +12,7 @@ type I18nCtx = {
 const Ctx = createContext<I18nCtx | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("vi");
+  const [lang, setLangState] = useState<Lang>("en");
 
   useEffect(() => {
     const stored =
@@ -34,7 +34,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const t = useCallback(
-    (key: string) => TRANSLATIONS[lang][key] ?? TRANSLATIONS.vi[key] ?? key,
+    (key: string) => TRANSLATIONS[lang]?.[key] ?? TRANSLATIONS.en[key] ?? TRANSLATIONS.vi[key] ?? key,
     [lang],
   );
 

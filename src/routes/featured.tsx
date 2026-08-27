@@ -14,7 +14,7 @@ export const Route = createFileRoute("/featured")({
     return { comics };
   },
   head: () => {
-    const title = "Featured Albums — GravureHub (Dưa Hấu Manga)";
+    const title = "Featured Albums — GravureHub";
     const desc =
       "Discover the best featured gravure photo albums and high-definition photobooks from top models on GravureHub (duahaumanga.com). Updated daily.";
     const url = `${SITE_URL}/featured`;
@@ -28,8 +28,8 @@ export const Route = createFileRoute("/featured")({
       ],
       links: [
         { rel: "canonical", href: url },
-        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
       ],
     };
@@ -105,9 +105,9 @@ function FeaturedPage() {
 
         {featured.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground">
-            Chưa có album nào.{" "}
+            No featured albums yet.{" "}
             <Link to="/admin" className="text-primary underline">
-              Vào Quản lý
+              Go to Manage
             </Link>
           </div>
         ) : (
@@ -134,7 +134,7 @@ function FeaturedPage() {
                       {a.chapter.title}
                     </h2>
                     <p className="line-clamp-1 text-xs text-muted-foreground">
-                      {a.comic.title} · {a.comic.chapters.length} album
+                      {a.comic.title} · {a.comic.chapters.length} {a.comic.chapters.length === 1 ? "album" : "albums"}
                     </p>
                   </div>
                 </Link>

@@ -15,12 +15,12 @@ export const Route = createFileRoute("/genre/$slug")({
   },
   head: ({ params }) => ({
     meta: [
-      { title: `Category: ${params.slug} — GravureHub (Dưa Hấu Manga)` },
+      { title: `Category: ${params.slug} — GravureHub` },
       {
         name: "description",
         content: `Explore gravure models and photobooks in category ${params.slug} on GravureHub (duahaumanga.com).`,
       },
-      { property: "og:title", content: `Category: ${params.slug} — GravureHub (duahaumanga.com)` },
+      { property: "og:title", content: `Category: ${params.slug} — GravureHub` },
       {
         property: "og:description",
         content: `Explore gravure models and photobooks in category ${params.slug} on GravureHub (duahaumanga.com).`,
@@ -29,8 +29,8 @@ export const Route = createFileRoute("/genre/$slug")({
     ],
     links: [
       { rel: "canonical", href: `${SITE_URL}/genre/${params.slug}` },
-      { rel: "alternate", hrefLang: "vi", href: `${SITE_URL}/genre/${params.slug}` },
       { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/genre/${params.slug}` },
+      { rel: "alternate", hrefLang: "vi", href: `${SITE_URL}/genre/${params.slug}` },
       { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/genre/${params.slug}` },
     ],
   }),
@@ -112,9 +112,9 @@ function GenrePage() {
 
         {matched.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground">
-            Chưa có nội dung.{" "}
+            No models found in this category.{" "}
             <Link to="/" className="text-primary underline">
-              Về thư viện
+              Back to Library
             </Link>
           </div>
         ) : (
@@ -138,7 +138,7 @@ function GenrePage() {
                     {c.title}
                   </h2>
                   <p className="line-clamp-1 text-xs text-muted-foreground">
-                    {c.chapters.length} album · {c.author || "Ẩn danh"}
+                    {c.chapters.length} {c.chapters.length === 1 ? "album" : "albums"} · {c.author || "Anonymous"}
                   </p>
                 </div>
               </Link>

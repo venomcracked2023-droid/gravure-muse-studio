@@ -22,8 +22,8 @@ export const Route = createFileRoute("/terms")({
       ],
       links: [
         { rel: "canonical", href: url },
-        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
       ],
       scripts: [
@@ -33,8 +33,8 @@ export const Route = createFileRoute("/terms")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-              { "@type": "ListItem", position: 2, name: "Điều khoản dịch vụ", item: url },
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: "Terms of Service", item: url },
             ],
           }),
         },

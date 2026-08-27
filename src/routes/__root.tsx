@@ -181,11 +181,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "GravureHub — Dưa Hấu Manga | Free vertical-scroll gravure albums" },
+      { title: "GravureHub — Free Vertical-Scroll Gravure Albums" },
       {
         name: "description",
         content:
-          "GravureHub (duahaumanga.com) — Thư viện ảnh gravure cuộn dọc miễn phí từ người mẫu Hàn Quốc, Nhật Bản và Việt Nam. Cập nhật liên tục photobook HD chất lượng cao.",
+          "GravureHub (duahaumanga.com) — Free vertical-scroll gravure photo library featuring models from Japan, Korea, and across Asia. High-definition photobooks updated daily.",
       },
       { name: "author", content: "GravureHub — duahaumanga.com" },
       { name: "robots", content: "index,follow,max-image-preview:large" },
@@ -193,24 +193,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#1a0a18" },
       {
         name: "keywords",
-        content: "gravure, gravure idol, gravure models, photobook, duahaumanga, duahaumanga.com, GravureHub, Dưa Hấu Manga, vertical scroll",
+        content: "gravure, gravure idol, gravure models, photobook, duahaumanga, duahaumanga.com, GravureHub, vertical scroll, japanese gravure, korean gravure",
       },
       { property: "og:site_name", content: "GravureHub (duahaumanga.com)" },
-      { property: "og:title", content: "GravureHub — Dưa Hấu Manga | Free vertical-scroll gravure albums" },
+      { property: "og:title", content: "GravureHub — Free Vertical-Scroll Gravure Albums" },
       {
         property: "og:description",
         content:
-          "GravureHub (duahaumanga.com) — Thư viện ảnh gravure cuộn dọc miễn phí từ người mẫu Hàn Quốc, Nhật Bản và Việt Nam. Cập nhật liên tục.",
+          "GravureHub (duahaumanga.com) — Free vertical-scroll gravure photo library featuring models from Japan, Korea, and across Asia. High-definition photobooks updated daily.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:locale", content: "vi_VN" },
+      { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@duahaumanga" },
-      { name: "twitter:title", content: "GravureHub — Dưa Hấu Manga | Free vertical-scroll gravure albums" },
+      { name: "twitter:title", content: "GravureHub — Free Vertical-Scroll Gravure Albums" },
       {
         name: "twitter:description",
         content:
-          "GravureHub (duahaumanga.com) — Thư viện ảnh gravure cuộn dọc miễn phí từ người mẫu Hàn Quốc, Nhật Bản và Việt Nam.",
+          "GravureHub (duahaumanga.com) — Free vertical-scroll gravure photo library featuring models from Japan, Korea, and across Asia. High-definition photobooks updated daily.",
       },
       { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
       { property: "og:image:width", content: "1200" },
@@ -246,7 +246,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: SITE_BRAND_FULL,
           alternateName: SITE_ALT_NAMES,
           url: SITE_URL,
-          inLanguage: ["vi", "en"],
+          inLanguage: ["en", "vi", "ja", "zh", "ko"],
           potentialAction: {
             "@type": "SearchAction",
             target: `${SITE_URL}/?q={search_term_string}`,
@@ -264,7 +264,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi">
+    <html lang="en">
       <head>
         <HeadContent />
       </head>

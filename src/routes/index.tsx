@@ -38,9 +38,9 @@ export const Route = createFileRoute("/")({
         : undefined,
   }),
   head: () => {
-    const title = "GravureHub — Dưa Hấu Manga | Free gravure photo library";
+    const title = "GravureHub — Free Vertical-Scroll Gravure Photo Library";
     const desc =
-      "Khám phá các bộ ảnh gravure cuộn dọc chuẩn HD từ người mẫu Hàn Quốc, Nhật Bản và Việt Nam trên GravureHub (duahaumanga.com). Miễn phí, cập nhật liên tục.";
+      "Discover HD vertical-scroll gravure photobooks from Korean, Japanese, and Asian models on GravureHub (duahaumanga.com). Free, updated daily.";
     const url = `${SITE_URL}/`;
     const img = `${SITE_URL}/og-default.jpg`;
     return {
@@ -58,8 +58,8 @@ export const Route = createFileRoute("/")({
       ],
       links: [
         { rel: "canonical", href: url },
-        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
       ],
     };
@@ -89,8 +89,8 @@ function Index() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-      { "@type": "ListItem", position: 2, name: "Thư viện Người mẫu", item: `${SITE_URL}/#library` },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Model Library", item: `${SITE_URL}/#library` },
     ],
   };
 
@@ -133,15 +133,15 @@ function Index() {
           />
           <div className="relative max-w-2xl animate-fade-in-up">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-primary" /> duahaumanga.com — Thư viện ảnh gravure cuộn dọc
+              <Sparkles className="h-3.5 w-3.5 text-primary" /> duahaumanga.com — Vertical-scroll gravure library
             </span>
             <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
               GravureHub —{" "}
-              <span className="text-gradient-brand">Thư viện ảnh Gravure cuộn dọc</span>
+              <span className="text-gradient-brand">Vertical-Scroll Gravure Photo Library</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-              Khám phá các bộ ảnh gravure và photobook nghệ thuật từ người mẫu Hàn Quốc, Nhật Bản và
-              Việt Nam. Trải nghiệm xem cuộn dọc mượt mà, tối ưu hoàn hảo trên di động và máy tính.
+              Explore fine-art gravure albums and photobooks featuring Japanese, Korean, and Asian
+              models. Enjoy an uninterrupted, smooth vertical-scrolling experience on mobile and desktop.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
@@ -160,7 +160,7 @@ function Index() {
                 to="/latest"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-5 py-2.5 text-sm backdrop-blur transition hover:border-primary/60 hover:bg-secondary"
               >
-                <Clock className="h-4 w-4 text-primary" /> Mới cập nhật
+                <Clock className="h-4 w-4 text-primary" /> Latest Updates
               </Link>
             </div>
             <dl className="mt-5 grid max-w-md grid-cols-3 gap-3 text-sm">
@@ -197,9 +197,9 @@ function Index() {
             </div>
             <div className="min-w-0">
               <div className="font-semibold text-sm text-foreground group-hover:text-primary">
-                Album Nổi Bật
+                Featured Albums
               </div>
-              <div className="text-xs text-muted-foreground truncate">{featured.length} album tuyển chọn</div>
+              <div className="text-xs text-muted-foreground truncate">{featured.length} curated albums</div>
             </div>
           </Link>
 
@@ -212,9 +212,9 @@ function Index() {
             </div>
             <div className="min-w-0">
               <div className="font-semibold text-sm text-foreground group-hover:text-primary">
-                Mới Cập Nhật
+                Latest Updates
               </div>
-              <div className="text-xs text-muted-foreground truncate">Bộ ảnh cập nhật hàng ngày</div>
+              <div className="text-xs text-muted-foreground truncate">Daily updated photo sets</div>
             </div>
           </Link>
 
@@ -228,9 +228,9 @@ function Index() {
             </div>
             <div className="min-w-0">
               <div className="font-semibold text-sm text-foreground group-hover:text-primary">
-                Idol Nhật Bản
+                Japanese Idols
               </div>
-              <div className="text-xs text-muted-foreground truncate">Photobook gravure kinh điển</div>
+              <div className="text-xs text-muted-foreground truncate">Classic gravure photobooks</div>
             </div>
           </Link>
 
@@ -243,9 +243,9 @@ function Index() {
             </div>
             <div className="min-w-0">
               <div className="font-semibold text-sm text-foreground group-hover:text-primary">
-                Gói VIP & Hỗ Trợ
+                VIP Access
               </div>
-              <div className="text-xs text-muted-foreground truncate">Mở khoá album đặc biệt</div>
+              <div className="text-xs text-muted-foreground truncate">Unlock exclusive albums</div>
             </div>
           </Link>
         </section>
@@ -253,15 +253,14 @@ function Index() {
         {/* Rich SEO Content Block */}
         <section className="mt-8 rounded-2xl border border-border/80 bg-card/40 p-6 backdrop-blur sm:p-8">
           <h2 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
-            Chào mừng đến với GravureHub (duahaumanga.com) — Thư viện ảnh Gravure cuộn dọc
+            Welcome to GravureHub (duahaumanga.com) — Vertical-Scroll Gravure Photo Library
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            <strong>GravureHub</strong> (trực thuộc domain <strong>duahaumanga.com</strong>) là nền
-            tảng trực tuyến chuyên tuyển chọn và mang đến trải nghiệm ngắm nhìn các bộ ảnh gravure,
-            photobook thời trang và nghệ thuật chân dung chất lượng cao từ các người mẫu hàng đầu
-            Hàn Quốc, Nhật Bản và Việt Nam. Với giao diện đọc cuộn dọc không ngắt quãng (vertical
-            scroll), bạn có thể dễ dàng thưởng thức trọn vẹn từng khung hình sắc nét, không lo quảng
-            cáo che khuất hay giảm trải nghiệm thị giác.
+            <strong>GravureHub</strong> (hosted at <strong>duahaumanga.com</strong>) is an online platform
+            dedicated to curating high-definition gravure albums, fashion portraits, and artistic model
+            photobooks from top Japanese, Korean, and Asian models. With our seamless vertical-scroll
+            reading interface, you can effortlessly browse each vibrant photo set without distracting
+            intrusions.
           </p>
         </section>
 
@@ -283,10 +282,10 @@ function Index() {
         <section className="mt-14">
           <div className="mb-6 flex items-center justify-between">
             <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
-              <FileText className="h-5 w-5 text-primary" /> Cẩm nang & Bài viết nổi bật
+              <FileText className="h-5 w-5 text-primary" /> Guides &amp; Featured Articles
             </h2>
             <Link to="/about" className="text-sm font-medium text-primary hover:underline">
-              Về chúng tôi →
+              About Us →
             </Link>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
@@ -296,17 +295,17 @@ function Index() {
             >
               <div>
                 <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-                  Kiến thức Gravure
+                  Gravure Culture
                 </span>
                 <h3 className="mt-3 text-lg font-bold text-foreground group-hover:text-primary transition-colors">
-                  Gravure idol là gì? Nét đẹp nghệ thuật & văn hóa photobook Nhật Bản
+                  What is a Gravure Idol? Artistic Charm &amp; Japanese Photobook Culture
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                  Tìm hiểu nguồn gốc, sự phát triển và giá trị thẩm mỹ của văn hoá gravure idol từ xứ sở hoa anh đào tới phong cách hiện đại.
+                  Discover the origins, historical evolution, and aesthetic allure of gravure idol photography from Japan to modern digital formats.
                 </p>
               </div>
               <span className="mt-4 inline-flex items-center text-xs font-medium text-primary">
-                Đọc bài viết →
+                Read article →
               </span>
             </Link>
 
@@ -316,17 +315,17 @@ function Index() {
             >
               <div>
                 <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-                  Bảng Xếp Hạng
+                  Rankings
                 </span>
                 <h3 className="mt-3 text-lg font-bold text-foreground group-hover:text-primary transition-colors">
-                  Top 10 gravure idol và người mẫu photobook được yêu thích nhất
+                  Top 10 Most Popular Japanese Gravure Idols in 2024
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                  Danh sách tổng hợp những gương mặt nổi bật nhất trong làng gravure châu Á với visual cuốn hút và những photobook bán chạy.
+                  A curated list of the most celebrated gravure models across Asia with stunning visual charisma and bestselling photobooks.
                 </p>
               </div>
               <span className="mt-4 inline-flex items-center text-xs font-medium text-primary">
-                Đọc bài viết →
+                Read article →
               </span>
             </Link>
           </div>
@@ -344,7 +343,7 @@ function Index() {
               <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                 {term
                   ? `${t("section.found")} ${filtered.length} ${t("section.modelsMatching")} "${q}"`
-                  : `${t("section.total")} ${comics.length} ${t("section.modelsCount")} — Duyệt theo người mẫu và khám phá các photobook chuẩn HD`}
+                  : `${t("section.total")} ${comics.length} ${t("section.modelsCount")} — Browse by model and explore HD photobooks`}
               </p>
             </div>
             <div className="flex flex-wrap gap-1.5 text-xs">
@@ -356,12 +355,12 @@ function Index() {
                   !term ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card/60 text-muted-foreground hover:border-primary/60 hover:text-foreground",
                 )}
               >
-                Tất cả
+                All
               </Link>
               {[
-                { tag: "Japanese", label: "Nhật Bản", slug: "japanese" },
-                { tag: "Korean", label: "Hàn Quốc", slug: "korean" },
-                { tag: "Vietnamese", label: "Việt Nam", slug: "vietnamese" },
+                { tag: "Japanese", label: "Japanese", slug: "japanese" },
+                { tag: "Korean", label: "Korean", slug: "korean" },
+                { tag: "Vietnamese", label: "Vietnamese", slug: "vietnamese" },
                 { tag: "Bikini", label: "Bikini", slug: "bikini" },
                 { tag: "Cosplay", label: "Cosplay", slug: "cosplay" },
               ].map(({ label, slug }) => (
@@ -390,12 +389,12 @@ function Index() {
             <div className="rounded-3xl border border-dashed border-border bg-card/60 p-10 text-center backdrop-blur">
               <Sparkles className="mx-auto h-8 w-8 text-primary/80 animate-pulse-glow" />
               <h3 className="mt-3 text-lg font-bold text-foreground">
-                {term ? `${t("empty.noResults")} "${q}"` : "Thư viện đang cập nhật album mới"}
+                {term ? `${t("empty.noResults")} "${q}"` : "Library is updating with new albums"}
               </h3>
               <p className="mx-auto mt-2 max-w-md text-xs leading-relaxed text-muted-foreground sm:text-sm">
                 {term
-                  ? "Vui lòng thử tìm kiếm với từ khoá khác hoặc xem các thể loại gợi ý."
-                  : "Các bộ ảnh chất lượng cao đang được tuyển chọn và tải lên hàng ngày. Tham gia cộng đồng Telegram để nhận thông báo sớm nhất!"}
+                  ? "Please try searching with different keywords or explore suggested categories."
+                  : "High-definition photo sets are curated and uploaded regularly. Join our Telegram community for the latest updates!"}
               </p>
               <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
                 <a
@@ -407,7 +406,7 @@ function Index() {
                   <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
                     <path d="M21.6 4.8c-.5-.4-1.1-.4-1.6-.2L2.8 11.3c-.9.3-1.1 1.1-.5 1.6l3.4 2.6 2.3 7.1c.2.6.8.9 1.4.5l3-2.3 3.8 3.1c.6.5 1.5.3 1.8-.5l4.5-13.2c.3-.9-.2-1.5-1.1-1.8-.1-.1-.2-.1-.3-.1-.2-.1-.3-.2-.5-.3zM9.8 17.2l.6-4.1 6.5-5.8-8.5 7.5 1.4 2.4z" />
                   </svg>
-                  Tham gia Telegram GravureHub
+                  Join GravureHub Telegram
                 </a>
                 {term && (
                   <Link
@@ -415,7 +414,7 @@ function Index() {
                     search={{}}
                     className="inline-flex items-center rounded-full border border-border bg-background/50 px-4 py-2 text-xs font-medium text-foreground hover:bg-secondary"
                   >
-                    Xem tất cả người mẫu
+                    View all models
                   </Link>
                 )}
               </div>
@@ -464,14 +463,14 @@ function Index() {
                             params={{ comicId: comicSlug, chapterId: firstChapterSlug }}
                             className="font-medium text-primary hover:underline inline-flex items-center gap-0.5"
                           >
-                            Xem album 1 →
+                            Read album 1 →
                           </Link>
                           <Link
                             to="/comic/$comicId"
                             params={{ comicId: comicSlug }}
                             className="text-muted-foreground hover:text-foreground"
                           >
-                            Hồ sơ
+                            Profile
                           </Link>
                         </div>
                       )}

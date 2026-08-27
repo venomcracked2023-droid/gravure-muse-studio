@@ -31,8 +31,8 @@ export function PdfReader({ fileUrl, Footer, onFail }: Props) {
           console.error("PDF load error", err);
           onFail?.();
         }}
-        loading={<div className="p-10 text-center text-muted-foreground">Đang tải PDF…</div>}
-        error={<div className="p-10 text-center text-destructive">Không tải được PDF.</div>}
+        loading={<div className="p-10 text-center text-muted-foreground">Loading PDF…</div>}
+        error={<div className="p-10 text-center text-destructive">Failed to load PDF.</div>}
       >
         {numPages && (
           <>

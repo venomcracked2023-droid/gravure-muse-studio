@@ -9,9 +9,9 @@ import { SITE_URL } from "@/lib/seo";
 export const Route = createFileRoute("/apply")({
   component: ApplyPage,
   head: () => {
-    const title = "Ứng tuyển cộng tác viên — GravureHub";
+    const title = "Contributor Application — GravureHub";
     const desc =
-      "Đăng ký trở thành cộng tác viên GravureHub để đăng tải và quản lý các album ảnh gravure chất lượng cao trên nền tảng.";
+      "Apply to become a GravureHub contributor to publish and manage high-definition gravure photo albums.";
     const url = `${SITE_URL}/apply`;
     return {
       meta: [
@@ -76,10 +76,10 @@ function ApplyPage() {
         .single();
       if (error) throw error;
       setApp(data as Application);
-      toast.success("Đã gửi đơn. Chờ admin duyệt.");
+      toast.success("Application submitted. Awaiting admin review.");
       await refresh();
     } catch (e: any) {
-      toast.error(e.message ?? "Lỗi");
+      toast.error(e.message ?? "Error");
     } finally {
       setBusy(false);
     }
@@ -89,7 +89,7 @@ function ApplyPage() {
     return (
       <div className="min-h-screen">
         <SiteHeader />
-        <main className="p-20 text-center text-muted-foreground">Đang tải…</main>
+        <main className="p-20 text-center text-muted-foreground">Loading…</main>
       </div>
     );
 
@@ -97,26 +97,26 @@ function ApplyPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-2xl px-4 py-12">
-        <h1 className="text-3xl font-bold tracking-tight">Ứng tuyển cộng tác viên</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Contributor Application</h1>
         <p className="mt-2 text-muted-foreground">
-          Trở thành CTV để đăng album ảnh lên GravureHub.
+          Become a contributor to publish and share photo albums on GravureHub.
         </p>
 
         {isContributor && (
           <div className="mt-6 rounded-xl border border-primary/30 bg-primary/10 p-4 text-sm">
-            ✅ Bạn đã là CTV.{" "}
+            ✅ You are already an approved contributor.{" "}
             <Link to="/admin" className="text-primary underline">
-              Đến trang quản lý
+              Go to Management Dashboard
             </Link>
           </div>
         )}
 
         {app && (
           <div className="mt-6 rounded-xl border border-border bg-card p-5">
-            <div className="text-sm text-muted-foreground">Đơn gần nhất</div>
+            <div className="text-sm text-muted-foreground">Latest Application</div>
             <div className="mt-1 font-semibold">{app.pen_name}</div>
             <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs">
-              Trạng thái:{" "}
+              Status:{" "}
               <span
                 className={
                   app.status === "approved"
@@ -127,10 +127,10 @@ function ApplyPage() {
                 }
               >
                 {app.status === "pending"
-                  ? "Chờ duyệt"
+                  ? "Pending Review"
                   : app.status === "approved"
-                    ? "Đã duyệt"
-                    : "Từ chối"}
+                    ? "Approved"
+                    : "Rejected"}
               </span>
             </div>
           </div>
@@ -142,29 +142,32 @@ function ApplyPage() {
             className="mt-6 space-y-3 rounded-2xl border border-border bg-card p-5"
           >
             <div>
-              <label className="text-sm font-medium">Bút danh</label>
+              <label className="text-sm font-medium">Pen Name / Handle</label>
               <input
                 required
                 value={penName}
                 onChange={(e) => setPenName(e.target.value)}
+                placeholder="e.g. MuseCurator"
                 className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring"
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Lý do tham gia</label>
+              <label className="text-sm font-medium">Reason for Joining</label>
               <textarea
                 required
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 rows={4}
+                placeholder="Tell us what albums or models you plan to share..."
                 className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring"
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Link mẫu (tuỳ chọn)</label>
+              <label className="text-sm font-medium">Sample Portfolio Link (Optional)</label>
               <input
                 value={sample}
                 onChange={(e) => setSample(e.target.value)}
+                placeholder="https://..."
                 className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring"
               />
             </div>
@@ -173,7 +176,7 @@ function ApplyPage() {
               disabled={busy}
               className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
             >
-              Gửi đơn
+              Submit Application
             </button>
           </form>
         )}

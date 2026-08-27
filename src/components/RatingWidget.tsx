@@ -23,7 +23,7 @@ export function RatingWidget({ comicId }: { comicId: string }) {
 
   async function setScore(score: number) {
     if (!user) {
-      toast.error("Vui lòng đăng nhập để đánh giá");
+      toast.error("Please sign in to submit a rating");
       return;
     }
     setSaving(true);
@@ -35,7 +35,7 @@ export function RatingWidget({ comicId }: { comicId: string }) {
       toast.error(error.message);
       return;
     }
-    toast.success(`Đã đánh giá ${score} sao`);
+    toast.success(`Rated ${score} ${score === 1 ? "star" : "stars"}`);
     load();
   }
 
@@ -45,7 +45,7 @@ export function RatingWidget({ comicId }: { comicId: string }) {
         className="flex items-center"
         onMouseLeave={() => setHover(0)}
         role="radiogroup"
-        aria-label="Đánh giá"
+        aria-label="Rating"
       >
         {[1, 2, 3, 4, 5].map((n) => {
           const filled = (hover || myScore) >= n;
@@ -56,7 +56,7 @@ export function RatingWidget({ comicId }: { comicId: string }) {
               disabled={saving}
               onMouseEnter={() => setHover(n)}
               onClick={() => setScore(n)}
-              aria-label={`${n} sao`}
+              aria-label={`${n} ${n === 1 ? "star" : "stars"}`}
               aria-checked={myScore === n}
               role="radio"
               className="p-0.5 transition disabled:opacity-50"
@@ -75,10 +75,10 @@ export function RatingWidget({ comicId }: { comicId: string }) {
         {rows.length > 0 ? (
           <>
             <span className="font-semibold text-foreground">{avg.toFixed(1)}</span> / 5 ·{" "}
-            {rows.length} đánh giá
+            {rows.length} {rows.length === 1 ? "rating" : "ratings"}
           </>
         ) : (
-          "Chưa có đánh giá"
+          "No ratings yet"
         )}
       </div>
     </div>

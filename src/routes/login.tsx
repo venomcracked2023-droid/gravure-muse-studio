@@ -10,9 +10,9 @@ import { SITE_URL } from "@/lib/seo";
 export const Route = createFileRoute("/login")({
   component: LoginPage,
   head: () => {
-    const title = "Đăng nhập hoặc đăng ký — GravureHub";
+    const title = "Sign In or Register — GravureHub";
     const desc =
-      "Đăng nhập GravureHub bằng email hoặc Google để theo dõi người mẫu yêu thích, đánh giá album và đăng nội dung mới.";
+      "Sign in to GravureHub with email or Google to follow favorite models, review photobooks, and publish content.";
     const url = `${SITE_URL}/login`;
     return {
       meta: [
@@ -26,6 +26,7 @@ export const Route = createFileRoute("/login")({
       links: [
         { rel: "canonical", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
       ],
     };
@@ -56,15 +57,15 @@ function LoginPage() {
           options: { emailRedirectTo: window.location.origin, data: { full_name: name } },
         });
         if (error) throw error;
-        toast.success("Đã tạo tài khoản. Kiểm tra email để xác thực.");
+        toast.success("Account created. Please check your email to verify.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        toast.success("Đăng nhập thành công");
+        toast.success("Signed in successfully");
         navigate({ to: "/" });
       }
     } catch (e: any) {
-      toast.error(e.message ?? "Lỗi");
+      toast.error(e.message ?? "Authentication error");
     } finally {
       setBusy(false);
     }
@@ -80,10 +81,10 @@ function LoginPage() {
         },
       });
       if (error) {
-        toast.error(error.message ?? "Lỗi đăng nhập Google");
+        toast.error(error.message ?? "Google sign-in failed");
       }
     } catch (e: any) {
-      toast.error(e?.message ?? "Lỗi kết nối");
+      toast.error(e?.message ?? "Connection error");
     } finally {
       setBusy(false);
     }
@@ -95,12 +96,12 @@ function LoginPage() {
       <main className="mx-auto max-w-md px-4 py-12">
         <div className="rounded-2xl border border-border bg-card p-6 shadow-lg">
           <h1 className="text-2xl font-bold tracking-tight">
-            {mode === "signin" ? "Đăng nhập" : "Tạo tài khoản"}
+            {mode === "signin" ? "Sign In" : "Create Account"}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {mode === "signin"
-              ? "Đăng nhập để ngắm, theo dõi và đăng ảnh."
-              : "Tham gia GravureHub trong vài giây."}
+              ? "Sign in to browse, follow models, and share albums."
+              : "Join GravureHub in just a few seconds."}
           </p>
 
           <button
@@ -126,11 +127,11 @@ function LoginPage() {
                 d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.4l6 5.1c-.4.4 6.3-4.6 6.3-14.5 0-1.2-.1-2.3-.4-3.5z"
               />
             </svg>
-            Tiếp tục với Google
+            Continue with Google
           </button>
 
           <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="h-px flex-1 bg-border" /> hoặc{" "}
+            <span className="h-px flex-1 bg-border" /> or{" "}
             <span className="h-px flex-1 bg-border" />
           </div>
 
@@ -139,7 +140,7 @@ function LoginPage() {
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Tên hiển thị"
+                placeholder="Display Name"
                 className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring"
               />
             )}
@@ -157,7 +158,7 @@ function LoginPage() {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Mật khẩu"
+              placeholder="Password"
               className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-ring"
             />
             <button
@@ -166,24 +167,24 @@ function LoginPage() {
               className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
             >
               <LogIn className="h-4 w-4" />
-              {mode === "signin" ? "Đăng nhập" : "Tạo tài khoản"}
+              {mode === "signin" ? "Sign In" : "Create Account"}
             </button>
           </form>
 
           <p className="mt-4 text-center text-sm text-muted-foreground">
-            {mode === "signin" ? "Chưa có tài khoản?" : "Đã có tài khoản?"}{" "}
+            {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
             <button
               onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
               className="text-primary hover:underline"
             >
-              {mode === "signin" ? "Đăng ký" : "Đăng nhập"}
+              {mode === "signin" ? "Register" : "Sign In"}
             </button>
           </p>
         </div>
         <p className="mt-6 text-center text-xs text-muted-foreground">
-          Muốn đăng ảnh?{" "}
+          Want to contribute photos?{" "}
           <Link to="/apply" className="text-primary hover:underline">
-            Ứng tuyển cộng tác viên
+            Apply as Contributor
           </Link>
         </p>
       </main>

@@ -4,9 +4,9 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 
 const PATH = "/blog/top-10-gravure-idols-2024";
 const URL = `${SITE_URL}${PATH}`;
-const TITLE = "Top 10 gravure idol Nhật Bản nổi bật nhất 2024";
+const TITLE = "Top 10 Most Popular Japanese Gravure Idols in 2024";
 const DESC =
-  "Bảng xếp hạng 10 gravure idol Nhật Bản hot nhất 2024. Khám phá nhan sắc, phong cách và những tạp chí, photobook đình đám của các người mẫu áo tắm hàng đầu.";
+  "The definitive ranking of the top 10 most popular Japanese gravure idols in 2024. Discover their styles, highlights, bestselling photobooks, and magazine covers.";
 const PUBLISHED = "2026-06-22";
 
 const IDOLS = [
@@ -15,19 +15,19 @@ const IDOLS = [
     name: "Ogura Yuka",
     nameJa: "小倉優香",
     born: "1998",
-    style: "Gợi cảm, trưởng thành, biểu cảm đa dạng",
+    style: "Sensual, sophisticated, versatile facial expressions",
     highlight:
-      "Trở lại đường đua gravure mạnh mẽ sau thời gian vắng bóng, liên tục xuất hiện trên các tạp chí lớn như Weekly Playboy và FLASH.",
-    works: "Weekly Playboy, FLASH, photobook cá nhân",
+      "Made a triumphant return to the gravure spotlight, frequently headlining prominent Japanese weekly covers such as Weekly Playboy and FLASH.",
+    works: "Weekly Playboy, FLASH, solo photobooks",
   },
   {
     rank: 2,
     name: "Teramoto Rio",
     nameJa: "寺本莉緒",
     born: "2001",
-    style: "Tươi trẻ, năng động, nụ cười rạng rỡ",
+    style: "Youthful, energetic, radiant smile",
     highlight:
-      "Nữ sinh viên kiêm người mẫu trẻ có sức hút mạnh trên mạng xã hội, được giới trẻ Nhật Bản yêu thích nhờ hình ảnh trong sáng nhưng vẫn quyến rũ.",
+      "A fast-rising talent and university student widely celebrated on social media for her infectious positive energy and captivating pictorials.",
     works: "Young Magazine, Weekly Young Jump",
   },
   {
@@ -35,9 +35,9 @@ const IDOLS = [
     name: "Sawaguchi Aika",
     nameJa: "沢口愛華",
     born: "2002",
-    style: "Ngọt ngào, nữ tính, thân hình cân đối",
+    style: "Sweet, feminine, perfectly balanced aesthetics",
     highlight:
-      "Từng đoạt giải Miss Magazine và là một trong những gương mặt đắt show nhất làng gravure với lịch xuất bản dày đặc.",
+      "Former Miss Magazine Grand Prix winner who remains one of the most prolific gravure models in Japan with consecutive magazine covers.",
     works: "Miss Magazine, Weekly Playboy, Young Magazine",
   },
   {
@@ -45,19 +45,19 @@ const IDOLS = [
     name: "Nagasawa Marina",
     nameJa: "長澤茉里奈",
     born: "1995",
-    style: "Dễ thương, năng động, phong cách bikini bãi biển",
+    style: "Cute, playful, beachside resort aesthetics",
     highlight:
-      "Gắn bó lâu dài với làng gravure, luôn duy trì độ phủ sóng ổn định trên các tạp chí và sự kiện handshake.",
-    works: "Weekly Playboy, Young Jump, photobook",
+      "A perennial fan favorite renowned for her youthful look and active engagement across fan conventions and handshake gatherings.",
+    works: "Weekly Playboy, Young Jump, official photobooks",
   },
   {
     rank: 5,
     name: "Tomaru Sayaka",
     nameJa: "都丸紗也華",
     born: "1996",
-    style: "Quyến rũ, trưởng thành, tỷ lệ cơ thể ấn tượng",
+    style: "Glamorous, mature, iconic proportions",
     highlight:
-      "Nổi tiếng với những bộ bikini gợi cảm, thường xuyên lọt top tìm kiếm trên các diễn đàn gravure châu Á.",
+      "Celebrated across Asian fan communities for her breathtaking photo shoots and regular appearances in top weekly publications.",
     works: "FLASH, Weekly Playboy, Friday",
   },
   {
@@ -65,9 +65,9 @@ const IDOLS = [
     name: "Kamikokuryo Moe",
     nameJa: "上國料萌衣",
     born: "1999",
-    style: "Thần tượng xinh đẹp, nụ cười tỏa nắng",
+    style: "Ethereal idol beauty, sparkling smile",
     highlight:
-      "Thành viên ANGERME (Hello! Project) song song hoạt động người mẫu gravure, thu hút fan nhờ vẻ ngoài thân thiện.",
+      "ANGERME (Hello! Project) idol who seamlessly blends live musical performances with acclaimed gravure modeling.",
     works: "Up to Boy, Young Magazine",
   },
   {
@@ -75,9 +75,9 @@ const IDOLS = [
     name: "Iida Riho",
     nameJa: "飯田里穂",
     born: "1991",
-    style: "Sang trọng, tự tin, gợi cảm có chừng mực",
+    style: "Elegant, confident, mature grace",
     highlight:
-      "Ca sĩ/lồng tiếng chuyển hướng gravure thành công, mang đến hình ảnh phụ nữ trưởng thành đầy cuốn hút.",
+      "Accomplished voice actress and singer who transitioned into gravure with refined elegance and mature charm.",
     works: "Weekly Playboy, Young Animal",
   },
   {
@@ -85,9 +85,9 @@ const IDOLS = [
     name: "Asakawa Nana",
     nameJa: "浅川梨奈",
     born: "1999",
-    style: "Dễ thương, trong sáng, đa tài",
+    style: "Charming, charismatic, multi-talented",
     highlight:
-      "Cựu thành viên idoll độc lập chuyển sang gravure và diễn xuất, duy trì lượng fan trung thành qua nhiều năm.",
+      "Former musical idol turned successful actress and model, sustaining an enthusiastic international fanbase.",
     works: "Young Magazine, Up to Boy",
   },
   {
@@ -95,9 +95,9 @@ const IDOLS = [
     name: "Sekine Yuna",
     nameJa: "関根優那",
     born: "2000",
-    style: "Tươi mới, nữ sinh, năng động",
+    style: "Fresh, vibrant, athletic beach charm",
     highlight:
-      "Gương mặt mới nổi trong làng gravure với phong cách thời trang bãi biển và nụ cười tỏa nắng đặc trưng.",
+      "Breakout model making waves with sun-kissed beach editorials and signature cheerful smiles.",
     works: "Young Jump, Weekly Young Magazine",
   },
   {
@@ -105,9 +105,9 @@ const IDOLS = [
     name: "Sano Hinako",
     nameJa: "佐野ひなこ",
     born: "1994",
-    style: "Thời trang, thanh lịch, gợi cảm tinh tế",
+    style: "Chic, graceful, subtle sensuality",
     highlight:
-      "Người mẫu/đầu bếp kiêm gravure idol, tạo dấu ấn nhờ hình ảnh đa diện và sách nấu ăn bán chạy.",
+      "Model, actress, and bestselling cookbook author admired for her versatile lifestyle image and timeless photobooks.",
     works: "VoCE, anan, Weekly Playboy",
   },
 ];
@@ -121,18 +121,18 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
       {
         name: "keywords",
         content:
-          "top gravure idol 2024, người mẫu áo tắm nhật bản, gravure idol nổi tiếng, gravure idol là gì, bảng xếp hạng gravure idol",
+          "top gravure idols 2024, japanese swimsuit models, famous gravure idols, gravure ranking 2024, ogura yuka, teramoto rio, sawaguchi aika",
       },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
       { property: "og:url", content: URL },
       { property: "og:type", content: "article" },
-      { property: "og:locale", content: "vi_VN" },
+      { property: "og:locale", content: "en_US" },
       { property: "article:published_time", content: PUBLISHED },
       { property: "article:modified_time", content: PUBLISHED },
       {
         property: "article:tag",
-        content: "gravure idol, người mẫu Nhật Bản, bikini, tạp chí Nhật",
+        content: "gravure idol, Japanese models, swimsuit, Japanese magazines, photobooks",
       },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
@@ -140,8 +140,8 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
     ],
     links: [
       { rel: "canonical", href: URL },
-      { rel: "alternate", hrefLang: "vi", href: URL },
       { rel: "alternate", hrefLang: "en", href: URL },
+      { rel: "alternate", hrefLang: "vi", href: URL },
       { rel: "alternate", hrefLang: "x-default", href: URL },
     ],
     scripts: [
@@ -151,8 +151,8 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog/top-10-gravure-idols-2024` },
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
             { "@type": "ListItem", position: 3, name: TITLE, item: URL },
           ],
         }),
@@ -167,12 +167,12 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
           image: `${SITE_URL}/og-default.jpg`,
           datePublished: PUBLISHED,
           dateModified: PUBLISHED,
-          inLanguage: "vi-VN",
+          inLanguage: "en-US",
           mainEntityOfPage: URL,
           author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
           publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-          articleSection: "Gravure Idol",
-          keywords: "gravure idol, người mẫu áo tắm Nhật Bản, top gravure idol 2024",
+          articleSection: "Gravure Idols",
+          keywords: "gravure idol, Japanese swimsuit models, top gravure idols 2024",
         }),
       },
       {
@@ -180,25 +180,13 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "ItemList",
-          name: "Top 10 gravure idol Nhật Bản 2024",
+          name: "Top 10 Japanese Gravure Idols 2024",
           itemListElement: IDOLS.map((i) => ({
             "@type": "ListItem",
             position: i.rank,
             name: `${i.nameJa} (${i.name})`,
             description: i.highlight,
           })),
-        }),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
-            { "@type": "ListItem", position: 3, name: "Top 10 gravure idol 2024", item: URL },
-          ],
         }),
       },
     ],
@@ -212,88 +200,83 @@ function Page() {
       <main className="mx-auto max-w-3xl px-4 py-10">
         <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground">
           <Link to="/" className="hover:text-primary">
-            Trang chủ
+            Home
           </Link>
           <span className="mx-1.5">/</span>
           <Link to="/blog/gravure-idol-la-gi" className="hover:text-primary">
             Blog
           </Link>
           <span className="mx-1.5">/</span>
-          <span className="text-foreground">Top 10 gravure idol 2024</span>
+          <span className="text-foreground">Top 10 Gravure Idols 2024</span>
         </nav>
 
         <article className="md-content mt-4">
           <header>
-            <h1>Top 10 gravure idol Nhật Bản nổi bật nhất 2024</h1>
+            <h1>Top 10 Most Popular Japanese Gravure Idols in 2024</h1>
             <p className="text-sm text-muted-foreground">
-              Cập nhật: <time dateTime={PUBLISHED}>22/06/2026</time> · GravureHub
+              Updated: <time dateTime={PUBLISHED}>June 22, 2026</time> · GravureHub Editorial Team
             </p>
             <p className="lead">
-              <strong>Gravure idol</strong> luôn là chủ đề thu hút đông đảo người hâm mộ văn hoá
-              Nhật Bản. Năm 2024 chứng kiến sự trở lại của nhiều tên tuổi kỳ cựu lẫn sự bùng nổ của
-              các gương mặt trẻ. Bài viết này tổng hợp
-              <strong> top 10 gravure idol Nhật Bản nổi bật nhất 2024</strong>, dựa trên độ phủ sóng
-              tạp chí, doanh số photobook và mức độ tương tác trên mạng xã hội — dành cho những ai
-              đang tìm kiếm
-              <em> người mẫu áo tắm Nhật Bản</em> hay đơn giản là muốn khám phá thêm về{" "}
-              <em>gravure idol</em>.
+              <strong>Gravure idol culture</strong> continues to captivate millions of fans worldwide.
+              The year 2024 has seen legendary stars making high-profile comebacks alongside a dynamic
+              influx of fresh, youthful talent. This ranking compiles the{" "}
+              <strong>top 10 most influential Japanese gravure idols of 2024</strong> based on magazine cover
+              frequencies, photobook sales volume, and digital engagement.
             </p>
           </header>
 
-          <h2>Tiêu chí xếp hạng</h2>
+          <h2>Ranking Methodology &amp; Criteria</h2>
           <p>
-            Bảng xếp hạng dưới đây không chỉ dựa vào nhan sắc mà còn xem xét các yếu tố: số lần xuất
-            hiện trên tạp chí lớn (Weekly Playboy, Young Magazine, Young Jump, FLASH, Friday), doanh
-            thu photobook/DVD, lượt tìm kiếm trên Google và mạng xã hội Nhật Bản, cũng như sức ảnh
-            hưởng đến cộng đồng fan gravure quốc tế.
+            Our ranking evaluates multiple holistic factors beyond visual appeal: magazine cover frequency
+            in top publications (Weekly Playboy, Young Magazine, Young Jump, FLASH, Friday), photobook and digital
+            album sales metrics, online search trends across Asia, and overall cultural resonance among the global
+            gravure community.
           </p>
 
           {IDOLS.map((idol) => (
             <section key={idol.rank} id={`rank-${idol.rank}`} className="scroll-mt-24">
               <h2>
-                {idol.rank}. {idol.nameJa} — {idol.name}
+                #{idol.rank}. {idol.nameJa} — {idol.name}
               </h2>
               <p>
-                <strong>Sinh năm:</strong> {idol.born} · <strong>Phong cách:</strong> {idol.style}
+                <strong>Born:</strong> {idol.born} · <strong>Style:</strong> {idol.style}
               </p>
               <p>{idol.highlight}</p>
               <p>
-                <strong>Tác phẩm tiêu biểu:</strong> {idol.works}.
+                <strong>Notable Works:</strong> {idol.works}.
               </p>
             </section>
           ))}
 
-          <h2>Tại sao bảng xếp hạng này quan trọng với người xem Việt Nam?</h2>
+          <h2>The Growing Global Appeal of Gravure</h2>
           <p>
-            Cộng đồng yêu thích gravure tại Việt Nam ngày càng lớn. Nhiều người tìm kiếm từ khoá như
-            <em> gravure idol là gì</em>, <em>người mẫu áo tắm Nhật Bản</em>, hay{" "}
-            <em>top gravure idol</em> để khám phá những gương mặt mới. Bảng xếp hạng trên giúp bạn
-            nhanh chóng nắm bắt xu hướng gravure 2024 và tìm được người mẫu phù hợp với gu thẩm mỹ
-            của mình.
+            With digital high-definition formats and modern reading platforms, gravure is now appreciated by an
+            international audience that values natural aesthetics, fine-art lighting, and genuine charisma. Whether
+            you are a long-time enthusiast or just exploring the genre, this list highlights the icons shaping the
+            industry today.
           </p>
 
-          <h2>Câu hỏi thường gặp</h2>
-          <h3>Top gravure idol 2024 có thay đổi nhiều so với 2023 không?</h3>
+          <h2>Frequently Asked Questions</h2>
+          <h3>How has the gravure idol scene shifted recently?</h3>
           <p>
-            Có. Năm 2024 đánh dấu sự trở lại của Ogura Yuka và sự vươn lên của các gương mặt trẻ như
-            Teramoto Rio và Sekine Yuna, trong khi các tên tuổi kỳ cựu như Nagasawa Marina và Tomaru
-            Sayaka vẫn giữ vững phong độ.
+            Recent years have seen greater cross-pollination between musical idol groups, mainstream voice acting,
+            and digital photobooks, allowing models to reach global audiences faster than ever before.
           </p>
 
-          <h3>Làm sao để xem ảnh gravure chất lượng cao?</h3>
+          <h3>Where can I view high-resolution gravure photo albums?</h3>
           <p>
-            Bạn có thể khám phá album cuộn dọc miễn phí tại{" "}
+            You can explore thousands of vertical-scrolling albums for free on{" "}
             <Link to="/" className="text-primary hover:underline">
               GravureHub
             </Link>
-            , hoặc tìm đọc thêm bài giải thích{" "}
+            , or read our in-depth guide on{" "}
             <Link to="/blog/gravure-idol-la-gi" className="text-primary hover:underline">
-              gravure idol là gì
+              what is a gravure idol
             </Link>{" "}
-            để hiểu rõ hơn về thể loại này.
+            to learn more.
           </p>
 
-          {/* Author Bio Box (Task 13) */}
+          {/* Author Bio Box */}
           <div className="not-prose mt-10 flex items-center gap-4 rounded-2xl border border-border bg-card/60 p-5 backdrop-blur">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-brand text-sm font-bold text-primary-foreground">
               GH
@@ -301,13 +284,12 @@ function Page() {
             <div>
               <h4 className="text-sm font-semibold text-foreground">GravureHub Editorial Team</h4>
               <p className="text-xs text-muted-foreground">
-                Curating free, high-definition vertical-scroll gravure photo sets and model profiles
-                since 2024.
+                Curating free, high-definition vertical-scroll gravure photo sets and model profiles since 2024.
               </p>
             </div>
           </div>
 
-          {/* Related Articles & Internal Links (Task 13 & 14) */}
+          {/* Related Articles & Internal Links */}
           <div className="not-prose mt-8 border-t border-border pt-6">
             <h3 className="text-base font-semibold text-foreground">
               Related Articles &amp; Collections
@@ -318,10 +300,10 @@ function Page() {
                 className="group flex flex-col gap-1 rounded-xl border border-border bg-card/40 p-4 transition hover:border-primary/60 hover:bg-card"
               >
                 <span className="text-xs font-semibold text-primary group-hover:underline">
-                  Gravure idol là gì? →
+                  What is a Gravure Idol? →
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  Định nghĩa, lịch sử và sự khác biệt giữa gravure idol và idol thông thường.
+                  Origins, history, and key differences in gravure culture.
                 </span>
               </Link>
               <Link
@@ -332,7 +314,7 @@ function Page() {
                   Featured Albums Collection →
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  Khám phá các bộ ảnh gravure chọn lọc mới nhất trên hệ thống.
+                  Explore curated high-definition photobooks on GravureHub.
                 </span>
               </Link>
             </div>

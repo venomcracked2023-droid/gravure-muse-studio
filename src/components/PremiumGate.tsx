@@ -88,7 +88,7 @@ export function PremiumGate({ chapterId, chapterTitle, priceUsdt, onUnlocked }: 
       }
       window.location.href = res.invoiceUrl;
     } catch (e: any) {
-      setError(e?.message ?? "Không tạo được hoá đơn");
+      setError(e?.message ?? "Could not generate payment invoice");
       setLoading(false);
     }
   }

@@ -15,13 +15,13 @@ export const Route = createFileRoute("/latest")({
   },
   head: () => ({
     meta: [
-      { title: "Latest Updates — GravureHub (Dưa Hấu Manga)" },
+      { title: "Latest Updates — GravureHub" },
       {
         name: "description",
         content:
           "Browse the latest updated gravure photo albums and new model photobooks on GravureHub (duahaumanga.com).",
       },
-      { property: "og:title", content: "Latest Updates — GravureHub (duahaumanga.com)" },
+      { property: "og:title", content: "Latest Updates — GravureHub" },
       {
         property: "og:description",
         content:
@@ -31,8 +31,8 @@ export const Route = createFileRoute("/latest")({
     ],
     links: [
       { rel: "canonical", href: `${SITE_URL}/latest` },
-      { rel: "alternate", hrefLang: "vi", href: `${SITE_URL}/latest` },
       { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/latest` },
+      { rel: "alternate", hrefLang: "vi", href: `${SITE_URL}/latest` },
       { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/latest` },
     ],
   }),
@@ -115,7 +115,7 @@ function LatestPage() {
 
         {latest.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground">
-            Chưa có gì.
+            No albums yet.
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
@@ -138,7 +138,7 @@ function LatestPage() {
                     {c.title}
                   </h2>
                   <p className="line-clamp-1 text-xs text-muted-foreground">
-                    {c.chapters.length} album · {c.author || "Ẩn danh"}
+                    {c.chapters.length} {c.chapters.length === 1 ? "album" : "albums"} · {c.author || "Anonymous"}
                   </p>
                 </div>
               </Link>

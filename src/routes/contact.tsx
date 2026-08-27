@@ -24,8 +24,8 @@ export const Route = createFileRoute("/contact")({
       ],
       links: [
         { rel: "canonical", href: url },
-        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
       ],
       scripts: [
@@ -35,8 +35,8 @@ export const Route = createFileRoute("/contact")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-              { "@type": "ListItem", position: 2, name: "Liên hệ", item: url },
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: "Contact Us", item: url },
             ],
           }),
         },
@@ -65,11 +65,11 @@ function ContactPage() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!message.trim() || !email.trim()) {
-      toast.error("Vui lòng điền đầy đủ email và nội dung tin nhắn.");
+      toast.error("Please fill in both email and message content.");
       return;
     }
     setSent(true);
-    toast.success("Cảm ơn bạn! Tin nhắn đã được gửi tới ban quản trị GravureHub.");
+    toast.success("Thank you! Your message has been sent to the GravureHub team.");
   }
 
   return (

@@ -10,15 +10,15 @@ import { SITE_URL } from "@/lib/seo";
 export const Route = createFileRoute("/admin-applications")({
   component: Page,
   head: () => {
-    const title = "Duyệt đơn cộng tác viên — GravureHub";
+    const title = "Review Contributor Applications — GravureHub";
     const desc =
-      "Trang quản trị viên GravureHub để xem xét và phê duyệt các đơn ứng tuyển cộng tác viên gửi đến hệ thống.";
+      "Admin dashboard to review and approve contributor applications on GravureHub.";
     const url = `${SITE_URL}/admin-applications`;
     return {
       meta: [
         { title },
         { name: "description", content: desc },
-        { name: "robots", content: "noindex,nofollow" },
+        { name: "robots", content: "noindex,follow" },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:url", content: url },
@@ -86,7 +86,7 @@ function Page() {
       toast.error(error.message);
       return;
     }
-    toast.success(status === "approved" ? "Đã duyệt" : "Đã từ chối");
+    toast.success(status === "approved" ? "Application approved" : "Application rejected");
     load();
   }
 
@@ -94,14 +94,14 @@ function Page() {
     return (
       <div className="min-h-screen">
         <SiteHeader />
-        <main className="p-10 text-center text-muted-foreground">Đang tải…</main>
+        <main className="p-10 text-center text-muted-foreground">Loading…</main>
       </div>
     );
   if (!isAdmin)
     return (
       <div className="min-h-screen">
         <SiteHeader />
-        <main className="p-10 text-center">Chỉ admin truy cập được.</main>
+        <main className="p-10 text-center">Admin access required.</main>
       </div>
     );
 
@@ -109,11 +109,11 @@ function Page() {
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-4xl px-4 py-10">
-        <h1 className="text-2xl font-bold tracking-tight">Đơn ứng tuyển CTV</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Contributor Applications</h1>
         <div className="mt-6 space-y-3">
           {apps.length === 0 && (
             <div className="rounded-xl border border-dashed border-border p-8 text-center text-muted-foreground">
-              Chưa có đơn nào.
+              No applications submitted yet.
             </div>
           )}
           {apps.map((a) => {
@@ -143,10 +143,10 @@ function Page() {
                       className={`rounded-full border border-border px-2.5 py-0.5 text-xs ${a.status === "approved" ? "text-primary" : a.status === "rejected" ? "text-destructive" : ""}`}
                     >
                       {a.status === "pending"
-                        ? "Chờ duyệt"
+                        ? "Pending"
                         : a.status === "approved"
-                          ? "Đã duyệt"
-                          : "Từ chối"}
+                          ? "Approved"
+                          : "Rejected"}
                     </span>
                     {a.status === "pending" && (
                       <div className="flex gap-2">
@@ -155,14 +155,14 @@ function Page() {
                           onClick={() => review(a.id, "approved")}
                           className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hover:opacity-90 disabled:opacity-50"
                         >
-                          <Check className="h-3.5 w-3.5" /> Duyệt
+                          <Check className="h-3.5 w-3.5" /> Approve
                         </button>
                         <button
                           disabled={busy}
                           onClick={() => review(a.id, "rejected")}
                           className="inline-flex items-center gap-1 rounded-md border border-destructive/40 px-3 py-1.5 text-xs text-destructive hover:bg-destructive/10 disabled:opacity-50"
                         >
-                          <X className="h-3.5 w-3.5" /> Từ chối
+                          <X className="h-3.5 w-3.5" /> Reject
                         </button>
                       </div>
                     )}

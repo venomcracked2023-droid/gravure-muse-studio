@@ -108,13 +108,13 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
     const ct = loaderData?.comicTitle,
       ch = loaderData?.chapterTitle,
       coverId = loaderData?.coverId;
-    if (!ct || !ch) return { meta: [{ title: "Đang xem — GravureHub" }] };
+    if (!ct || !ch) return { meta: [{ title: "Reading Album — GravureHub" }] };
 
     const title = `${ch} — ${ct} | GravureHub`;
     const comicSlug = buildSlugId(ct, loaderData!.comicId);
     const chapterSlug = buildSlugId(ch, loaderData!.chapterId);
     const url = `${SITE_URL}/read/${comicSlug}/${chapterSlug}`;
-    const desc = `Xem album "${ch}" của ${ct} trên GravureHub — cuộn dọc mượt mà, ảnh chất lượng cao.`;
+    const desc = `View album "${ch}" by ${ct} on GravureHub — smooth vertical-scroll, high-definition photobooks.`;
 
     const firstPage = loaderData?.chapterPages?.[0]
       ? (extractDriveId(loaderData.chapterPages[0]) ?? loaderData.chapterPages[0])
@@ -143,8 +143,8 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Trang chủ", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Người mẫu", item: `${SITE_URL}/#library` },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Models", item: `${SITE_URL}/#library` },
         { "@type": "ListItem", position: 3, name: ct, item: `${SITE_URL}/comic/${comicSlug}` },
         { "@type": "ListItem", position: 4, name: ch, item: url },
       ],
@@ -228,8 +228,8 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       meta,
       links: [
         { rel: "canonical", href: url },
-        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
+        { rel: "alternate", hrefLang: "vi", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
         ...(preloadImg
           ? [{ rel: "preload", as: "image", href: driveImageUrl(preloadImg, 600) }]
@@ -240,9 +240,10 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
   },
   notFoundComponent: () => (
     <div className="p-10 text-center">
-      <h1 className="text-xl font-bold">Không tìm thấy album</h1>
+      <h1 className="text-xl font-bold">Album Not Found</h1>
+      <p className="mt-2 text-sm text-muted-foreground">The requested album could not be found or has been moved.</p>
       <Link to="/" className="mt-4 inline-block text-primary underline">
-        Về trang chủ
+        Back to Home
       </Link>
     </div>
   ),
@@ -310,7 +311,7 @@ function Reader() {
 
   if (!comic || !chapter) {
     if (!loaded && !loaderData)
-      return <div className="p-10 text-center text-muted-foreground">Đang tải…</div>;
+      return <div className="p-10 text-center text-muted-foreground">Loading…</div>;
     throw notFound();
   }
 
@@ -518,7 +519,7 @@ function Reader() {
           disabled={!prev}
           onClick={() => first && goToChapter(first.id)}
           className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-secondary disabled:opacity-30"
-          aria-label="Đầu"
+          aria-label="First"
         >
           <ChevronsLeft className="h-4 w-4" />
         </button>
@@ -528,14 +529,14 @@ function Reader() {
           className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-sm hover:bg-secondary disabled:opacity-30"
         >
           <ChevronLeft className="h-4 w-4" />
-          <span className="sr-only sm:not-sr-only sm:inline">Trước</span>
+          <span className="sr-only sm:not-sr-only sm:inline">Previous</span>
         </button>
         <div className="relative min-w-0 flex-1">
           <List className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <select
             value={chapter.id}
             onChange={(e) => goToChapter(e.target.value)}
-            aria-label="Chọn album"
+            aria-label="Select album"
             className="w-full appearance-none truncate rounded-full border border-border bg-background py-2 pl-9 pr-8 text-sm font-medium outline-none focus:border-primary"
           >
             {comic.chapters.map((ch, i) => (
@@ -550,14 +551,14 @@ function Reader() {
           onClick={() => next && goToChapter(next.id)}
           className="inline-flex items-center gap-1.5 rounded-full bg-gradient-brand px-3 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-40"
         >
-          <span className="sr-only sm:not-sr-only sm:inline">Sau</span>
+          <span className="sr-only sm:not-sr-only sm:inline">Next</span>
           <ChevronRight className="h-4 w-4" />
         </button>
         <button
           disabled={!next}
           onClick={() => last && goToChapter(last.id)}
           className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-secondary disabled:opacity-30"
-          aria-label="Cuối"
+          aria-label="Last"
         >
           <ChevronsRight className="h-4 w-4" />
         </button>

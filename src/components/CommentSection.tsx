@@ -52,13 +52,13 @@ export function CommentSection({ comicId, chapterId }: { comicId: string; chapte
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!user) {
-      toast.error("Vui lòng đăng nhập để bình luận");
+      toast.error("Please sign in to comment");
       return;
     }
     const content = text.trim();
     if (!content) return;
     if (content.length > MAX) {
-      toast.error(`Tối đa ${MAX} ký tự`);
+      toast.error(`Maximum ${MAX} characters`);
       return;
     }
     setPosting(true);
@@ -78,9 +78,9 @@ export function CommentSection({ comicId, chapterId }: { comicId: string; chapte
   }
 
   async function remove(id: string) {
-    if (!confirm("Xoá bình luận này?")) return;
+    if (!confirm("Delete this comment?")) return;
     if (!user) {
-      toast.error("Bạn cần đăng nhập lại");
+      toast.error("You need to sign in again");
       return;
     }
     const { data, error } = await supabase.from("comments").delete().eq("id", id).select("id");
@@ -89,19 +89,19 @@ export function CommentSection({ comicId, chapterId }: { comicId: string; chapte
       return;
     }
     if (!data || data.length === 0) {
-      toast.error("Không có quyền xoá");
+      toast.error("Permission denied");
       return;
     }
     setItems((arr) => arr.filter((x) => x.id !== id));
-    toast.success("Đã xoá");
+    toast.success("Comment deleted");
   }
 
   return (
-    <section className="mt-10" aria-label="Bình luận">
+    <section className="mt-10" aria-label="Comments">
       <header className="mb-4 flex items-center gap-2">
         <MessageCircle className="h-5 w-5 text-primary" />
         <h2 className="text-xl font-bold">
-          Bình luận{chapterId ? " album" : ""} ({items.length})
+          Comments{chapterId ? " (Album)" : ""} ({items.length})
         </h2>
       </header>
 
@@ -114,7 +114,7 @@ export function CommentSection({ comicId, chapterId }: { comicId: string; chapte
             value={text}
             onChange={(e) => setText(e.target.value.slice(0, MAX))}
             rows={3}
-            placeholder="Chia sẻ cảm nhận của bạn…"
+            placeholder="Share your thoughts on this album…"
             className="w-full resize-y rounded-lg border border-border bg-background/50 px-3 py-2 text-sm outline-none focus:border-primary/60"
             maxLength={MAX}
           />
@@ -128,33 +128,33 @@ export function CommentSection({ comicId, chapterId }: { comicId: string; chapte
               className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-40"
             >
               <Send className="h-3.5 w-3.5" />
-              {posting ? "Đang gửi…" : "Gửi"}
+              {posting ? "Posting…" : "Post"}
             </button>
           </div>
         </form>
       ) : (
         <div className="rounded-2xl border border-dashed border-border bg-card/30 p-4 text-sm text-muted-foreground">
           <Link to="/login" className="text-primary hover:underline">
-            Đăng nhập
+            Sign in
           </Link>{" "}
-          để tham gia bình luận.
+          to join the discussion and post comments.
         </div>
       )}
 
       <ul className="mt-5 space-y-3">
         {loading && (
           <li className="rounded-xl border border-border bg-card/30 p-4 text-sm text-muted-foreground">
-            Đang tải…
+            Loading comments…
           </li>
         )}
         {!loading && items.length === 0 && (
           <li className="rounded-xl border border-dashed border-border bg-card/20 p-6 text-center text-sm text-muted-foreground">
-            Chưa có bình luận. Hãy là người đầu tiên!
+            No comments yet. Be the first to share your thoughts!
           </li>
         )}
         {items.map((c) => {
           const p = profiles[c.user_id];
-          const name = p?.display_name ?? "Người xem ẩn danh";
+          const name = p?.display_name ?? "Anonymous Viewer";
           const canDelete = !!user && (user.id === c.user_id || isAdmin);
           return (
             <li key={c.id} className="rounded-xl border border-border bg-card/40 p-4 backdrop-blur">
@@ -163,7 +163,7 @@ export function CommentSection({ comicId, chapterId }: { comicId: string; chapte
                   {p?.avatar_url ? (
                     <img
                       src={p.avatar_url}
-                      alt={`Ảnh đại diện của ${name}`}
+                      alt={`Avatar of ${name}`}
                       className="h-full w-full object-cover"
                       loading="lazy"
                     />
@@ -176,14 +176,14 @@ export function CommentSection({ comicId, chapterId }: { comicId: string; chapte
                     <div className="text-sm">
                       <span className="font-semibold">{name}</span>
                       <time className="ml-2 text-xs text-muted-foreground" dateTime={c.created_at}>
-                        {new Date(c.created_at).toLocaleString("vi-VN")}
+                        {new Date(c.created_at).toLocaleString("en-US")}
                       </time>
                     </div>
                     {canDelete && (
                       <button
                         onClick={() => remove(c.id)}
                         className="text-muted-foreground hover:text-destructive"
-                        aria-label="Xoá"
+                        aria-label="Delete"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
