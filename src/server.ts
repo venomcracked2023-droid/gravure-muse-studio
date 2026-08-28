@@ -93,6 +93,15 @@ function applySecurityHeaders(res: Response): Response {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      if (env && typeof env === "object") {
+        if (typeof process === "undefined") {
+          (globalThis as any).process = { env: {} };
+        }
+        if (!process.env) {
+          process.env = {};
+        }
+        Object.assign(process.env, env);
+      }
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       const normalized = await normalizeCatastrophicSsrResponse(response);

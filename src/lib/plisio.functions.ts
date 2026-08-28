@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHost } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { SITE_URL } from "@/lib/seo";
 
 const PLISIO_API = "https://api.plisio.net/api/v1";
 const ALLOWED_COINS = "USDT_TRX,BTC,ETH";
@@ -14,23 +15,32 @@ export const createPlisioInvoice = createServerFn({ method: "POST" })
     return { chapterId: input.chapterId };
   })
   .handler(async ({ data, context }) => {
-    const secret = process.env.PLISIO_SECRET_KEY;
+    const secret = process.env.PLISIO_SECRET_KEY || process.env.PLISIO_API_KEY;
     if (!secret) throw new Error("PLISIO_SECRET_KEY not configured");
 
     const { supabase, userId } = context;
 
-    // Load album (chapter) with premium info + comic title for order name.
+    // Load album (chapter) with premium info
     const { data: chapter, error: chErr } = await supabase
       .from("chapters")
-      .select("id, title, comic_id, is_premium, price_usdt, comics(title)")
+      .select("id, title, comic_id, is_premium, price_usdt")
       .eq("id", data.chapterId)
       .maybeSingle();
     if (chErr || !chapter) throw new Error("Album not found");
     if (!(chapter as any).is_premium) throw new Error("Album is not premium");
 
-    const price = Number((chapter as any).price_usdt ?? 2);
-    const comicTitle = (chapter as any).comics?.title ?? "";
-    const orderName = `${comicTitle} — ${chapter.title}`.slice(0, 100);
+    let comicTitle = "";
+    if (chapter.comic_id) {
+      const { data: comic } = await supabase
+        .from("comics")
+        .select("title")
+        .eq("id", chapter.comic_id)
+        .maybeSingle();
+      comicTitle = comic?.title ?? "";
+    }
+
+    const price = Math.max(0.1, Number((chapter as any).price_usdt || 2));
+    const orderName = (comicTitle ? `${comicTitle} — ${chapter.title}` : chapter.title).slice(0, 100);
 
     // Already completed purchase? Return early.
     const { data: owned } = await supabase
@@ -45,8 +55,16 @@ export const createPlisioInvoice = createServerFn({ method: "POST" })
     }
 
     // Build absolute URLs from the current request host so preview + prod both work.
-    const host = getRequestHost();
-    const origin = `https://${host}`;
+    let origin = SITE_URL;
+    try {
+      const host = getRequestHost();
+      if (host && !host.includes("undefined")) {
+        origin = host.startsWith("localhost") ? `http://${host}` : `https://${host}`;
+      }
+    } catch {
+      origin = SITE_URL;
+    }
+
     const orderNumber = `${data.chapterId}:${userId}:${Date.now()}`;
 
     const params = new URLSearchParams({
@@ -71,7 +89,7 @@ export const createPlisioInvoice = createServerFn({ method: "POST" })
     }
 
     // Record pending purchase (RLS allows: own user_id, status=new|pending).
-    await supabase.from("album_purchases").insert({
+    const { error: insErr } = await supabase.from("album_purchases").insert({
       user_id: userId,
       chapter_id: data.chapterId,
       txn_id: json.data.txn_id,
@@ -80,6 +98,9 @@ export const createPlisioInvoice = createServerFn({ method: "POST" })
       source_currency: "USD",
       status: "new",
     });
+    if (insErr) {
+      console.error("album_purchases insert error:", insErr);
+    }
 
     return {
       alreadyOwned: false as const,

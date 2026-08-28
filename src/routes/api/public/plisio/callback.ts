@@ -12,7 +12,10 @@ function verifyHash(payload: Record<string, unknown>, secret: string): boolean {
   if (!verify_hash || typeof verify_hash !== "string") return false;
   const sortedKeys = Object.keys(rest).sort();
   const ordered: Record<string, unknown> = {};
-  for (const k of sortedKeys) ordered[k] = rest[k];
+  for (const k of sortedKeys) {
+    // Plisio signs parameter strings
+    ordered[k] = typeof rest[k] === "string" ? rest[k] : String(rest[k]);
+  }
   const serialized = serialize(ordered);
   const expected = createHmac("sha1", secret).update(serialized).digest("hex");
   try {
@@ -33,7 +36,7 @@ async function parseBody(req: Request): Promise<Record<string, string>> {
   const form = await req.formData();
   const out: Record<string, string> = {};
   form.forEach((v, k) => {
-    out[k] = typeof v === "string" ? v : "";
+    out[k] = typeof v === "string" ? v : String(v);
   });
   return out;
 }
@@ -42,7 +45,7 @@ export const Route = createFileRoute("/api/public/plisio/callback")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const secret = process.env.PLISIO_SECRET_KEY;
+        const secret = process.env.PLISIO_SECRET_KEY || process.env.PLISIO_API_KEY;
         if (!secret) return new Response("Missing secret", { status: 500 });
 
         let payload: Record<string, string>;
@@ -64,11 +67,29 @@ export const Route = createFileRoute("/api/public/plisio/callback")({
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
         // Only accept updates for existing pending purchases; ignore stray callbacks.
-        const { data: purchase } = await supabaseAdmin
+        let { data: purchase } = await supabaseAdmin
           .from("album_purchases")
           .select("id, status")
           .eq("txn_id", txnId)
           .maybeSingle();
+
+        // Fallback: match by order_number if txn_id wasn't matched yet
+        if (!purchase && payload.order_number) {
+          const parts = String(payload.order_number).split(":");
+          if (parts.length >= 2) {
+            const [chapterId, userId] = parts;
+            const { data: pByOrder } = await supabaseAdmin
+              .from("album_purchases")
+              .select("id, status")
+              .eq("chapter_id", chapterId)
+              .eq("user_id", userId)
+              .order("created_at", { ascending: false })
+              .limit(1)
+              .maybeSingle();
+            purchase = pByOrder;
+          }
+        }
+
         if (!purchase) return new Response("Unknown txn", { status: 404 });
 
         // Idempotent: if already terminal, ack without change.
@@ -96,3 +117,5 @@ export const Route = createFileRoute("/api/public/plisio/callback")({
     },
   },
 });
+
+export {};

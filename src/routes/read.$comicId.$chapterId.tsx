@@ -615,13 +615,15 @@ function Reader() {
         />
       )}
       {locked && (
-        <div className="fixed left-1/2 top-1/2 z-50 w-[min(92vw,340px)] -translate-x-1/2 -translate-y-1/2">
-          <PremiumGate
-            chapterId={chapter.id}
-            chapterTitle={chapter.title}
-            priceUsdt={priceUsdt}
-            onUnlocked={() => setUnlocked(true)}
-          />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/85 backdrop-blur-xl p-4">
+          <div className="w-full max-w-sm">
+            <PremiumGate
+              chapterId={chapter.id}
+              chapterTitle={chapter.title}
+              priceUsdt={priceUsdt}
+              onUnlocked={() => setUnlocked(true)}
+            />
+          </div>
         </div>
       )}
       <StickyNav />
