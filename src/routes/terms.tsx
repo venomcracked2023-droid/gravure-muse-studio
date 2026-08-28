@@ -24,6 +24,9 @@ export const Route = createFileRoute("/terms")({
         { rel: "canonical", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
         { rel: "alternate", hrefLang: "vi", href: url },
+        { rel: "alternate", hrefLang: "ja", href: url },
+        { rel: "alternate", hrefLang: "zh", href: url },
+        { rel: "alternate", hrefLang: "ko", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
       ],
       scripts: [

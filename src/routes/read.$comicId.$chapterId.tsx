@@ -232,6 +232,9 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
         { rel: "canonical", href: url },
         { rel: "alternate", hrefLang: "en", href: url },
         { rel: "alternate", hrefLang: "vi", href: url },
+        { rel: "alternate", hrefLang: "ja", href: url },
+        { rel: "alternate", hrefLang: "zh", href: url },
+        { rel: "alternate", hrefLang: "ko", href: url },
         { rel: "alternate", hrefLang: "x-default", href: url },
         ...(preloadImg
           ? [{ rel: "preload", as: "image", href: driveImageUrl(preloadImg, 600) }]

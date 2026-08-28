@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as Sitemap_indexDotxmlRouteImport } from './routes/sitemap_index[.]xml'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SitemapIndexDotxmlRouteImport } from './routes/sitemap-index[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -36,9 +38,19 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Sitemap_indexDotxmlRoute = Sitemap_indexDotxmlRouteImport.update({
+  id: '/sitemap_index.xml',
+  path: '/sitemap_index.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapIndexDotxmlRoute = SitemapIndexDotxmlRouteImport.update({
+  id: '/sitemap-index.xml',
+  path: '/sitemap-index.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -151,7 +163,9 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/terms': typeof TermsRoute
   '/api/drive-file': typeof ApiDriveFileRoute
   '/blog/gravure-idol-la-gi': typeof BlogGravureIdolLaGiRoute
@@ -174,7 +188,9 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/terms': typeof TermsRoute
   '/api/drive-file': typeof ApiDriveFileRoute
   '/blog/gravure-idol-la-gi': typeof BlogGravureIdolLaGiRoute
@@ -198,7 +214,9 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/terms': typeof TermsRoute
   '/api/drive-file': typeof ApiDriveFileRoute
   '/blog/gravure-idol-la-gi': typeof BlogGravureIdolLaGiRoute
@@ -223,7 +241,9 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/robots.txt'
+    | '/sitemap-index.xml'
     | '/sitemap.xml'
+    | '/sitemap_index.xml'
     | '/terms'
     | '/api/drive-file'
     | '/blog/gravure-idol-la-gi'
@@ -246,7 +266,9 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/robots.txt'
+    | '/sitemap-index.xml'
     | '/sitemap.xml'
+    | '/sitemap_index.xml'
     | '/terms'
     | '/api/drive-file'
     | '/blog/gravure-idol-la-gi'
@@ -269,7 +291,9 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/robots.txt'
+    | '/sitemap-index.xml'
     | '/sitemap.xml'
+    | '/sitemap_index.xml'
     | '/terms'
     | '/api/drive-file'
     | '/blog/gravure-idol-la-gi'
@@ -293,7 +317,9 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapIndexDotxmlRoute: typeof SitemapIndexDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  Sitemap_indexDotxmlRoute: typeof Sitemap_indexDotxmlRoute
   TermsRoute: typeof TermsRoute
   ApiDriveFileRoute: typeof ApiDriveFileRoute
   BlogGravureIdolLaGiRoute: typeof BlogGravureIdolLaGiRoute
@@ -313,11 +339,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap_index.xml': {
+      id: '/sitemap_index.xml'
+      path: '/sitemap_index.xml'
+      fullPath: '/sitemap_index.xml'
+      preLoaderRoute: typeof Sitemap_indexDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-index.xml': {
+      id: '/sitemap-index.xml'
+      path: '/sitemap-index.xml'
+      fullPath: '/sitemap-index.xml'
+      preLoaderRoute: typeof SitemapIndexDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -469,7 +509,9 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapIndexDotxmlRoute: SitemapIndexDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  Sitemap_indexDotxmlRoute: Sitemap_indexDotxmlRoute,
   TermsRoute: TermsRoute,
   ApiDriveFileRoute: ApiDriveFileRoute,
   BlogGravureIdolLaGiRoute: BlogGravureIdolLaGiRoute,
