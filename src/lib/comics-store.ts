@@ -180,13 +180,13 @@ export async function upsertComic(c: Comic): Promise<void> {
     const { error: insErr } = await supabase.from("chapters").insert(rows);
     if (insErr) throw insErr;
   }
-  await fetchAll();
+  await fetchComicsData();
 }
 
 export async function deleteComic(id: string): Promise<void> {
   const { error } = await supabase.from("comics").delete().eq("id", id);
   if (error) throw error;
-  await fetchAll();
+  await fetchComicsData();
 }
 
 export async function setFeatured(id: string, featured: boolean): Promise<void> {
