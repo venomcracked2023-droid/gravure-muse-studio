@@ -131,24 +131,21 @@ export function PdfReader({ fileUrl, driveId, footer, onFail }: Props) {
   if (useDriveEmbed && driveId) {
     return (
       <div className="mx-auto max-w-4xl px-2">
-        <div className="mb-3 flex items-center justify-between gap-2 px-1">
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <FileText className="h-3.5 w-3.5 text-primary" /> Google Drive Viewer
-          </span>
-          <a
-            href={`https://drive.google.com/file/d/${driveId}/view`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
-          >
-            {t("reader.openDriveTab")} <ExternalLink className="h-3 w-3" />
-          </a>
-        </div>
-        <div className="h-[85vh] sm:h-[90vh] w-full overflow-hidden rounded-2xl border border-border/60 bg-black shadow-lg">
+        <div
+          className="relative h-[85vh] sm:h-[90vh] w-full overflow-hidden rounded-2xl border border-border/60 bg-black shadow-lg select-none"
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          {/* Top header shield: blocks Google Drive pop-out & title bar */}
+          <div className="absolute inset-x-0 top-0 z-20 flex h-12 items-center justify-between border-b border-white/10 bg-black/95 px-4 backdrop-blur-md">
+            <span className="flex items-center gap-2 text-xs font-semibold text-foreground/90">
+              <FileText className="h-4 w-4 text-primary" /> Gravure Photobook Reader
+            </span>
+          </div>
           <iframe
             src={`https://drive.google.com/file/d/${driveId}/preview`}
             title="PDF Document"
-            className="h-full w-full border-0"
+            className="h-full w-full border-0 pt-10"
+            sandbox="allow-scripts allow-same-origin allow-forms"
             allow="autoplay"
           />
         </div>
@@ -158,7 +155,11 @@ export function PdfReader({ fileUrl, driveId, footer, onFail }: Props) {
   }
 
   return (
-    <div ref={wrapRef} className="mx-auto max-w-4xl px-2">
+    <div
+      ref={wrapRef}
+      className="mx-auto max-w-4xl px-2 select-none"
+      onContextMenu={(e) => e.preventDefault()}
+    >
       <Document
         key={retryKey}
         file={fileProp}

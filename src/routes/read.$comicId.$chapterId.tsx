@@ -400,34 +400,41 @@ function Reader() {
 
     return (
       <div className="mx-auto max-w-4xl px-2 pt-2 sm:px-4">
-        {isDriveDoc && (
-          <div className="mb-2 flex items-center justify-between px-1">
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <FileText className="h-3.5 w-3.5 text-primary" /> Google Drive Viewer
-            </span>
-            <a
-              href={embed.url.replace("/preview", "/view")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
-            >
-              {t("reader.openDriveTab")} <ExternalLink className="h-3 w-3" />
-            </a>
-          </div>
-        )}
         <div
           className={
-            "overflow-hidden rounded-2xl border border-primary/30 bg-black shadow-glow " +
-            (isDriveDoc ? "h-[85vh] sm:h-[90vh] w-full" : "relative aspect-video")
+            "relative overflow-hidden rounded-2xl border border-primary/30 bg-black shadow-glow select-none " +
+            (isDriveDoc ? "h-[85vh] sm:h-[90vh] w-full" : "aspect-video")
           }
+          onContextMenu={(e) => isDriveDoc && e.preventDefault()}
         >
+          {isDriveDoc && (
+            /* Protective top header shield: blocks Google Drive pop-out & title bar */
+            <div className="absolute inset-x-0 top-0 z-20 flex h-12 items-center justify-between border-b border-white/10 bg-black/95 px-4 backdrop-blur-md">
+              <span className="flex items-center gap-2 text-xs font-semibold text-foreground/90">
+                <FileText className="h-4 w-4 text-primary" />
+                <span className="line-clamp-1">{chapter.title}</span>
+              </span>
+              <span className="text-[11px] font-medium text-muted-foreground">
+                Gravure Reader
+              </span>
+            </div>
+          )}
           {embed.kind === "iframe" ? (
             <iframe
               src={embed.url}
               title={chapter.title}
-              className={isDriveDoc ? "h-full w-full border-0" : "absolute inset-0 h-full w-full"}
+              className={
+                isDriveDoc
+                  ? "h-full w-full border-0 pt-10"
+                  : "absolute inset-0 h-full w-full"
+              }
+              sandbox={
+                isDriveDoc
+                  ? "allow-scripts allow-same-origin allow-forms"
+                  : undefined
+              }
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
+              allowFullScreen={!isDriveDoc}
               referrerPolicy="strict-origin-when-cross-origin"
             />
           ) : (
@@ -558,24 +565,25 @@ function Reader() {
       ) : singleId && pdfFailed ? (
         <main className="mx-auto max-w-4xl px-2 pt-2 sm:px-4">
           <VideoEmbed />
-          <div className="mb-3 flex items-center justify-between gap-2 px-1">
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <FileText className="h-3.5 w-3.5 text-primary" /> Google Drive Viewer
-            </span>
-            <a
-              href={`https://drive.google.com/file/d/${singleId}/view`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
-            >
-              {t("reader.openDriveTab")} <ExternalLink className="h-3 w-3" />
-            </a>
-          </div>
-          <div className="h-[85vh] sm:h-[90vh] w-full overflow-hidden rounded-2xl border border-border/60 bg-black shadow-lg">
+          <div
+            className="relative h-[85vh] sm:h-[90vh] w-full overflow-hidden rounded-2xl border border-border/60 bg-black shadow-lg select-none"
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            {/* Protective top header shield: blocks Google Drive pop-out & title bar */}
+            <div className="absolute inset-x-0 top-0 z-20 flex h-12 items-center justify-between border-b border-white/10 bg-black/95 px-4 backdrop-blur-md">
+              <span className="flex items-center gap-2 text-xs font-semibold text-foreground/90">
+                <FileText className="h-4 w-4 text-primary" />
+                <span className="line-clamp-1">{chapter.title}</span>
+              </span>
+              <span className="text-[11px] font-medium text-muted-foreground">
+                Gravure Reader
+              </span>
+            </div>
             <iframe
               src={`https://drive.google.com/file/d/${singleId}/preview`}
               title={chapter.title}
-              className="h-full w-full border-0"
+              className="h-full w-full border-0 pt-10"
+              sandbox="allow-scripts allow-same-origin allow-forms"
               allow="autoplay"
             />
           </div>
