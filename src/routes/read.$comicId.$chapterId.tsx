@@ -9,13 +9,15 @@ import {
   ChevronsRight,
   List,
   Home,
+  FileText,
+  ExternalLink,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo, useMemo } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { PdfReader } from "@/components/PdfReader";
 import { supabase } from "@/integrations/supabase/client";
 import { CommentSection } from "@/components/CommentSection";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { parseEmbed } from "@/lib/embed";
 import { buildSlugId, extractId, isUUID, slugifyGenre } from "@/lib/slug";
 import { PremiumGate } from "@/components/PremiumGate";
@@ -351,108 +353,23 @@ function Reader() {
     .filter((c) => c.id !== comic.id && c.chapters.length > 0)
     .slice(0, 3);
 
-  const Footer = () => (
-    <div className="mx-auto max-w-3xl px-4 pb-32 pt-6">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-6">
-        <Link
-          to="/comic/$comicId"
-          params={{ comicId: buildSlugId(comic.title, comic.id) }}
-          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-semibold text-foreground backdrop-blur transition hover:border-primary hover:text-primary"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" /> {t("reader.backToProfile").replace("{name}", comic.title)}
-        </Link>
-        <Link to="/" className="text-xs text-muted-foreground hover:text-primary transition-colors">
-          {t("reader.exploreAll")}
-        </Link>
-      </div>
-
-      {otherChapters.length > 0 && (
-        <section className="mt-8">
-          <h3 className="text-sm font-semibold tracking-tight text-foreground">
-            {t("reader.otherAlbums").replace("{name}", comic.title)}
-          </h3>
-          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {otherChapters.map((ch) => {
-              const thumb =
-                ch.coverId || (ch.pages[0] ? (extractDriveId(ch.pages[0]) ?? ch.pages[0]) : "");
-              return (
-                <Link
-                  key={ch.id}
-                  to="/read/$comicId/$chapterId"
-                  params={{
-                    comicId: buildSlugId(comic.title, comic.id),
-                    chapterId: buildSlugId(ch.title, ch.id),
-                  }}
-                  preload="intent"
-                  className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-2 transition hover:border-primary/60 hover:bg-card"
-                >
-                  <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-secondary/40">
-                    {thumb && (
-                      <img
-                        src={driveImageUrl(thumb, 300)}
-                        alt={`Album: ${ch.title} — ${comic.title}`}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition group-hover:scale-105"
-                      />
-                    )}
-                  </div>
-                  <span className="line-clamp-1 text-xs font-medium text-foreground group-hover:text-primary">
-                    {ch.title}
-                  </span>
-                  <span className="text-[10px] text-muted-foreground">
-                    {ch.pages.length} {t("reader.photos")}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {featuredOthers.length > 0 && (
-        <section className="mt-8">
-          <h3 className="text-sm font-semibold tracking-tight text-foreground">{t("reader.featuredModels")}</h3>
-          <div className="mt-3 grid grid-cols-3 gap-3">
-            {featuredOthers.map((om) => (
-              <Link
-                key={om.id}
-                to="/comic/$comicId"
-                params={{ comicId: buildSlugId(om.title, om.id) }}
-                preload="intent"
-                className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-2 transition hover:border-primary/60 hover:bg-card"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-secondary/40">
-                  {om.coverId && (
-                    <img
-                      src={driveImageUrl(om.coverId, 300)}
-                      alt={`Gravure model ${om.title}`}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition group-hover:scale-105"
-                    />
-                  )}
-                </div>
-                <span className="line-clamp-1 text-xs font-medium text-foreground group-hover:text-primary">
-                  {om.title}
-                </span>
-                <span className="text-[10px] text-muted-foreground">
-                  {om.chapters.length} {t("card.albums")}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <div className="mt-8">
-        <CommentSection comicId={comic.id} chapterId={chapter.id} />
-      </div>
-    </div>
+  const footerNode = useMemo(
+    () => (
+      <ReaderFooter
+        comic={comic}
+        chapter={chapter}
+        otherChapters={otherChapters}
+        featuredOthers={featuredOthers}
+        t={t}
+      />
+    ),
+    [comic, chapter, otherChapters, featuredOthers, t]
   );
 
   const BreadcrumbNav = () => (
     <nav
       aria-label="Breadcrumb"
-      className="mx-auto max-w-3xl px-4 pt-16 pb-2 flex items-center gap-1.5 text-xs text-muted-foreground"
+      className="mx-auto max-w-4xl px-4 pt-16 pb-2 flex items-center gap-1.5 text-xs text-muted-foreground"
     >
       <Link to="/" className="inline-flex items-center gap-1 hover:text-primary transition-colors">
         <Home className="h-3 w-3" /> Home
@@ -476,34 +393,57 @@ function Reader() {
     </nav>
   );
 
-  const VideoEmbed = () =>
-    embed ? (
-      <div className="mx-auto max-w-3xl px-2 pt-2 sm:px-4">
-        <div className="overflow-hidden rounded-2xl border border-primary/30 bg-black shadow-glow">
-          <div className="relative aspect-video">
-            {embed.kind === "iframe" ? (
-              <iframe
-                src={embed.url}
-                title={chapter.title}
-                className="absolute inset-0 h-full w-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                referrerPolicy="strict-origin-when-cross-origin"
-              />
-            ) : (
-              <video
-                src={embed.url}
-                poster={embed.poster}
-                controls
-                playsInline
-                preload="metadata"
-                className="absolute inset-0 h-full w-full bg-black"
-              />
-            )}
+  const VideoEmbed = () => {
+    if (!embed) return null;
+    const isDriveDoc =
+      embed.kind === "iframe" && (embed.isDrive || embed.url.includes("drive.google.com"));
+
+    return (
+      <div className="mx-auto max-w-4xl px-2 pt-2 sm:px-4">
+        {isDriveDoc && (
+          <div className="mb-2 flex items-center justify-between px-1">
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <FileText className="h-3.5 w-3.5 text-primary" /> Google Drive Viewer
+            </span>
+            <a
+              href={embed.url.replace("/preview", "/view")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+            >
+              {t("reader.openDriveTab")} <ExternalLink className="h-3 w-3" />
+            </a>
           </div>
+        )}
+        <div
+          className={
+            "overflow-hidden rounded-2xl border border-primary/30 bg-black shadow-glow " +
+            (isDriveDoc ? "h-[85vh] sm:h-[90vh] w-full" : "relative aspect-video")
+          }
+        >
+          {embed.kind === "iframe" ? (
+            <iframe
+              src={embed.url}
+              title={chapter.title}
+              className={isDriveDoc ? "h-full w-full border-0" : "absolute inset-0 h-full w-full"}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          ) : (
+            <video
+              src={embed.url}
+              poster={embed.poster}
+              controls
+              playsInline
+              preload="metadata"
+              className="absolute inset-0 h-full w-full bg-black"
+            />
+          )}
         </div>
       </div>
-    ) : null;
+    );
+  };
 
   const StickyNav = () => (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/70 backdrop-blur-xl">
@@ -513,7 +453,7 @@ function Reader() {
           style={{ width: `${progress}%` }}
         />
       </div>
-      <div className="mx-auto flex max-w-3xl items-center gap-2 px-3 py-2 sm:px-4">
+      <div className="mx-auto flex max-w-4xl items-center gap-2 px-3 py-2 sm:px-4">
         <span className="hidden shrink-0 items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary sm:inline-flex">
           {(idx >= 0 ? idx : 0) + 1}/{total}
         </span>
@@ -576,7 +516,7 @@ function Reader() {
           (hideUI ? "-translate-y-full" : "translate-y-0")
         }
       >
-        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between gap-3 px-4">
+        <div className="mx-auto flex h-14 max-w-4xl items-center justify-between gap-3 px-4">
           <Link
             to="/comic/$comicId"
             params={{ comicId: buildSlugId(comic.title, comic.id) }}
@@ -596,24 +536,51 @@ function Reader() {
       <BreadcrumbNav />
 
       {chapter.pages.length === 0 ? (
-        <main className="mx-auto max-w-3xl pt-4">
+        <main className="mx-auto max-w-4xl pt-4">
           <VideoEmbed />
           {!embed && (
             <div className="p-10 text-center text-muted-foreground">
               {t("reader.emptyAlbum")}
             </div>
           )}
-          <Footer />
+          {footerNode}
         </main>
       ) : singleId && !pdfFailed ? (
-        <>
+        <main className="mx-auto max-w-4xl pt-2">
           <VideoEmbed />
           <PdfReader
             fileUrl={`/api/drive-file?id=${singleId}`}
-            Footer={Footer}
+            driveId={singleId}
+            footer={footerNode}
             onFail={() => setPdfFailed(true)}
           />
-        </>
+        </main>
+      ) : singleId && pdfFailed ? (
+        <main className="mx-auto max-w-4xl px-2 pt-2 sm:px-4">
+          <VideoEmbed />
+          <div className="mb-3 flex items-center justify-between gap-2 px-1">
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <FileText className="h-3.5 w-3.5 text-primary" /> Google Drive Viewer
+            </span>
+            <a
+              href={`https://drive.google.com/file/d/${singleId}/view`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+            >
+              {t("reader.openDriveTab")} <ExternalLink className="h-3 w-3" />
+            </a>
+          </div>
+          <div className="h-[85vh] sm:h-[90vh] w-full overflow-hidden rounded-2xl border border-border/60 bg-black shadow-lg">
+            <iframe
+              src={`https://drive.google.com/file/d/${singleId}/preview`}
+              title={chapter.title}
+              className="h-full w-full border-0"
+              allow="autoplay"
+            />
+          </div>
+          {footerNode}
+        </main>
       ) : (
         <Virtuoso
           useWindowScroll
@@ -621,10 +588,10 @@ function Reader() {
           increaseViewportBy={{ top: 1200, bottom: 1600 }}
           components={{
             Header: () => (embed ? <VideoEmbed /> : <div className="h-2" />),
-            Footer,
+            Footer: () => footerNode,
           }}
           itemContent={(i, id) => (
-            <div className="mx-auto max-w-3xl">
+            <div className="mx-auto max-w-4xl">
               <img
                 src={driveImageUrl(id, 1200)}
                 alt={`Gravure photo ${i + 1} — ${comic.title}, ${chapter.title}`}
@@ -660,3 +627,145 @@ function Reader() {
     </div>
   );
 }
+
+type ReaderFooterProps = {
+  comic: { id: string; title: string };
+  chapter: { id: string; title: string };
+  otherChapters: Array<{
+    id: string;
+    title: string;
+    coverId?: string;
+    pages: string[];
+  }>;
+  featuredOthers: Array<{
+    id: string;
+    title: string;
+    coverId?: string;
+    chapters: Array<{ id: string; title: string }>;
+  }>;
+  t: (key: string) => string;
+};
+
+const ReaderFooter = memo(function ReaderFooter({
+  comic,
+  chapter,
+  otherChapters,
+  featuredOthers,
+  t,
+}: ReaderFooterProps) {
+  return (
+    <div className="mx-auto max-w-4xl px-4 pb-32 pt-8">
+      {/* End of album separation */}
+      <div className="relative my-8 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-border/60" />
+        </div>
+        <div className="relative bg-background px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          {t("reader.endOfAlbum")}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-6">
+        <Link
+          to="/comic/$comicId"
+          params={{ comicId: buildSlugId(comic.title, comic.id) }}
+          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-semibold text-foreground backdrop-blur transition hover:border-primary hover:text-primary"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />{" "}
+          {t("reader.backToProfile").replace("{name}", comic.title)}
+        </Link>
+        <Link
+          to="/"
+          className="text-xs text-muted-foreground hover:text-primary transition-colors"
+        >
+          {t("reader.exploreAll")}
+        </Link>
+      </div>
+
+      {otherChapters.length > 0 && (
+        <section className="mt-8">
+          <h3 className="text-sm font-semibold tracking-tight text-foreground">
+            {t("reader.otherAlbums").replace("{name}", comic.title)}
+          </h3>
+          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {otherChapters.map((ch) => {
+              const thumb =
+                ch.coverId ||
+                (ch.pages[0] ? (extractDriveId(ch.pages[0]) ?? ch.pages[0]) : "");
+              return (
+                <Link
+                  key={ch.id}
+                  to="/read/$comicId/$chapterId"
+                  params={{
+                    comicId: buildSlugId(comic.title, comic.id),
+                    chapterId: buildSlugId(ch.title, ch.id),
+                  }}
+                  preload="intent"
+                  className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-2 transition hover:border-primary/60 hover:bg-card"
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-secondary/40">
+                    {thumb && (
+                      <img
+                        src={driveImageUrl(thumb, 300)}
+                        alt={`Album: ${ch.title} — ${comic.title}`}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition group-hover:scale-105"
+                      />
+                    )}
+                  </div>
+                  <span className="line-clamp-1 text-xs font-medium text-foreground group-hover:text-primary">
+                    {ch.title}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">
+                    {ch.pages.length} {t("reader.photos")}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {featuredOthers.length > 0 && (
+        <section className="mt-8">
+          <h3 className="text-sm font-semibold tracking-tight text-foreground">
+            {t("reader.featuredModels")}
+          </h3>
+          <div className="mt-3 grid grid-cols-3 gap-3">
+            {featuredOthers.map((om) => (
+              <Link
+                key={om.id}
+                to="/comic/$comicId"
+                params={{ comicId: buildSlugId(om.title, om.id) }}
+                preload="intent"
+                className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-2 transition hover:border-primary/60 hover:bg-card"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-secondary/40">
+                  {om.coverId && (
+                    <img
+                      src={driveImageUrl(om.coverId, 300)}
+                      alt={`Gravure model ${om.title}`}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition group-hover:scale-105"
+                    />
+                  )}
+                </div>
+                <span className="line-clamp-1 text-xs font-medium text-foreground group-hover:text-primary">
+                  {om.title}
+                </span>
+                <span className="text-[10px] text-muted-foreground">
+                  {om.chapters.length} {t("card.albums")}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <div className="mt-8">
+        <CommentSection comicId={comic.id} chapterId={chapter.id} />
+      </div>
+    </div>
+  );
+});
+

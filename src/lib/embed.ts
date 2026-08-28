@@ -1,5 +1,5 @@
 export type EmbedInfo =
-  | { kind: "iframe"; url: string }
+  | { kind: "iframe"; url: string; isDrive?: boolean }
   | { kind: "video"; url: string; poster?: string };
 
 const VIDEO_EXT_RE = /\.(mp4|webm|ogg|ogv|mov|m4v)(\?|#|$)/i;
@@ -21,7 +21,9 @@ export function parseEmbed(input: string): EmbedInfo | null {
     /* not a URL */
   }
   const iframe = toEmbedUrl(s);
-  return iframe ? { kind: "iframe", url: iframe } : null;
+  if (!iframe) return null;
+  const isDrive = /drive\.google\.com/i.test(s) || /drive\.google\.com/i.test(iframe);
+  return { kind: "iframe", url: iframe, isDrive };
 }
 
 export function toEmbedUrl(input: string): string | null {

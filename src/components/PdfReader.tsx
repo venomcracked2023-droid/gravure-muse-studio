@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader2, RefreshCw, FileText, ExternalLink } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 
@@ -16,7 +17,7 @@ if (typeof window !== "undefined") {
   }
 }
 
-function LazyPdfPage({
+const LazyPdfPage = memo(function LazyPdfPage({
   pageNumber,
   numPages,
   width,
@@ -49,11 +50,13 @@ function LazyPdfPage({
     return () => observer.disconnect();
   }, [pageNumber]);
 
+  const estimatedHeight = Math.floor(width * 1.414);
+
   return (
     <div
       ref={containerRef}
       className="flex flex-col items-center justify-center py-2"
-      style={{ minHeight: Math.floor(width * 1.35) }}
+      style={{ minHeight: isVisible ? undefined : estimatedHeight }}
     >
       {isVisible ? (
         <Page
@@ -64,7 +67,7 @@ function LazyPdfPage({
           renderMode="canvas"
           loading={
             <div
-              style={{ width, height: Math.floor(width * 1.35) }}
+              style={{ width, height: estimatedHeight }}
               className="flex items-center justify-center rounded-xl bg-secondary/30 text-xs text-muted-foreground animate-pulse"
             >
               Loading page {pageNumber} of {numPages}…
@@ -73,7 +76,7 @@ function LazyPdfPage({
         />
       ) : (
         <div
-          style={{ width, height: Math.floor(width * 1.35) }}
+          style={{ width, height: estimatedHeight }}
           className="flex items-center justify-center rounded-xl border border-dashed border-border/40 bg-card/20 text-xs text-muted-foreground/60"
         >
           Page {pageNumber} of {numPages}
@@ -81,16 +84,25 @@ function LazyPdfPage({
       )}
     </div>
   );
-}
+});
 
-type Props = { fileUrl: string; Footer: React.ComponentType; onFail?: () => void };
+type Props = {
+  fileUrl: string;
+  driveId?: string | null;
+  footer?: React.ReactNode;
+  onFail?: () => void;
+};
 
-export function PdfReader({ fileUrl, Footer, onFail }: Props) {
+export function PdfReader({ fileUrl, driveId, footer, onFail }: Props) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [width, setWidth] = useState<number>(800);
   const [retryKey, setRetryKey] = useState(0);
   const [errorOccurred, setErrorOccurred] = useState(false);
+  const [useDriveEmbed, setUseDriveEmbed] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
+  const { t } = useI18n();
+
+  const fileProp = useMemo(() => ({ url: fileUrl }), [fileUrl]);
 
   const documentOptions = useMemo(
     () => ({
@@ -116,11 +128,40 @@ export function PdfReader({ fileUrl, Footer, onFail }: Props) {
     setRetryKey((k) => k + 1);
   };
 
+  if (useDriveEmbed && driveId) {
+    return (
+      <div className="mx-auto max-w-4xl px-2">
+        <div className="mb-3 flex items-center justify-between gap-2 px-1">
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <FileText className="h-3.5 w-3.5 text-primary" /> Google Drive Viewer
+          </span>
+          <a
+            href={`https://drive.google.com/file/d/${driveId}/view`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+          >
+            {t("reader.openDriveTab")} <ExternalLink className="h-3 w-3" />
+          </a>
+        </div>
+        <div className="h-[85vh] sm:h-[90vh] w-full overflow-hidden rounded-2xl border border-border/60 bg-black shadow-lg">
+          <iframe
+            src={`https://drive.google.com/file/d/${driveId}/preview`}
+            title="PDF Document"
+            className="h-full w-full border-0"
+            allow="autoplay"
+          />
+        </div>
+        {footer}
+      </div>
+    );
+  }
+
   return (
-    <div ref={wrapRef} className="mx-auto max-w-3xl px-2">
+    <div ref={wrapRef} className="mx-auto max-w-4xl px-2">
       <Document
         key={retryKey}
-        file={fileUrl}
+        file={fileProp}
         options={documentOptions}
         onLoadSuccess={({ numPages }) => {
           setNumPages(numPages);
@@ -138,20 +179,37 @@ export function PdfReader({ fileUrl, Footer, onFail }: Props) {
           </div>
         }
         error={
-          <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/60 bg-card/40 p-12 text-center">
-            <p className="text-sm text-destructive">Failed to load PDF photobook.</p>
-            <button
-              onClick={handleRetry}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground transition hover:border-primary hover:text-primary"
-            >
-              <RefreshCw className="h-3.5 w-3.5" /> Try Again
-            </button>
+          <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-border/60 bg-card/40 p-10 text-center">
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-destructive">
+                Không thể tải trực tiếp PDF trong trình đọc.
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Bạn có thể thử lại hoặc chuyển sang trình xem Google Drive.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <button
+                onClick={handleRetry}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground transition hover:border-primary hover:text-primary"
+              >
+                <RefreshCw className="h-3.5 w-3.5" /> {t("reader.retry")}
+              </button>
+              {driveId && (
+                <button
+                  onClick={() => setUseDriveEmbed(true)}
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90 shadow-glow"
+                >
+                  <FileText className="h-3.5 w-3.5" /> {t("reader.switchDriveViewer")}
+                </button>
+              )}
+            </div>
           </div>
         }
       >
         {numPages && numPages > 0 && (
           <>
-            <div className="h-8" />
+            <div className="h-4" />
             {Array.from({ length: numPages }, (_, i) => (
               <LazyPdfPage
                 key={i + 1}
@@ -160,7 +218,7 @@ export function PdfReader({ fileUrl, Footer, onFail }: Props) {
                 width={width}
               />
             ))}
-            <Footer />
+            {footer}
           </>
         )}
       </Document>

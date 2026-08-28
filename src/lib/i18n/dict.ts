@@ -64,6 +64,10 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "reader.featuredModels": "Người mẫu nổi bật",
     "reader.photos": "ảnh",
     "reader.emptyAlbum": "Album này chưa có nội dung.",
+    "reader.endOfAlbum": "Đã xem hết album",
+    "reader.openDriveTab": "Mở tab mới",
+    "reader.switchDriveViewer": "Dùng trình xem Google Drive",
+    "reader.retry": "Thử lại",
   },
   en: {
     "nav.explore": "Explore",
@@ -119,6 +123,10 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "reader.featuredModels": "Featured Models",
     "reader.photos": "photos",
     "reader.emptyAlbum": "This album has no content yet.",
+    "reader.endOfAlbum": "End of Album",
+    "reader.openDriveTab": "Open in new tab",
+    "reader.switchDriveViewer": "Use Google Drive Viewer",
+    "reader.retry": "Try again",
   },
   ja: {
     "nav.explore": "探す",
@@ -173,6 +181,10 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "reader.featuredModels": "注目モデル",
     "reader.photos": "枚",
     "reader.emptyAlbum": "このアルバムにはまだコンテンツがありません。",
+    "reader.endOfAlbum": "アルバムの終わり",
+    "reader.openDriveTab": "新しいタブで開く",
+    "reader.switchDriveViewer": "Google Drive ビューアを使用",
+    "reader.retry": "再試行",
   },
   zh: {
     "nav.explore": "探索",
@@ -227,6 +239,10 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "reader.featuredModels": "精选模特",
     "reader.photos": "张写真",
     "reader.emptyAlbum": "该写真集暂无内容。",
+    "reader.endOfAlbum": "已看完本写真集",
+    "reader.openDriveTab": "在新标签页打开",
+    "reader.switchDriveViewer": "使用 Google Drive 查看器",
+    "reader.retry": "重试",
   },
   ko: {
     "nav.explore": "탐색",
@@ -281,5 +297,9 @@ export const TRANSLATIONS: Record<Lang, Dict> = {
     "reader.featuredModels": "추천 모델",
     "reader.photos": "장",
     "reader.emptyAlbum": "이 앨범에는 아직 콘텐츠가 없습니다.",
+    "reader.endOfAlbum": "앨범의 끝",
+    "reader.openDriveTab": "새 탭에서 열기",
+    "reader.switchDriveViewer": "Google Drive 뷰어 사용",
+    "reader.retry": "다시 시도",
   },
 };
