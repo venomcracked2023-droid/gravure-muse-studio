@@ -246,7 +246,9 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
   notFoundComponent: () => (
     <div className="p-10 text-center">
       <h1 className="text-xl font-bold">Album Not Found</h1>
-      <p className="mt-2 text-sm text-muted-foreground">The requested album could not be found or has been moved.</p>
+      <p className="mt-2 text-sm text-muted-foreground">
+        The requested album could not be found or has been moved.
+      </p>
       <Link to="/" className="mt-4 inline-block text-primary underline">
         Back to Home
       </Link>
@@ -366,7 +368,7 @@ function Reader() {
         t={t}
       />
     ),
-    [comic, chapter, otherChapters, featuredOthers, t]
+    [comic, chapter, otherChapters, featuredOthers, t],
   );
 
   const BreadcrumbNav = () => (
@@ -417,9 +419,7 @@ function Reader() {
                 <FileText className="h-4 w-4 text-primary" />
                 <span className="line-clamp-1">{chapter.title}</span>
               </span>
-              <span className="text-[11px] font-medium text-muted-foreground">
-                Gravure Reader
-              </span>
+              <span className="text-[11px] font-medium text-muted-foreground">Gravure Reader</span>
             </div>
           )}
           {embed.kind === "iframe" ? (
@@ -427,15 +427,9 @@ function Reader() {
               src={embed.url}
               title={chapter.title}
               className={
-                isDriveDoc
-                  ? "h-full w-full border-0 pt-10"
-                  : "absolute inset-0 h-full w-full"
+                isDriveDoc ? "h-full w-full border-0 pt-10" : "absolute inset-0 h-full w-full"
               }
-              sandbox={
-                isDriveDoc
-                  ? "allow-scripts allow-same-origin allow-forms"
-                  : undefined
-              }
+              sandbox={isDriveDoc ? "allow-scripts allow-same-origin allow-forms" : undefined}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen={!isDriveDoc}
               referrerPolicy="strict-origin-when-cross-origin"
@@ -549,9 +543,7 @@ function Reader() {
         <main className="mx-auto max-w-4xl pt-4">
           <VideoEmbed />
           {!embed && (
-            <div className="p-10 text-center text-muted-foreground">
-              {t("reader.emptyAlbum")}
-            </div>
+            <div className="p-10 text-center text-muted-foreground">{t("reader.emptyAlbum")}</div>
           )}
           {footerNode}
         </main>
@@ -578,9 +570,7 @@ function Reader() {
                 <FileText className="h-4 w-4 text-primary" />
                 <span className="line-clamp-1">{chapter.title}</span>
               </span>
-              <span className="text-[11px] font-medium text-muted-foreground">
-                Gravure Reader
-              </span>
+              <span className="text-[11px] font-medium text-muted-foreground">Gravure Reader</span>
             </div>
             <iframe
               src={`https://drive.google.com/file/d/${singleId}/preview`}
@@ -590,7 +580,7 @@ function Reader() {
               allow="autoplay"
             />
           </div>
-          {footerNode}
+          <div className="mt-8 border-t border-border/60 pt-4">{footerNode}</div>
         </main>
       ) : (
         <Virtuoso
@@ -685,10 +675,7 @@ const ReaderFooter = memo(function ReaderFooter({
           <ArrowLeft className="h-3.5 w-3.5" />{" "}
           {t("reader.backToProfile").replace("{name}", comic.title)}
         </Link>
-        <Link
-          to="/"
-          className="text-xs text-muted-foreground hover:text-primary transition-colors"
-        >
+        <Link to="/" className="text-xs text-muted-foreground hover:text-primary transition-colors">
           {t("reader.exploreAll")}
         </Link>
       </div>
@@ -701,8 +688,7 @@ const ReaderFooter = memo(function ReaderFooter({
           <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {otherChapters.map((ch) => {
               const thumb =
-                ch.coverId ||
-                (ch.pages[0] ? (extractDriveId(ch.pages[0]) ?? ch.pages[0]) : "");
+                ch.coverId || (ch.pages[0] ? (extractDriveId(ch.pages[0]) ?? ch.pages[0]) : "");
               return (
                 <Link
                   key={ch.id}
@@ -779,4 +765,3 @@ const ReaderFooter = memo(function ReaderFooter({
     </div>
   );
 });
-

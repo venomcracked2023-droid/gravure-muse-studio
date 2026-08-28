@@ -21,9 +21,7 @@ export function getAutoFeatured(comics: Comic[], limit = 12): Comic[] {
       list.push(c);
     }
   }
-  return list
-    .sort((a, b) => latestActivity(b) - latestActivity(a))
-    .slice(0, limit);
+  return list.sort((a, b) => latestActivity(b) - latestActivity(a)).slice(0, limit);
 }
 
 export type FeaturedAlbum = {

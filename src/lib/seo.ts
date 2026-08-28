@@ -54,7 +54,10 @@ export function getModelCountry(model: {
   return "Asia";
 }
 
-export function getModelStyle(model: { genres?: string[] | null; description?: string | null }): string {
+export function getModelStyle(model: {
+  genres?: string[] | null;
+  description?: string | null;
+}): string {
   const genres = model.genres || [];
   if (genres.length > 0) {
     return genres.slice(0, 3).join(", ");
@@ -78,7 +81,12 @@ export function generateModelMetaDescription(
  * Rich, unique model description (80-150 words) for server-rendered page content (Task 5)
  */
 export function generateModelDescription(
-  model: { title: string; author?: string | null; genres?: string[] | null; description?: string | null },
+  model: {
+    title: string;
+    author?: string | null;
+    genres?: string[] | null;
+    description?: string | null;
+  },
   albumCount: number,
 ): string {
   const country = getModelCountry(model);

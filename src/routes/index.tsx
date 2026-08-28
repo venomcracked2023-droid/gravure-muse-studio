@@ -114,7 +114,10 @@ function Index() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldBreadcrumb) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldBreadcrumb) }}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <main className="mx-auto max-w-6xl px-4 pb-20">
         <section className="relative mt-6 overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card via-secondary to-card px-6 py-9 sm:px-12 sm:py-12">
@@ -135,7 +138,8 @@ function Index() {
           />
           <div className="relative max-w-2xl animate-fade-in-up">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-primary" /> duahaumanga.com — Vertical-scroll gravure library
+              <Sparkles className="h-3.5 w-3.5 text-primary" /> duahaumanga.com — Vertical-scroll
+              gravure library
             </span>
             <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
               GravureHub —{" "}
@@ -143,7 +147,8 @@ function Index() {
             </h1>
             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
               Explore fine-art gravure albums and photobooks featuring Japanese, Korean, and Asian
-              models. Enjoy an uninterrupted, smooth vertical-scrolling experience on mobile and desktop.
+              models. Enjoy an uninterrupted, smooth vertical-scrolling experience on mobile and
+              desktop.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
@@ -201,7 +206,9 @@ function Index() {
               <div className="font-semibold text-sm text-foreground group-hover:text-primary">
                 Featured Albums
               </div>
-              <div className="text-xs text-muted-foreground truncate">{featured.length} curated albums</div>
+              <div className="text-xs text-muted-foreground truncate">
+                {featured.length} curated albums
+              </div>
             </div>
           </Link>
 
@@ -232,7 +239,9 @@ function Index() {
               <div className="font-semibold text-sm text-foreground group-hover:text-primary">
                 Japanese Idols
               </div>
-              <div className="text-xs text-muted-foreground truncate">Classic gravure photobooks</div>
+              <div className="text-xs text-muted-foreground truncate">
+                Classic gravure photobooks
+              </div>
             </div>
           </Link>
 
@@ -258,11 +267,11 @@ function Index() {
             Welcome to GravureHub (duahaumanga.com) — Vertical-Scroll Gravure Photo Library
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            <strong>GravureHub</strong> (hosted at <strong>duahaumanga.com</strong>) is an online platform
-            dedicated to curating high-definition gravure albums, fashion portraits, and artistic model
-            photobooks from top Japanese, Korean, and Asian models. With our seamless vertical-scroll
-            reading interface, you can effortlessly browse each vibrant photo set without distracting
-            intrusions.
+            <strong>GravureHub</strong> (hosted at <strong>duahaumanga.com</strong>) is an online
+            platform dedicated to curating high-definition gravure albums, fashion portraits, and
+            artistic model photobooks from top Japanese, Korean, and Asian models. With our seamless
+            vertical-scroll reading interface, you can effortlessly browse each vibrant photo set
+            without distracting intrusions.
           </p>
         </section>
 
@@ -303,7 +312,8 @@ function Index() {
                   What is a Gravure Idol? Artistic Charm &amp; Japanese Photobook Culture
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                  Discover the origins, historical evolution, and aesthetic allure of gravure idol photography from Japan to modern digital formats.
+                  Discover the origins, historical evolution, and aesthetic allure of gravure idol
+                  photography from Japan to modern digital formats.
                 </p>
               </div>
               <span className="mt-4 inline-flex items-center text-xs font-medium text-primary">
@@ -323,7 +333,8 @@ function Index() {
                   Top 10 Most Popular Japanese Gravure Idols in 2024
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                  A curated list of the most celebrated gravure models across Asia with stunning visual charisma and bestselling photobooks.
+                  A curated list of the most celebrated gravure models across Asia with stunning
+                  visual charisma and bestselling photobooks.
                 </p>
               </div>
               <span className="mt-4 inline-flex items-center text-xs font-medium text-primary">
@@ -354,7 +365,9 @@ function Index() {
                 search={{}}
                 className={cn(
                   "rounded-full border px-3 py-1.5 font-medium transition",
-                  !term ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card/60 text-muted-foreground hover:border-primary/60 hover:text-foreground",
+                  !term
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card/60 text-muted-foreground hover:border-primary/60 hover:text-foreground",
                 )}
               >
                 All
@@ -405,7 +418,12 @@ function Index() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-[#29A9EA] px-5 py-2 text-xs font-semibold text-white shadow-md shadow-[#29A9EA]/30 transition hover:scale-105"
                 >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="h-4 w-4"
+                    aria-hidden="true"
+                  >
                     <path d="M21.6 4.8c-.5-.4-1.1-.4-1.6-.2L2.8 11.3c-.9.3-1.1 1.1-.5 1.6l3.4 2.6 2.3 7.1c.2.6.8.9 1.4.5l3-2.3 3.8 3.1c.6.5 1.5.3 1.8-.5l4.5-13.2c.3-.9-.2-1.5-1.1-1.8-.1-.1-.2-.1-.3-.1-.2-.1-.3-.2-.5-.3zM9.8 17.2l.6-4.1 6.5-5.8-8.5 7.5 1.4 2.4z" />
                   </svg>
                   Join GravureHub Telegram
@@ -427,7 +445,9 @@ function Index() {
                 {paginated.map((c, i) => {
                   const firstChapter = c.chapters[0];
                   const comicSlug = buildSlugId(c.title, c.id);
-                  const firstChapterSlug = firstChapter ? buildSlugId(firstChapter.title, firstChapter.id) : "";
+                  const firstChapterSlug = firstChapter
+                    ? buildSlugId(firstChapter.title, firstChapter.id)
+                    : "";
                   return (
                     <div
                       key={c.id}

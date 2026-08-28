@@ -83,8 +83,20 @@ function AdminPage() {
     return (
       <div className="min-h-screen">
         <SiteHeader />
-        <main className="p-20 text-center">
-          <h1 className="text-2xl font-bold">Sign-in Required</h1>
+        <main className="mx-auto max-w-md px-4 py-20 text-center">
+          <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
+            <h1 className="text-2xl font-bold tracking-tight">Sign-in Required</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              You must be logged in as an authorized contributor to access the content management
+              dashboard.
+            </p>
+            <Link
+              to="/login"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition"
+            >
+              Sign In
+            </Link>
+          </div>
         </main>
       </div>
     );
@@ -92,9 +104,20 @@ function AdminPage() {
     return (
       <div className="min-h-screen">
         <SiteHeader />
-        <main className="p-20 text-center">
-          <h1 className="text-2xl font-bold">Contributor Access Required</h1>
-          <p className="mt-2 text-muted-foreground">Submit an application and await admin approval.</p>
+        <main className="mx-auto max-w-md px-4 py-20 text-center">
+          <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
+            <h1 className="text-2xl font-bold tracking-tight">Contributor Access Required</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Your account does not have contributor permissions yet. Submit an application to begin
+              publishing albums.
+            </p>
+            <Link
+              to="/apply"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition"
+            >
+              Apply as Contributor
+            </Link>
+          </div>
         </main>
       </div>
     );
@@ -133,7 +156,8 @@ function AdminPage() {
                   {c.title || "(Untitled)"}
                 </Link>
                 <p className="text-xs text-muted-foreground">
-                  {c.chapters.length} {c.chapters.length === 1 ? "album" : "albums"} · {c.author || "Anonymous"}
+                  {c.chapters.length} {c.chapters.length === 1 ? "album" : "albums"} ·{" "}
+                  {c.author || "Anonymous"}
                 </p>
               </div>
               <div className="flex gap-2">
@@ -252,7 +276,9 @@ function ComicEditor({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur">
       <div className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
         <header className="flex items-center justify-between border-b border-border px-5 py-3">
-          <h2 className="font-semibold">{comic.title ? `Edit: ${comic.title}` : "Add New Model"}</h2>
+          <h2 className="font-semibold">
+            {comic.title ? `Edit: ${comic.title}` : "Add New Model"}
+          </h2>
           <button onClick={onClose} className="text-sm text-muted-foreground hover:text-foreground">
             Close
           </button>
@@ -287,7 +313,9 @@ function ComicEditor({
             </label>
           </div>
           <div className="block">
-            <span className="mb-1.5 block text-xs font-medium text-muted-foreground">Description</span>
+            <span className="mb-1.5 block text-xs font-medium text-muted-foreground">
+              Description
+            </span>
             <MarkdownEditor
               value={draft.description}
               onChange={(v) => patch({ description: v })}
@@ -470,7 +498,9 @@ function ComicEditor({
                       <span className="text-xs text-muted-foreground">USDT</span>
                     </div>
                   </div>
-                  <p className="mt-1 text-xs text-muted-foreground">{ch.pages.length} {ch.pages.length === 1 ? "photo" : "photos"}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {ch.pages.length} {ch.pages.length === 1 ? "photo" : "photos"}
+                  </p>
                 </div>
               ))}
               {draft.chapters.length === 0 && (

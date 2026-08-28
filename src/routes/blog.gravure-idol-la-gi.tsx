@@ -145,70 +145,118 @@ function Page() {
               Culture &amp; History Guide
             </span>
             <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-              What is a Gravure Idol? Definition, History &amp; the Enduring Allure of Japanese Photobook Culture
+              What is a Gravure Idol? Definition, History &amp; the Enduring Allure of Japanese
+              Photobook Culture
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Published: {PUBLISHED} · Updated: August 2026 · Author: {SITE_NAME} Editorial Team · Read time: ~8 min
+              Published: {PUBLISHED} · Updated: August 2026 · Author: {SITE_NAME} Editorial Team ·
+              Read time: ~8 min
             </p>
           </header>
 
           <p className="lead">
-            For decades, Japanese <strong>gravure idols</strong> (グラビアアイドル, <em>gurabia aidoru</em>) have occupied a unique, celebrated space at the intersection of fashion, fine-art portraiture, pop fandom, and mainstream entertainment. If you have ever flipped through a Japanese magazine, followed J-Pop idols, or scrolled through visual arts communities, you have encountered this ubiquitous visual culture.
+            For decades, Japanese <strong>gravure idols</strong> (グラビアアイドル,{" "}
+            <em>gurabia aidoru</em>) have occupied a unique, celebrated space at the intersection of
+            fashion, fine-art portraiture, pop fandom, and mainstream entertainment. If you have
+            ever flipped through a Japanese magazine, followed J-Pop idols, or scrolled through
+            visual arts communities, you have encountered this ubiquitous visual culture.
           </p>
 
           <p>
-            Yet, newcomers often ask: <em>What does gravure actually mean? How does it differ from fashion modeling or musical idols? And how did a 20th-century printing technique evolve into a multi-million-dollar global digital photobook phenomenon?</em>
+            Yet, newcomers often ask:{" "}
+            <em>
+              What does gravure actually mean? How does it differ from fashion modeling or musical
+              idols? And how did a 20th-century printing technique evolve into a
+              multi-million-dollar global digital photobook phenomenon?
+            </em>
           </p>
 
           <p>
-            In this definitive guide, we explore the origins, historical milestones, artistic philosophy, major publishing institutions, and modern digital vertical-scroll experience that defines gravure today.
+            In this definitive guide, we explore the origins, historical milestones, artistic
+            philosophy, major publishing institutions, and modern digital vertical-scroll experience
+            that defines gravure today.
           </p>
 
           <h2>1. Definition: What Exactly is a Gravure Idol?</h2>
           <p>
-            The term <strong>"gravure"</strong> is derived from <em>rotogravure</em>, an industrial intaglio printing method developed in the late 19th and early 20th centuries. Because rotogravure produced exceptionally deep, continuous-tone photographic reproductions on high-speed presses, Japanese weekly magazines began using it for glossy photo spreads, pin-up posters, and full-color centerfolds.
+            The term <strong>"gravure"</strong> is derived from <em>rotogravure</em>, an industrial
+            intaglio printing method developed in the late 19th and early 20th centuries. Because
+            rotogravure produced exceptionally deep, continuous-tone photographic reproductions on
+            high-speed presses, Japanese weekly magazines began using it for glossy photo spreads,
+            pin-up posters, and full-color centerfolds.
           </p>
           <p>
-            Over time, Japanese vernacular adopted the word <em>"gravure"</em> (グラビア) to designate photographic pictorials themselves. A <strong>gravure idol</strong> is therefore a commercial model who specializes in appearing in magazines, deluxe hardcover photobooks, promotional calendars, and digital photo sets.
+            Over time, Japanese vernacular adopted the word <em>"gravure"</em> (グラビア) to
+            designate photographic pictorials themselves. A <strong>gravure idol</strong> is
+            therefore a commercial model who specializes in appearing in magazines, deluxe hardcover
+            photobooks, promotional calendars, and digital photo sets.
           </p>
 
           <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 my-6">
-            <h4 className="text-sm font-semibold text-primary mb-1">Essential Defining Characteristics:</h4>
+            <h4 className="text-sm font-semibold text-primary mb-1">
+              Essential Defining Characteristics:
+            </h4>
             <ul className="text-sm space-y-1 mb-0">
-              <li><strong>Artistic Framing:</strong> Emphasis on radiant smiles, healthy natural physique, soft lighting, and candid lifestyle charm.</li>
-              <li><strong>Wardrobe:</strong> Swimwear (bikinis, one-pieces), fashionable lingerie, elegant resort wear, summer yukata/kimono, cosplay, and cozy loungewear.</li>
-              <li><strong>Non-Explicit Standard:</strong> Gravure idols <em>never pose nude</em> and <em>do not participate in adult videos (AV)</em>. Gravure is published by mainstream national media conglomerates such as Shueisha and Kodansha.</li>
+              <li>
+                <strong>Artistic Framing:</strong> Emphasis on radiant smiles, healthy natural
+                physique, soft lighting, and candid lifestyle charm.
+              </li>
+              <li>
+                <strong>Wardrobe:</strong> Swimwear (bikinis, one-pieces), fashionable lingerie,
+                elegant resort wear, summer yukata/kimono, cosplay, and cozy loungewear.
+              </li>
+              <li>
+                <strong>Non-Explicit Standard:</strong> Gravure idols <em>never pose nude</em> and{" "}
+                <em>do not participate in adult videos (AV)</em>. Gravure is published by mainstream
+                national media conglomerates such as Shueisha and Kodansha.
+              </li>
             </ul>
           </div>
 
           <h2>2. The Historical Evolution: From Showa to the Digital Reiwa Era</h2>
           <p>
-            To understand the prestige of gravure in modern Japanese pop culture, one must trace its five-decade historical trajectory:
+            To understand the prestige of gravure in modern Japanese pop culture, one must trace its
+            five-decade historical trajectory:
           </p>
 
           <h3>The 1970s–1980s: The Birth of the "Swimsuit Queen"</h3>
           <p>
-            During Japan&apos;s economic boom, competitive weekly men&apos;s and youth publications like <em>Weekly Playboy</em> (Shueisha), <em>Young Jump</em>, and <em>Weekly Gendai</em> recognized that high-quality visual spreads dramatically drove newsstand sales. Pioneers like Agnes Lum captivated the nation, establishing the tropical beach photo shoot as the quintessential gravure archetype.
+            During Japan&apos;s economic boom, competitive weekly men&apos;s and youth publications
+            like <em>Weekly Playboy</em> (Shueisha), <em>Young Jump</em>, and <em>Weekly Gendai</em>{" "}
+            recognized that high-quality visual spreads dramatically drove newsstand sales. Pioneers
+            like Agnes Lum captivated the nation, establishing the tropical beach photo shoot as the
+            quintessential gravure archetype.
           </p>
 
           <h3>The 1990s: Celebrity Crossover &amp; Mainstream Dominance</h3>
           <p>
-            The 1990s witnessed the institutionalization of gravure as a prestigious springboard into television drama and variety entertainment. Legendary figures such as Hinano Yoshikawa, Megumi, and Eiko Koike proved that gravure models could transition into critically acclaimed actresses, talk-show hosts, and brand ambassadors.
+            The 1990s witnessed the institutionalization of gravure as a prestigious springboard
+            into television drama and variety entertainment. Legendary figures such as Hinano
+            Yoshikawa, Megumi, and Eiko Koike proved that gravure models could transition into
+            critically acclaimed actresses, talk-show hosts, and brand ambassadors.
           </p>
 
           <h3>The 2000s–2010s: The Musical Idol &amp; Cosplay Synergy</h3>
           <p>
-            With the rise of mega-idol franchises such as the AKB48 Group, Nogizaka46, and Hello! Project, gravure expanded to include active singing idols who released dedicated solo photobooks. Simultaneously, professional cosplayers (such as Enako) elevated costume gravure into mainstream publishing sensations, selling out arena conventions and record-breaking print runs.
+            With the rise of mega-idol franchises such as the AKB48 Group, Nogizaka46, and Hello!
+            Project, gravure expanded to include active singing idols who released dedicated solo
+            photobooks. Simultaneously, professional cosplayers (such as Enako) elevated costume
+            gravure into mainstream publishing sensations, selling out arena conventions and
+            record-breaking print runs.
           </p>
 
           <h3>The 2020s and Beyond: High-Definition Vertical-Scroll</h3>
           <p>
-            Today, gravure has transcended physical print magazines. High-resolution digital photobooks, mobile-first vertical galleries, and international fan accessibility have transformed gravure into a global aesthetic community appreciated for fine-art portrait photography.
+            Today, gravure has transcended physical print magazines. High-resolution digital
+            photobooks, mobile-first vertical galleries, and international fan accessibility have
+            transformed gravure into a global aesthetic community appreciated for fine-art portrait
+            photography.
           </p>
 
           <h2>3. Key Differences: Gravure vs. Other Modeling &amp; Idol Genres</h2>
           <p>
-            Because the Japanese idol and modeling ecosystem is vast, understanding where gravure sits is crucial:
+            Because the Japanese idol and modeling ecosystem is vast, understanding where gravure
+            sits is crucial:
           </p>
 
           <div className="overflow-x-auto my-6">
@@ -217,29 +265,45 @@ function Page() {
                 <tr>
                   <th className="p-3 font-semibold text-foreground">Category</th>
                   <th className="p-3 font-semibold text-foreground">Primary Focus</th>
-                  <th className="p-3 font-semibold text-foreground">Core Audience &amp; Platform</th>
+                  <th className="p-3 font-semibold text-foreground">
+                    Core Audience &amp; Platform
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60">
                 <tr>
                   <td className="p-3 font-medium text-foreground">Gravure Idols</td>
-                  <td className="p-3 text-muted-foreground">Artistic photobooks, magazine covers, swimwear, soft lifestyle glamour</td>
-                  <td className="p-3 text-muted-foreground">Broad general public, weekly youth/men&apos;s magazines, digital photo readers</td>
+                  <td className="p-3 text-muted-foreground">
+                    Artistic photobooks, magazine covers, swimwear, soft lifestyle glamour
+                  </td>
+                  <td className="p-3 text-muted-foreground">
+                    Broad general public, weekly youth/men&apos;s magazines, digital photo readers
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-3 font-medium text-foreground">Musical / Stage Idols</td>
-                  <td className="p-3 text-muted-foreground">Singing, dancing, theatrical live concerts, handshake events</td>
-                  <td className="p-3 text-muted-foreground">Dedicated concertgoers, music streaming, TV music programs</td>
+                  <td className="p-3 text-muted-foreground">
+                    Singing, dancing, theatrical live concerts, handshake events
+                  </td>
+                  <td className="p-3 text-muted-foreground">
+                    Dedicated concertgoers, music streaming, TV music programs
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-3 font-medium text-foreground">High-Fashion Models</td>
-                  <td className="p-3 text-muted-foreground">Runway shows, designer apparel, luxury cosmetic campaigns</td>
-                  <td className="p-3 text-muted-foreground">Fashion enthusiasts, female lifestyle magazines (Vogue, Non-no, CanCam)</td>
+                  <td className="p-3 text-muted-foreground">
+                    Runway shows, designer apparel, luxury cosmetic campaigns
+                  </td>
+                  <td className="p-3 text-muted-foreground">
+                    Fashion enthusiasts, female lifestyle magazines (Vogue, Non-no, CanCam)
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-3 font-medium text-foreground">Adult Entertainment (AV)</td>
                   <td className="p-3 text-muted-foreground">Explicit 18+ video production</td>
-                  <td className="p-3 text-muted-foreground">Restricted adult distribution channels (strictly separate industry)</td>
+                  <td className="p-3 text-muted-foreground">
+                    Restricted adult distribution channels (strictly separate industry)
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -247,12 +311,26 @@ function Page() {
 
           <h2>4. The Art and Aesthetic Philosophy of Gravure Photography</h2>
           <p>
-            Far from mere snapshots, gravure photobooks are collaborative artistic creations helmed by Japan&apos;s most celebrated commercial photographers, stylists, and lighting directors. Key hallmarks include:
+            Far from mere snapshots, gravure photobooks are collaborative artistic creations helmed
+            by Japan&apos;s most celebrated commercial photographers, stylists, and lighting
+            directors. Key hallmarks include:
           </p>
           <ul>
-            <li><strong>Natural Golden-Hour Lighting:</strong> Emphasizing soft sunrise or sunset tones over harsh studio flashes.</li>
-            <li><strong>Narrative Storytelling:</strong> A typical gravure photobook is structured like a cinematic journey—waking up in a sunlit tatami room, wandering through seaside coastal towns, relaxing at a natural hot spring (onsen), and watching twilight over the ocean.</li>
-            <li><strong>Expression over Posing:</strong> Photographers capture subtle, unposed moments—a spontaneous burst of laughter, wind tousling hair, or a gentle, introspective gaze into the camera lens.</li>
+            <li>
+              <strong>Natural Golden-Hour Lighting:</strong> Emphasizing soft sunrise or sunset
+              tones over harsh studio flashes.
+            </li>
+            <li>
+              <strong>Narrative Storytelling:</strong> A typical gravure photobook is structured
+              like a cinematic journey—waking up in a sunlit tatami room, wandering through seaside
+              coastal towns, relaxing at a natural hot spring (onsen), and watching twilight over
+              the ocean.
+            </li>
+            <li>
+              <strong>Expression over Posing:</strong> Photographers capture subtle, unposed
+              moments—a spontaneous burst of laughter, wind tousling hair, or a gentle,
+              introspective gaze into the camera lens.
+            </li>
           </ul>
 
           <h2>5. Renowned Publishing Institutions &amp; Magazines</h2>
@@ -260,28 +338,48 @@ function Page() {
             The gravure industry is anchored by Japan&apos;s most prestigious publishing houses:
           </p>
           <ul>
-            <li><strong>Weekly Playboy (週刊プレイボーイ - Shueisha):</strong> The gold standard of Japanese gravure journalism since 1966.</li>
-            <li><strong>Young Magazine &amp; Young Jump (Kodansha / Shueisha):</strong> Weekly manga publications whose coveted color cover slots launch the biggest idol stars.</li>
-            <li><strong>FLASH &amp; FRIDAY (Kobunsha / Kodansha):</strong> Photojournalism weeklies known for high-fashion celebrity gravure exclusives.</li>
-            <li><strong>Annual Grand Prix Contests:</strong> Prestigious competitions like <em>Miss Magazine</em> and <em>Miss FLASH</em> serve as nationwide talent discovery pipelines.</li>
+            <li>
+              <strong>Weekly Playboy (週刊プレイボーイ - Shueisha):</strong> The gold standard of
+              Japanese gravure journalism since 1966.
+            </li>
+            <li>
+              <strong>Young Magazine &amp; Young Jump (Kodansha / Shueisha):</strong> Weekly manga
+              publications whose coveted color cover slots launch the biggest idol stars.
+            </li>
+            <li>
+              <strong>FLASH &amp; FRIDAY (Kobunsha / Kodansha):</strong> Photojournalism weeklies
+              known for high-fashion celebrity gravure exclusives.
+            </li>
+            <li>
+              <strong>Annual Grand Prix Contests:</strong> Prestigious competitions like{" "}
+              <em>Miss Magazine</em> and <em>Miss FLASH</em> serve as nationwide talent discovery
+              pipelines.
+            </li>
           </ul>
 
           <h2>6. How Digital &amp; Vertical-Scroll Readers are Revolutionizing Gravure</h2>
           <p>
-            In the modern era, viewing photobooks on traditional desktop screens or horizontal pagination can feel disjointed. Smartphones and mobile devices have established <strong>continuous vertical-scroll</strong> as the ideal medium for high-definition photography.
+            In the modern era, viewing photobooks on traditional desktop screens or horizontal
+            pagination can feel disjointed. Smartphones and mobile devices have established{" "}
+            <strong>continuous vertical-scroll</strong> as the ideal medium for high-definition
+            photography.
           </p>
           <p>
-            Platforms like <strong>GravureHub</strong> deliver smooth, edge-to-edge vertical scrolling that lets readers immerse themselves in the full narrative arc of each photobook without awkward page turns, watermarks, or intrusive popups.
+            Platforms like <strong>GravureHub</strong> deliver smooth, edge-to-edge vertical
+            scrolling that lets readers immerse themselves in the full narrative arc of each
+            photobook without awkward page turns, watermarks, or intrusive popups.
           </p>
 
           <h2>7. Frequently Asked Questions (FAQ)</h2>
           <h3>Is gravure safe for general audiences?</h3>
           <p>
-            Yes. Gravure is categorized as non-explicit glamour and fashion photography, compliant with mainstream commercial advertising standards worldwide.
+            Yes. Gravure is categorized as non-explicit glamour and fashion photography, compliant
+            with mainstream commercial advertising standards worldwide.
           </p>
           <h3>How do models get discovered as gravure idols?</h3>
           <p>
-            Most models are scouted on the streets of Tokyo/Osaka, recruited from idol auditions (such as Miss Magazine), or transition from commercial fashion modeling and theater.
+            Most models are scouted on the streets of Tokyo/Osaka, recruited from idol auditions
+            (such as Miss Magazine), or transition from commercial fashion modeling and theater.
           </p>
           <h3>Where can I explore free high-definition gravure photobooks?</h3>
           <p>
@@ -296,7 +394,8 @@ function Page() {
             and{" "}
             <Link to="/latest" className="text-primary hover:underline font-semibold">
               Latest Updates
-            </Link>.
+            </Link>
+            .
           </p>
 
           {/* Author Bio Box */}
@@ -307,7 +406,8 @@ function Page() {
             <div>
               <h4 className="text-sm font-semibold text-foreground">GravureHub Editorial Team</h4>
               <p className="text-xs text-muted-foreground">
-                Dedicated to archiving, celebrating, and presenting high-definition vertical-scroll gravure photobooks and model profiles.
+                Dedicated to archiving, celebrating, and presenting high-definition vertical-scroll
+                gravure photobooks and model profiles.
               </p>
             </div>
           </div>

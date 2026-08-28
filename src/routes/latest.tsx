@@ -141,7 +141,8 @@ function LatestPage() {
                     {c.title}
                   </h2>
                   <p className="line-clamp-1 text-xs text-muted-foreground">
-                    {c.chapters.length} {c.chapters.length === 1 ? "album" : "albums"} · {c.author || "Anonymous"}
+                    {c.chapters.length} {c.chapters.length === 1 ? "album" : "albums"} ·{" "}
+                    {c.author || "Anonymous"}
                   </p>
                 </div>
               </Link>

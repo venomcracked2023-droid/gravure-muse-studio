@@ -116,33 +116,34 @@ function FeaturedPage() {
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {featured.map((a) => (
-                <Link
-                  key={a.chapter.id}
-                  to="/read/$comicId/$chapterId"
-                  params={{
-                    comicId: buildSlugId(a.comic.title, a.comic.id),
-                    chapterId: buildSlugId(a.chapter.title, a.chapter.id),
-                  }}
-                  className="group flex flex-col gap-2"
-                >
-                  <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-primary/40 bg-card">
-                    <ComicCover
-                      id={a.chapter.coverId || a.chapter.pages[0] || a.comic.coverId}
-                      title={a.chapter.title}
-                      className="transition duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  <div>
-                    <h2 className="line-clamp-1 text-sm font-semibold group-hover:text-primary">
-                      {a.chapter.title}
-                    </h2>
-                    <p className="line-clamp-1 text-xs text-muted-foreground">
-                      {a.comic.title} · {a.comic.chapters.length} {a.comic.chapters.length === 1 ? "album" : "albums"}
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+              <Link
+                key={a.chapter.id}
+                to="/read/$comicId/$chapterId"
+                params={{
+                  comicId: buildSlugId(a.comic.title, a.comic.id),
+                  chapterId: buildSlugId(a.chapter.title, a.chapter.id),
+                }}
+                className="group flex flex-col gap-2"
+              >
+                <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-primary/40 bg-card">
+                  <ComicCover
+                    id={a.chapter.coverId || a.chapter.pages[0] || a.comic.coverId}
+                    title={a.chapter.title}
+                    className="transition duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div>
+                  <h2 className="line-clamp-1 text-sm font-semibold group-hover:text-primary">
+                    {a.chapter.title}
+                  </h2>
+                  <p className="line-clamp-1 text-xs text-muted-foreground">
+                    {a.comic.title} · {a.comic.chapters.length}{" "}
+                    {a.comic.chapters.length === 1 ? "album" : "albums"}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
         )}
       </main>
     </div>

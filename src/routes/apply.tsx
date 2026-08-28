@@ -17,7 +17,7 @@ export const Route = createFileRoute("/apply")({
       meta: [
         { title },
         { name: "description", content: desc },
-        { name: "robots", content: "noindex,follow" },
+        { name: "robots", content: "noindex,nofollow" },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:url", content: url },
@@ -47,10 +47,10 @@ function ApplyPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (!loading && !user) navigate({ to: "/login" });
-  }, [user, loading, navigate]);
-  useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setFetching(false);
+      return;
+    }
     supabase
       .from("contributor_applications")
       .select("*")
@@ -85,11 +85,32 @@ function ApplyPage() {
     }
   }
 
-  if (loading || fetching)
+  if (loading || (fetching && user))
     return (
       <div className="min-h-screen">
         <SiteHeader />
         <main className="p-20 text-center text-muted-foreground">Loading…</main>
+      </div>
+    );
+
+  if (!user)
+    return (
+      <div className="min-h-screen">
+        <SiteHeader />
+        <main className="mx-auto max-w-md px-4 py-20 text-center">
+          <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
+            <h1 className="text-2xl font-bold tracking-tight">Sign-in Required</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              You must be logged in to apply as a contributor on GravureHub.
+            </p>
+            <Link
+              to="/login"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition"
+            >
+              Sign In to Continue
+            </Link>
+          </div>
+        </main>
       </div>
     );
 

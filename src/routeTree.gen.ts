@@ -13,6 +13,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as Sitemap_indexDotxmlRouteImport } from './routes/sitemap_index[.]xml'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapIndexDotxmlRouteImport } from './routes/sitemap-index[.]xml'
+import { Route as SigninRouteImport } from './routes/signin'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -51,6 +52,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SitemapIndexDotxmlRoute = SitemapIndexDotxmlRouteImport.update({
   id: '/sitemap-index.xml',
   path: '/sitemap-index.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/signin': typeof SigninRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
@@ -188,6 +195,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/signin': typeof SigninRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
@@ -214,6 +222,7 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/signin': typeof SigninRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
@@ -241,6 +250,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/robots.txt'
+    | '/signin'
     | '/sitemap-index.xml'
     | '/sitemap.xml'
     | '/sitemap_index.xml'
@@ -266,6 +276,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/robots.txt'
+    | '/signin'
     | '/sitemap-index.xml'
     | '/sitemap.xml'
     | '/sitemap_index.xml'
@@ -291,6 +302,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/robots.txt'
+    | '/signin'
     | '/sitemap-index.xml'
     | '/sitemap.xml'
     | '/sitemap_index.xml'
@@ -317,6 +329,7 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SigninRoute: typeof SigninRoute
   SitemapIndexDotxmlRoute: typeof SitemapIndexDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   Sitemap_indexDotxmlRoute: typeof Sitemap_indexDotxmlRoute
@@ -358,6 +371,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-index.xml'
       fullPath: '/sitemap-index.xml'
       preLoaderRoute: typeof SitemapIndexDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -509,6 +529,7 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  SigninRoute: SigninRoute,
   SitemapIndexDotxmlRoute: SitemapIndexDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   Sitemap_indexDotxmlRoute: Sitemap_indexDotxmlRoute,

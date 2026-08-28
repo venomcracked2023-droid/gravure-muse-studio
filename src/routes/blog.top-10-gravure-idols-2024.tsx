@@ -142,7 +142,8 @@ export const Route = createFileRoute("/blog/top-10-gravure-idols-2024")({
       { property: "article:modified_time", content: "2026-08-28T00:00:00.000Z" },
       {
         property: "article:tag",
-        content: "gravure idol, Japanese models, swimsuit, Japanese magazines, photobooks, 2024 ranking",
+        content:
+          "gravure idol, Japanese models, swimsuit, Japanese magazines, photobooks, 2024 ranking",
       },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
@@ -266,32 +267,56 @@ function Page() {
               Top 10 Most Popular Japanese Gravure Idols in 2024
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Updated: <time dateTime="2026-08-28">August 2026</time> · Author: {SITE_NAME} Editorial Team · Read time: ~10 min
+              Updated: <time dateTime="2026-08-28">August 2026</time> · Author: {SITE_NAME}{" "}
+              Editorial Team · Read time: ~10 min
             </p>
             <p className="lead mt-4">
-              <strong>Japanese gravure idol culture</strong> experienced an extraordinary renaissance throughout 2024. Marked by triumphant comebacks from iconic superstars alongside a dynamic wave of breakout prodigies, the industry produced some of the most artistically celebrated photobooks of the modern era.
+              <strong>Japanese gravure idol culture</strong> experienced an extraordinary
+              renaissance throughout 2024. Marked by triumphant comebacks from iconic superstars
+              alongside a dynamic wave of breakout prodigies, the industry produced some of the most
+              artistically celebrated photobooks of the modern era.
             </p>
           </header>
 
           <h2>Ranking Methodology &amp; Evaluation Criteria</h2>
           <p>
-            Curating the top 10 gravure idols requires examining multifaceted metrics across Japan&apos;s publishing ecosystem:
+            Curating the top 10 gravure idols requires examining multifaceted metrics across
+            Japan&apos;s publishing ecosystem:
           </p>
           <ul>
-            <li><strong>Magazine Cover Frequency:</strong> Regular appearances across premier weekly periodicals including <em>Weekly Playboy</em> (Shueisha), <em>Young Magazine</em> (Kodansha), <em>Weekly Young Jump</em>, <em>FLASH</em>, and <em>FRIDAY</em>.</li>
-            <li><strong>Commercial Photobook Sales:</strong> Certified print runs and verified digital sales figures on major e-book platforms.</li>
-            <li><strong>Digital &amp; Social Resonance:</strong> Engagement metrics across Twitter/X, Instagram, and international fan communities throughout East and Southeast Asia.</li>
-            <li><strong>Artistic Versatility:</strong> The ability to embody diverse concepts ranging from sunlit tropical beaches to moody, high-fashion urban aesthetics.</li>
+            <li>
+              <strong>Magazine Cover Frequency:</strong> Regular appearances across premier weekly
+              periodicals including <em>Weekly Playboy</em> (Shueisha), <em>Young Magazine</em>{" "}
+              (Kodansha), <em>Weekly Young Jump</em>, <em>FLASH</em>, and <em>FRIDAY</em>.
+            </li>
+            <li>
+              <strong>Commercial Photobook Sales:</strong> Certified print runs and verified digital
+              sales figures on major e-book platforms.
+            </li>
+            <li>
+              <strong>Digital &amp; Social Resonance:</strong> Engagement metrics across Twitter/X,
+              Instagram, and international fan communities throughout East and Southeast Asia.
+            </li>
+            <li>
+              <strong>Artistic Versatility:</strong> The ability to embody diverse concepts ranging
+              from sunlit tropical beaches to moody, high-fashion urban aesthetics.
+            </li>
           </ul>
 
           <hr className="my-8 border-border/60" />
 
           {/* Idols List */}
           {IDOLS.map((idol) => (
-            <section key={idol.rank} id={`rank-${idol.rank}`} className="scroll-mt-24 my-8 rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur">
+            <section
+              key={idol.rank}
+              id={`rank-${idol.rank}`}
+              className="scroll-mt-24 my-8 rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur"
+            >
               <div className="flex items-center justify-between gap-3 border-b border-border/40 pb-3 mb-4">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-primary">Rank #{idol.rank}</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                    Rank #{idol.rank}
+                  </span>
                   <h2 className="text-xl font-bold text-foreground mt-0.5">
                     {idol.nameJa} — {idol.name}
                   </h2>
@@ -301,40 +326,56 @@ function Page() {
                 </span>
               </div>
               <p className="text-xs text-muted-foreground">
-                <strong>Origin:</strong> {idol.born} · <strong>Signature Style:</strong> {idol.style}
+                <strong>Origin:</strong> {idol.born} · <strong>Signature Style:</strong>{" "}
+                {idol.style}
               </p>
-              <p className="text-sm leading-relaxed text-foreground/90 mt-3">
-                {idol.bio}
-              </p>
+              <p className="text-sm leading-relaxed text-foreground/90 mt-3">{idol.bio}</p>
               <div className="mt-4 rounded-xl bg-secondary/30 p-3 text-xs space-y-1">
-                <p><strong>2024 Highlight:</strong> {idol.highlight}</p>
-                <p><strong>Signature Works:</strong> {idol.works}</p>
+                <p>
+                  <strong>2024 Highlight:</strong> {idol.highlight}
+                </p>
+                <p>
+                  <strong>Signature Works:</strong> {idol.works}
+                </p>
               </div>
             </section>
           ))}
 
           <h2>Key Trends Defining the Gravure Industry Today</h2>
-          <p>
-            Three overarching trends characterized the 2024 gravure season:
-          </p>
+          <p>Three overarching trends characterized the 2024 gravure season:</p>
           <ol>
-            <li><strong>Digital-First &amp; Vertical-Scroll Photobooks:</strong> Major publishers now release simultaneous digital-exclusive photobooks optimized for smartphone screens, reaching global fans instantly without geographic constraints.</li>
-            <li><strong>Crossover from Mainstream Idol Franchises:</strong> Active members of Nogizaka46, Sakurazaka46, AKB48, and Hello! Project routinely release solo gravure albums that rival mainstream commercial bestsellers.</li>
-            <li><strong>Cosplay &amp; Subculture Fusion:</strong> Professional cosplayers and virtual streamers have established massive presence in mainstream print media, broadening the demographic appeal of gravure.</li>
+            <li>
+              <strong>Digital-First &amp; Vertical-Scroll Photobooks:</strong> Major publishers now
+              release simultaneous digital-exclusive photobooks optimized for smartphone screens,
+              reaching global fans instantly without geographic constraints.
+            </li>
+            <li>
+              <strong>Crossover from Mainstream Idol Franchises:</strong> Active members of
+              Nogizaka46, Sakurazaka46, AKB48, and Hello! Project routinely release solo gravure
+              albums that rival mainstream commercial bestsellers.
+            </li>
+            <li>
+              <strong>Cosplay &amp; Subculture Fusion:</strong> Professional cosplayers and virtual
+              streamers have established massive presence in mainstream print media, broadening the
+              demographic appeal of gravure.
+            </li>
           </ol>
 
           <h2>Frequently Asked Questions (FAQ)</h2>
           <h3>Who is currently the most popular gravure idol in Japan?</h3>
           <p>
-            Yuka Ogura and Rio Teramoto consistently top popularity rankings and digital download metrics due to their widespread media presence and versatile appeal.
+            Yuka Ogura and Rio Teramoto consistently top popularity rankings and digital download
+            metrics due to their widespread media presence and versatile appeal.
           </p>
           <h3>How often are new photobooks released?</h3>
           <p>
-            Top weekly magazines publish new issues every Monday and Friday in Japan, with dozens of digital photobook collections released monthly.
+            Top weekly magazines publish new issues every Monday and Friday in Japan, with dozens of
+            digital photobook collections released monthly.
           </p>
           <h3>Where can I view high-definition gravure photobooks?</h3>
           <p>
-            You can read thousands of high-definition gravure photobooks with smooth vertical scrolling for free on{" "}
+            You can read thousands of high-definition gravure photobooks with smooth vertical
+            scrolling for free on{" "}
             <Link to="/" className="text-primary hover:underline font-semibold">
               GravureHub
             </Link>
@@ -343,9 +384,13 @@ function Page() {
               Featured Albums
             </Link>{" "}
             or learn more in our article on{" "}
-            <Link to="/blog/gravure-idol-la-gi" className="text-primary hover:underline font-semibold">
+            <Link
+              to="/blog/gravure-idol-la-gi"
+              className="text-primary hover:underline font-semibold"
+            >
               What is a Gravure Idol?
-            </Link>.
+            </Link>
+            .
           </p>
 
           {/* Author Bio Box */}
@@ -356,7 +401,8 @@ function Page() {
             <div>
               <h4 className="text-sm font-semibold text-foreground">GravureHub Editorial Team</h4>
               <p className="text-xs text-muted-foreground">
-                Providing expert rankings, cultural insights, and high-definition photobook archives for gravure enthusiasts worldwide.
+                Providing expert rankings, cultural insights, and high-definition photobook archives
+                for gravure enthusiasts worldwide.
               </p>
             </div>
           </div>

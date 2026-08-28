@@ -1,7 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
-import { Check, Star, Zap, Shield, Sparkles, ChevronRight, Home, Gem, ArrowRight } from "lucide-react";
+import {
+  Check,
+  Star,
+  Zap,
+  Shield,
+  Sparkles,
+  ChevronRight,
+  Home,
+  Gem,
+  ArrowRight,
+} from "lucide-react";
 
 export const Route = createFileRoute("/pricing")({
   component: PricingPage,
@@ -51,8 +61,14 @@ function PricingPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-5xl px-4 py-10 sm:py-16">
-        <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Link to="/" className="inline-flex items-center gap-1 hover:text-primary transition-colors">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground"
+        >
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+          >
             <Home className="h-3.5 w-3.5" /> Home
           </Link>
           <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
@@ -67,8 +83,8 @@ function PricingPage() {
             Free Browsing & Exclusive VIP Sets
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Enjoy thousands of vertical-scroll gravure photos completely free, or support creators by
-            unlocking exclusive high-res photobooks.
+            Enjoy thousands of vertical-scroll gravure photos completely free, or support creators
+            by unlocking exclusive high-res photobooks.
           </p>
         </div>
 
@@ -92,16 +108,19 @@ function PricingPage() {
 
               <ul className="mt-6 space-y-3 text-xs text-foreground/90 sm:text-sm">
                 <li className="flex items-center gap-2.5">
-                  <Check className="h-4 w-4 shrink-0 text-primary" /> Full vertical-scroll reading experience
+                  <Check className="h-4 w-4 shrink-0 text-primary" /> Full vertical-scroll reading
+                  experience
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Check className="h-4 w-4 shrink-0 text-primary" /> High-definition image resolution
+                  <Check className="h-4 w-4 shrink-0 text-primary" /> High-definition image
+                  resolution
                 </li>
                 <li className="flex items-center gap-2.5">
                   <Check className="h-4 w-4 shrink-0 text-primary" /> Leave comments & star ratings
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Check className="h-4 w-4 shrink-0 text-primary" /> Search models by tags and nationality
+                  <Check className="h-4 w-4 shrink-0 text-primary" /> Search models by tags and
+                  nationality
                 </li>
                 <li className="flex items-center gap-2.5">
                   <Check className="h-4 w-4 shrink-0 text-primary" /> Zero intrusive popup ads
@@ -139,19 +158,24 @@ function PricingPage() {
 
               <ul className="mt-6 space-y-3 text-xs text-foreground/90 sm:text-sm">
                 <li className="flex items-center gap-2.5">
-                  <Check className="h-4 w-4 shrink-0 text-primary" /> Ultra HD / Original raw quality
+                  <Check className="h-4 w-4 shrink-0 text-primary" /> Ultra HD / Original raw
+                  quality
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Check className="h-4 w-4 shrink-0 text-primary" /> Instant automated crypto payment (Plisio gateway)
+                  <Check className="h-4 w-4 shrink-0 text-primary" /> Instant automated crypto
+                  payment (Plisio gateway)
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Check className="h-4 w-4 shrink-0 text-primary" /> Permanent access tied to your account
+                  <Check className="h-4 w-4 shrink-0 text-primary" /> Permanent access tied to your
+                  account
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Check className="h-4 w-4 shrink-0 text-primary" /> Embedded exclusive video previews
+                  <Check className="h-4 w-4 shrink-0 text-primary" /> Embedded exclusive video
+                  previews
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Check className="h-4 w-4 shrink-0 text-primary" /> Directly support model curation & platform costs
+                  <Check className="h-4 w-4 shrink-0 text-primary" /> Directly support model
+                  curation & platform costs
                 </li>
               </ul>
             </div>
@@ -166,20 +190,24 @@ function PricingPage() {
         </div>
 
         <div className="mt-12 rounded-3xl border border-border bg-card/40 p-6 backdrop-blur sm:p-8">
-          <h3 className="text-base font-bold text-foreground sm:text-lg">Frequently Asked Questions</h3>
+          <h3 className="text-base font-bold text-foreground sm:text-lg">
+            Frequently Asked Questions
+          </h3>
           <dl className="mt-4 space-y-4 text-xs sm:text-sm">
             <div>
-              <dt className="font-semibold text-foreground">Do I need to pay a monthly subscription?</dt>
+              <dt className="font-semibold text-foreground">
+                Do I need to pay a monthly subscription?
+              </dt>
               <dd className="mt-1 text-muted-foreground">
-                No! Most photobooks on GravureHub are 100% free. Any special VIP sets are available on
-                a one-time payment basis with no recurring fees.
+                No! Most photobooks on GravureHub are 100% free. Any special VIP sets are available
+                on a one-time payment basis with no recurring fees.
               </dd>
             </div>
             <div>
               <dt className="font-semibold text-foreground">What payment methods are supported?</dt>
               <dd className="mt-1 text-muted-foreground">
-                We accept USDT, BTC, ETH, and popular cryptocurrencies through the secure Plisio payment
-                gateway.
+                We accept USDT, BTC, ETH, and popular cryptocurrencies through the secure Plisio
+                payment gateway.
               </dd>
             </div>
           </dl>

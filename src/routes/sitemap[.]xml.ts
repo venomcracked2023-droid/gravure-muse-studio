@@ -40,7 +40,12 @@ export const Route = createFileRoute("/sitemap.xml")({
             .in("comic_id", comicIds)
             .order("order_index", { ascending: true });
 
-          for (const ch of (chapters ?? []) as Array<{ id: string; title: string; created_at: string; comic_id: string }>) {
+          for (const ch of (chapters ?? []) as Array<{
+            id: string;
+            title: string;
+            created_at: string;
+            comic_id: string;
+          }>) {
             (chaptersByComic[ch.comic_id] ||= []).push(ch);
           }
         }

@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Loader2, RefreshCw, FileText, ExternalLink } from "lucide-react";
+import { Loader2, RefreshCw, FileText } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -10,7 +10,7 @@ if (typeof window !== "undefined") {
   try {
     pdfjs.GlobalWorkerOptions.workerSrc = new URL(
       "pdfjs-dist/build/pdf.worker.min.mjs",
-      import.meta.url
+      import.meta.url,
     ).toString();
   } catch {
     pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
@@ -42,21 +42,22 @@ const LazyPdfPage = memo(function LazyPdfPage({
         }
       },
       {
-        rootMargin: "800px 0px 800px 0px", // Preload pages 800px ahead before entering viewport
-      }
+        rootMargin: "900px 0px 900px 0px", // Preload pages 900px ahead
+      },
     );
 
     observer.observe(el);
     return () => observer.disconnect();
   }, [pageNumber]);
 
+  // Standard gravure photobook aspect ratio ~1:1.414 (A4 / photobook standard)
   const estimatedHeight = Math.floor(width * 1.414);
 
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-center justify-center py-2"
-      style={{ minHeight: isVisible ? undefined : estimatedHeight }}
+      className="flex flex-col items-center justify-center py-2 w-full"
+      style={{ minHeight: estimatedHeight }}
     >
       {isVisible ? (
         <Page
@@ -65,9 +66,10 @@ const LazyPdfPage = memo(function LazyPdfPage({
           renderAnnotationLayer={false}
           renderTextLayer={false}
           renderMode="canvas"
+          className="shadow-sm rounded-lg overflow-hidden"
           loading={
             <div
-              style={{ width, height: estimatedHeight }}
+              style={{ width: "100%", maxWidth: width, height: estimatedHeight }}
               className="flex items-center justify-center rounded-xl bg-secondary/30 text-xs text-muted-foreground animate-pulse"
             >
               Loading page {pageNumber} of {numPages}…
@@ -76,7 +78,7 @@ const LazyPdfPage = memo(function LazyPdfPage({
         />
       ) : (
         <div
-          style={{ width, height: estimatedHeight }}
+          style={{ width: "100%", maxWidth: width, height: estimatedHeight }}
           className="flex items-center justify-center rounded-xl border border-dashed border-border/40 bg-card/20 text-xs text-muted-foreground/60"
         >
           Page {pageNumber} of {numPages}
@@ -97,7 +99,7 @@ export function PdfReader({ fileUrl, driveId, footer, onFail }: Props) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [width, setWidth] = useState<number>(800);
   const [retryKey, setRetryKey] = useState(0);
-  const [errorOccurred, setErrorOccurred] = useState(false);
+  const [, setErrorOccurred] = useState(false);
   const [useDriveEmbed, setUseDriveEmbed] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const { t } = useI18n();
@@ -110,7 +112,7 @@ export function PdfReader({ fileUrl, driveId, footer, onFail }: Props) {
       cMapPacked: true,
       standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
     }),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -149,7 +151,7 @@ export function PdfReader({ fileUrl, driveId, footer, onFail }: Props) {
             allow="autoplay"
           />
         </div>
-        {footer}
+        {footer && <div className="mt-8">{footer}</div>}
       </div>
     );
   }
@@ -209,20 +211,16 @@ export function PdfReader({ fileUrl, driveId, footer, onFail }: Props) {
         }
       >
         {numPages && numPages > 0 && (
-          <>
-            <div className="h-4" />
+          <div className="flex flex-col items-center space-y-4 pt-2">
             {Array.from({ length: numPages }, (_, i) => (
-              <LazyPdfPage
-                key={i + 1}
-                pageNumber={i + 1}
-                numPages={numPages}
-                width={width}
-              />
+              <LazyPdfPage key={i + 1} pageNumber={i + 1} numPages={numPages} width={width} />
             ))}
-            {footer}
-          </>
+          </div>
         )}
       </Document>
+      {numPages && numPages > 0 && footer && (
+        <div className="mt-8 border-t border-border/60 pt-4">{footer}</div>
+      )}
     </div>
   );
 }

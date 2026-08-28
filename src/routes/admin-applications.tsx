@@ -11,14 +11,13 @@ export const Route = createFileRoute("/admin-applications")({
   component: Page,
   head: () => {
     const title = "Review Contributor Applications — GravureHub";
-    const desc =
-      "Admin dashboard to review and approve contributor applications on GravureHub.";
+    const desc = "Admin dashboard to review and approve contributor applications on GravureHub.";
     const url = `${SITE_URL}/admin-applications`;
     return {
       meta: [
         { title },
         { name: "description", content: desc },
-        { name: "robots", content: "noindex,follow" },
+        { name: "robots", content: "noindex,nofollow" },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:url", content: url },
@@ -101,7 +100,14 @@ function Page() {
     return (
       <div className="min-h-screen">
         <SiteHeader />
-        <main className="p-10 text-center">Admin access required.</main>
+        <main className="mx-auto max-w-md px-4 py-20 text-center">
+          <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
+            <h1 className="text-2xl font-bold tracking-tight">Admin Access Required</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              You must have administrator privileges to review contributor applications.
+            </p>
+          </div>
+        </main>
       </div>
     );
 

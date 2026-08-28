@@ -1,7 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
-import { Sparkles, Heart, Globe, Layers, BookOpen, ChevronRight, Home, Shield, Users } from "lucide-react";
+import {
+  Sparkles,
+  Heart,
+  Globe,
+  Layers,
+  BookOpen,
+  ChevronRight,
+  Home,
+  Shield,
+  Users,
+} from "lucide-react";
 import gravureLogo from "@/assets/gravure-logo.png";
 
 export const Route = createFileRoute("/about")({
@@ -62,8 +72,14 @@ function AboutPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-4xl px-4 py-10 sm:py-16">
-        <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Link to="/" className="inline-flex items-center gap-1 hover:text-primary transition-colors">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground"
+        >
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+          >
             <Home className="h-3.5 w-3.5" /> Home
           </Link>
           <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
@@ -100,9 +116,10 @@ function AboutPage() {
               <p className="mt-2">
                 <strong>GravureHub</strong> is a digital curation platform and reading experience
                 crafted for fans of gravure aesthetics, fashion portraits, and artistic model
-                photobooks. We showcase high-definition albums from top Japanese gravure idols, trendy
-                Korean lookbook models, and elegant Vietnamese muses with a clean, vertical-scroll
-                interface that looks breathtaking on both smartphones and desktop monitors.
+                photobooks. We showcase high-definition albums from top Japanese gravure idols,
+                trendy Korean lookbook models, and elegant Vietnamese muses with a clean,
+                vertical-scroll interface that looks breathtaking on both smartphones and desktop
+                monitors.
               </p>
             </section>
 
@@ -112,9 +129,9 @@ function AboutPage() {
                 <Layers className="h-4 w-4" /> Domain & Brand Notice (duahaumanga.com)
               </h3>
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                The domain <strong className="text-foreground">duahaumanga.com</strong> serves as the
-                official web address and hosting domain for <strong>GravureHub</strong>. While the
-                domain originates from our media studio foundation, the site is 100% focused on
+                The domain <strong className="text-foreground">duahaumanga.com</strong> serves as
+                the official web address and hosting domain for <strong>GravureHub</strong>. While
+                the domain originates from our media studio foundation, the site is 100% focused on
                 delivering premium gravure photo albums, model profiles, and photobook collections.
               </p>
             </section>

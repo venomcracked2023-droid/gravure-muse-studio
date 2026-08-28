@@ -1,7 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
-import { ShieldCheck, Lock, Eye, Database, Cookie, UserCheck, ChevronRight, Home } from "lucide-react";
+import {
+  ShieldCheck,
+  Lock,
+  Eye,
+  Database,
+  Cookie,
+  UserCheck,
+  ChevronRight,
+  Home,
+} from "lucide-react";
 
 export const Route = createFileRoute("/privacy")({
   component: PrivacyPage,
@@ -51,8 +60,14 @@ function PrivacyPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-4xl px-4 py-10 sm:py-16">
-        <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Link to="/" className="inline-flex items-center gap-1 hover:text-primary transition-colors">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground"
+        >
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+          >
             <Home className="h-3.5 w-3.5" /> Home
           </Link>
           <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
@@ -90,13 +105,14 @@ function PrivacyPage() {
                   Supabase authentication database. We never receive or store your raw password.
                 </li>
                 <li>
-                  <strong>Interaction Data:</strong> Comments, ratings, bookmarked albums, and creator
-                  application status associated with your user ID.
+                  <strong>Interaction Data:</strong> Comments, ratings, bookmarked albums, and
+                  creator application status associated with your user ID.
                 </li>
                 <li>
-                  <strong>Technical & Analytics Data:</strong> Anonymous metrics such as browser type,
-                  device screen resolution, pages viewed, and approximate geographic region collected via
-                  Google Analytics 4 (<code className="rounded bg-secondary px-1 text-xs">G-DYPBMB9T0P</code>).
+                  <strong>Technical & Analytics Data:</strong> Anonymous metrics such as browser
+                  type, device screen resolution, pages viewed, and approximate geographic region
+                  collected via Google Analytics 4 (
+                  <code className="rounded bg-secondary px-1 text-xs">G-DYPBMB9T0P</code>).
                 </li>
               </ul>
             </section>
@@ -108,9 +124,17 @@ function PrivacyPage() {
               <p className="mt-2">Your information is used strictly to:</p>
               <ul className="mt-2 list-disc space-y-1.5 pl-5 text-xs sm:text-sm">
                 <li>Enable user authentication, account management, and profile customization.</li>
-                <li>Allow interactive features like commenting, submitting ratings, and creating albums.</li>
-                <li>Monitor performance, optimize image loading speed, and prevent abusive bot behavior.</li>
-                <li>We do NOT sell, rent, or trade your personal information to third-party marketers.</li>
+                <li>
+                  Allow interactive features like commenting, submitting ratings, and creating
+                  albums.
+                </li>
+                <li>
+                  Monitor performance, optimize image loading speed, and prevent abusive bot
+                  behavior.
+                </li>
+                <li>
+                  We do NOT sell, rent, or trade your personal information to third-party marketers.
+                </li>
               </ul>
             </section>
 
@@ -123,7 +147,10 @@ function PrivacyPage() {
               </p>
               <ul className="mt-2 list-disc space-y-1.5 pl-5 text-xs sm:text-sm">
                 <li>Preserving your authenticated login session.</li>
-                <li>Saving your preferred UI language (<code className="rounded bg-secondary px-1 text-xs">gh.lang</code>).</li>
+                <li>
+                  Saving your preferred UI language (
+                  <code className="rounded bg-secondary px-1 text-xs">gh.lang</code>).
+                </li>
                 <li>Maintaining reading position and scroll state across album pages.</li>
               </ul>
             </section>
@@ -134,8 +161,9 @@ function PrivacyPage() {
               </h2>
               <p className="mt-2">
                 All communications between your browser and our servers are encrypted with modern
-                TLS 1.3 / HTTPS certificates provided by Google Trust Services. Cloudflare CDN provides
-                DDoS protection, enterprise-grade edge caching, and strict security headers.
+                TLS 1.3 / HTTPS certificates provided by Google Trust Services. Cloudflare CDN
+                provides DDoS protection, enterprise-grade edge caching, and strict security
+                headers.
               </p>
             </section>
 
@@ -145,8 +173,8 @@ function PrivacyPage() {
               </h2>
               <p className="mt-2">
                 Under GDPR, CCPA, and international data privacy regulations, you have the right to
-                request access to, correction of, or permanent deletion of your account and personal data.
-                To request data deletion, reach out via our{" "}
+                request access to, correction of, or permanent deletion of your account and personal
+                data. To request data deletion, reach out via our{" "}
                 <Link to="/contact" className="text-primary underline">
                   Contact page
                 </Link>

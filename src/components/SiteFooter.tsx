@@ -35,7 +35,9 @@ export function SiteFooter() {
             </Link>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">{t("footer.tagline")}</p>
             <p className="mt-2 max-w-sm text-xs leading-relaxed text-muted-foreground/80">
-              <span className="font-semibold text-foreground/80">duahaumanga.com</span> is the official home of <strong>GravureHub</strong> — Free HD vertical-scroll gravure photo library.
+              <span className="font-semibold text-foreground/80">duahaumanga.com</span> is the
+              official home of <strong>GravureHub</strong> — Free HD vertical-scroll gravure photo
+              library.
             </p>
           </div>
 
@@ -50,17 +52,26 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/featured" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/featured"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   {t("footer.featured")}
                 </Link>
               </li>
               <li>
-                <Link to="/latest" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/latest"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   {t("footer.latest")}
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/pricing"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Pricing & VIP
                 </Link>
               </li>
@@ -79,22 +90,34 @@ export function SiteFooter() {
             </h3>
             <ul className="mt-3 space-y-2 text-sm">
               <li>
-                <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/about"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   About GravureHub
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/terms"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/privacy"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/contact"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Contact Support
                 </Link>
               </li>
@@ -163,7 +186,8 @@ export function SiteFooter() {
             © <time dateTime={String(year)}>{year}</time> {SITE_NAME}. {t("footer.rights")}
           </p>
           <p className="inline-flex items-center gap-1.5">
-            {t("footer.madeWith")} <Heart className="h-3.5 w-3.5 fill-primary text-primary" /> {t("footer.byTeam")}{" "}
+            {t("footer.madeWith")} <Heart className="h-3.5 w-3.5 fill-primary text-primary" />{" "}
+            {t("footer.byTeam")}{" "}
             <span className="inline-flex items-center gap-1 font-medium text-foreground">
               <Star className="h-3 w-3 fill-primary text-primary" /> {SITE_NAME}
             </span>

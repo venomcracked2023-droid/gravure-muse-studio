@@ -142,7 +142,8 @@ export const Route = createFileRoute("/comic/$comicId")({
       numberOfItems: chapters.length,
       itemListElement: chapters.map((ch, idx) => {
         const chSlug = buildSlugId(ch.title, ch.id);
-        const chThumb = ch.coverId || (ch.pages[0] ? (extractDriveId(ch.pages[0]) ?? ch.pages[0]) : "");
+        const chThumb =
+          ch.coverId || (ch.pages[0] ? (extractDriveId(ch.pages[0]) ?? ch.pages[0]) : "");
         return {
           "@type": "ListItem",
           position: idx + 1,
@@ -158,7 +159,10 @@ export const Route = createFileRoute("/comic/$comicId")({
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: `${m.title} — Gravure Albums | duahaumanga.com` },
-        { property: "og:description", content: `Explore free vertical-scroll gravure photo sets of ${m.title} on GravureHub.` },
+        {
+          property: "og:description",
+          content: `Explore free vertical-scroll gravure photo sets of ${m.title} on GravureHub.`,
+        },
         { property: "og:image", content: img },
         { property: "og:image:width", content: "1200" },
         { property: "og:image:height", content: "630" },
@@ -166,7 +170,10 @@ export const Route = createFileRoute("/comic/$comicId")({
         { property: "og:type", content: "profile" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: `${m.title} — Gravure Albums` },
-        { name: "twitter:description", content: `Explore free vertical-scroll gravure photo sets of ${m.title} on GravureHub.` },
+        {
+          name: "twitter:description",
+          content: `Explore free vertical-scroll gravure photo sets of ${m.title} on GravureHub.`,
+        },
         { name: "twitter:image", content: img },
       ],
       links: [
@@ -189,7 +196,12 @@ export const Route = createFileRoute("/comic/$comicId")({
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-              { "@type": "ListItem", position: 2, name: "Model Library", item: `${SITE_URL}/#library` },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Model Library",
+                item: `${SITE_URL}/#library`,
+              },
               { "@type": "ListItem", position: 3, name: m.title, item: url },
             ],
           }),
@@ -322,8 +334,7 @@ function ComicPage() {
                 onClick={() => setEditing((v) => !v)}
                 className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20"
               >
-                <Pencil className="h-3.5 w-3.5" />{" "}
-                {editing ? "Close Editor" : "Edit Profile"}
+                <Pencil className="h-3.5 w-3.5" /> {editing ? "Close Editor" : "Edit Profile"}
               </button>
             </div>
           )}
@@ -357,7 +368,8 @@ function ComicPage() {
                 <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
                   <User className="h-3.5 w-3.5" /> {comic.author || "Gravure Model"}
                   <span className="mx-2 text-border">·</span>
-                  <BookOpen className="h-3.5 w-3.5" /> {comic.chapters.length} {comic.chapters.length === 1 ? "album" : "albums"}
+                  <BookOpen className="h-3.5 w-3.5" /> {comic.chapters.length}{" "}
+                  {comic.chapters.length === 1 ? "album" : "albums"}
                 </p>
 
                 <div className="mt-4 rounded-2xl border border-primary/20 bg-card/60 p-4 text-sm leading-relaxed text-foreground/90 shadow-sm backdrop-blur">
@@ -662,7 +674,8 @@ function QuickAddChapter({ comic }: { comic: ReturnType<typeof useComics>[number
   async function save() {
     const pages = parseDriveIds(pagesText);
     if (!title.trim()) return toast.error("Please enter an album title");
-    if (!pages.length && !videoUrl.trim()) return toast.error("Requires at least 1 image or 1 video");
+    if (!pages.length && !videoUrl.trim())
+      return toast.error("Requires at least 1 image or 1 video");
     setSaving(true);
     try {
       const ch: Chapter = {

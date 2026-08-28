@@ -34,7 +34,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const t = useCallback(
-    (key: string) => TRANSLATIONS[lang]?.[key] ?? TRANSLATIONS.en[key] ?? TRANSLATIONS.vi[key] ?? key,
+    (key: string) =>
+      TRANSLATIONS[lang]?.[key] ?? TRANSLATIONS.en[key] ?? TRANSLATIONS.vi[key] ?? key,
     [lang],
   );
 

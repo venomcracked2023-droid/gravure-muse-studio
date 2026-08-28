@@ -11,7 +11,15 @@ import appCss from "../styles.css?url";
 import { AuthProvider } from "@/lib/auth";
 import { I18nProvider } from "@/lib/i18n/context";
 import { Toaster } from "sonner";
-import { SITE_ALT_NAMES, SITE_BRAND_FULL, SITE_DOMAIN, SITE_LOGO, SITE_NAME, SITE_URL, SOCIAL_LINKS } from "@/lib/seo";
+import {
+  SITE_ALT_NAMES,
+  SITE_BRAND_FULL,
+  SITE_DOMAIN,
+  SITE_LOGO,
+  SITE_NAME,
+  SITE_URL,
+  SOCIAL_LINKS,
+} from "@/lib/seo";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingTelegramButton } from "@/components/FloatingTelegramButton";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -193,7 +201,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#1a0a18" },
       {
         name: "keywords",
-        content: "gravure, gravure idol, gravure models, photobook, duahaumanga, duahaumanga.com, GravureHub, vertical scroll, japanese gravure, korean gravure",
+        content:
+          "gravure, gravure idol, gravure models, photobook, duahaumanga, duahaumanga.com, GravureHub, vertical scroll, japanese gravure, korean gravure",
       },
       { property: "og:site_name", content: "GravureHub (duahaumanga.com)" },
       { property: "og:title", content: "GravureHub — Free Vertical-Scroll Gravure Albums" },
@@ -204,6 +213,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_US" },
+      { property: "og:locale:alternate", content: "vi_VN" },
+      { property: "og:locale:alternate", content: "ja_JP" },
+      { property: "og:locale:alternate", content: "zh_CN" },
+      { property: "og:locale:alternate", content: "ko_KR" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@duahaumanga" },
       { name: "twitter:title", content: "GravureHub — Free Vertical-Scroll Gravure Albums" },
@@ -218,6 +231,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
     ],
     links: [
+      { rel: "canonical", href: SITE_URL },
+      { rel: "alternate", hrefLang: "en", href: SITE_URL },
+      { rel: "alternate", hrefLang: "vi", href: SITE_URL },
+      { rel: "alternate", hrefLang: "ja", href: SITE_URL },
+      { rel: "alternate", hrefLang: "zh", href: SITE_URL },
+      { rel: "alternate", hrefLang: "ko", href: SITE_URL },
+      { rel: "alternate", hrefLang: "x-default", href: SITE_URL },
       { rel: "preconnect", href: "https://lh3.googleusercontent.com", crossOrigin: "" },
       { rel: "preconnect", href: "https://drive.google.com", crossOrigin: "" },
       { rel: "preconnect", href: "https://drive.usercontent.google.com", crossOrigin: "" },

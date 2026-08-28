@@ -212,7 +212,7 @@ export function useComics(initialComics?: Comic[]): Comic[] {
       listeners.delete(cb);
     };
   }, []);
-  return (initialComics && initialComics.length > 0 && cache.length === 0) ? initialComics : cache;
+  return initialComics && initialComics.length > 0 && cache.length === 0 ? initialComics : cache;
 }
 
 export function useComicsLoaded(): boolean {

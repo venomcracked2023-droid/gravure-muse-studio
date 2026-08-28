@@ -1,7 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
-import { MessageSquare, Mail, Send, Clock, ChevronRight, Home, ShieldAlert, Sparkles } from "lucide-react";
+import {
+  MessageSquare,
+  Mail,
+  Send,
+  Clock,
+  ChevronRight,
+  Home,
+  ShieldAlert,
+  Sparkles,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -79,8 +88,14 @@ function ContactPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-4xl px-4 py-10 sm:py-16">
-        <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Link to="/" className="inline-flex items-center gap-1 hover:text-primary transition-colors">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground"
+        >
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+          >
             <Home className="h-3.5 w-3.5" /> Home
           </Link>
           <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
@@ -102,7 +117,12 @@ function ContactPage() {
             <div className="mt-6 space-y-4 text-xs text-muted-foreground sm:text-sm">
               <div className="rounded-2xl border border-border bg-background/40 p-4">
                 <div className="flex items-center gap-2 font-semibold text-foreground">
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 text-[#29A9EA]" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="h-4 w-4 text-[#29A9EA]"
+                    aria-hidden="true"
+                  >
                     <path d="M21.6 4.8c-.5-.4-1.1-.4-1.6-.2L2.8 11.3c-.9.3-1.1 1.1-.5 1.6l3.4 2.6 2.3 7.1c.2.6.8.9 1.4.5l3-2.3 3.8 3.1c.6.5 1.5.3 1.8-.5l4.5-13.2c.3-.9-.2-1.5-1.1-1.8-.1-.1-.2-.1-.3-.1-.2-.1-.3-.2-.5-.3zM9.8 17.2l.6-4.1 6.5-5.8-8.5 7.5 1.4 2.4z" />
                   </svg>
                   Official Telegram Support

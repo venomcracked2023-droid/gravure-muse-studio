@@ -1,7 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
-import { FileText, ShieldAlert, Scale, Copyright, AlertTriangle, ChevronRight, Home } from "lucide-react";
+import {
+  FileText,
+  ShieldAlert,
+  Scale,
+  Copyright,
+  AlertTriangle,
+  ChevronRight,
+  Home,
+} from "lucide-react";
 
 export const Route = createFileRoute("/terms")({
   component: TermsPage,
@@ -51,8 +59,14 @@ function TermsPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-4xl px-4 py-10 sm:py-16">
-        <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Link to="/" className="inline-flex items-center gap-1 hover:text-primary transition-colors">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground"
+        >
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+          >
             <Home className="h-3.5 w-3.5" /> Home
           </Link>
           <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
@@ -92,26 +106,28 @@ function TermsPage() {
 
             <section>
               <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
-                <AlertTriangle className="h-5 w-5 text-primary" /> 2. Age Requirement & Content Notice (18+)
+                <AlertTriangle className="h-5 w-5 text-primary" /> 2. Age Requirement & Content
+                Notice (18+)
               </h2>
               <p className="mt-2">
-                GravureHub curates artistic gravure photography, fashion photobooks, and model visual
-                sets from Asian models (Japan, Korea, Vietnam, etc.). This content is intended
-                strictly for users aged <strong>18 and older</strong> (or the age of majority in your
-                jurisdiction). All models featured on this platform are consenting adults of legal age
-                at the time of production.
+                GravureHub curates artistic gravure photography, fashion photobooks, and model
+                visual sets from Asian models (Japan, Korea, Vietnam, etc.). This content is
+                intended strictly for users aged <strong>18 and older</strong> (or the age of
+                majority in your jurisdiction). All models featured on this platform are consenting
+                adults of legal age at the time of production.
               </p>
             </section>
 
             <section>
               <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
-                <Copyright className="h-5 w-5 text-primary" /> 3. Intellectual Property & DMCA Procedure
+                <Copyright className="h-5 w-5 text-primary" /> 3. Intellectual Property & DMCA
+                Procedure
               </h2>
               <p className="mt-2">
                 All model photos, magazine spreads, and photobooks are the intellectual property of
-                their respective photographers, publishers, production agencies, and models. GravureHub
-                acts as a curation index and vertical-scroll viewer for promotional and appreciation
-                purposes.
+                their respective photographers, publishers, production agencies, and models.
+                GravureHub acts as a curation index and vertical-scroll viewer for promotional and
+                appreciation purposes.
               </p>
               <div className="mt-3 rounded-2xl border border-primary/20 bg-primary/5 p-4 text-xs sm:text-sm">
                 <strong className="text-foreground">DMCA / Copyright Takedown Notice:</strong>
@@ -131,38 +147,51 @@ function TermsPage() {
                   >
                     @GravureHubSupport
                   </a>
-                  . We commit to removing any infringing material within 24–48 hours upon receipt of a
-                  valid notice.
+                  . We commit to removing any infringing material within 24–48 hours upon receipt of
+                  a valid notice.
                 </p>
               </div>
             </section>
 
             <section>
               <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
-                <ShieldAlert className="h-5 w-5 text-primary" /> 4. User Conduct & Community Guidelines
+                <ShieldAlert className="h-5 w-5 text-primary" /> 4. User Conduct & Community
+                Guidelines
               </h2>
-              <p className="mt-2">When utilizing comments, ratings, and account features on GravureHub, you agree NOT to:</p>
+              <p className="mt-2">
+                When utilizing comments, ratings, and account features on GravureHub, you agree NOT
+                to:
+              </p>
               <ul className="mt-2 list-disc space-y-1.5 pl-5 text-xs sm:text-sm">
-                <li>Post defamatory, abusive, harassing, or hate-speech comments targeting models or other users.</li>
-                <li>Attempt to bypass security measures, scrape content excessively, or disrupt server infrastructure.</li>
-                <li>Post unsolicited commercial messages (spam), phishing links, or malicious code.</li>
+                <li>
+                  Post defamatory, abusive, harassing, or hate-speech comments targeting models or
+                  other users.
+                </li>
+                <li>
+                  Attempt to bypass security measures, scrape content excessively, or disrupt server
+                  infrastructure.
+                </li>
+                <li>
+                  Post unsolicited commercial messages (spam), phishing links, or malicious code.
+                </li>
               </ul>
             </section>
 
             <section>
               <h2 className="text-lg font-semibold text-foreground">5. Disclaimer of Warranties</h2>
               <p className="mt-2">
-                The materials on GravureHub are provided on an "as is" and "as available" basis. GravureHub
-                makes no warranties, expressed or implied, regarding uptime, accuracy, or uninterrupted
-                access.
+                The materials on GravureHub are provided on an "as is" and "as available" basis.
+                GravureHub makes no warranties, expressed or implied, regarding uptime, accuracy, or
+                uninterrupted access.
               </p>
             </section>
 
             <section>
               <h2 className="text-lg font-semibold text-foreground">6. Modifications to Terms</h2>
               <p className="mt-2">
-                GravureHub reserves the right to revise these Terms of Service at any time without prior
-                notice. By using this website, you agree to be bound by the current version of these Terms.
+                GravureHub reserves the right to revise these Terms of Service at any time without
+                prior notice. By using this website, you agree to be bound by the current version of
+                these Terms.
               </p>
             </section>
           </div>
