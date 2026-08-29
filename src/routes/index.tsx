@@ -12,9 +12,11 @@ import {
   FileText,
   Flame,
   Library,
+  Search,
   Sparkles,
   Star,
   Tag,
+  X,
 } from "lucide-react";
 import gravureLogo from "@/assets/gravure-logo.png";
 import { SITE_NAME, SITE_URL, SITE_BRAND_FULL } from "@/lib/seo";
@@ -24,19 +26,30 @@ import { getLatestAlbums } from "@/lib/featured";
 import { FeaturedMarquee } from "@/components/FeaturedMarquee";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { searchComics, type SearchMatch } from "@/lib/fuzzy-search";
+import { useMemo, useState, useEffect } from "react";
+import { trackSearch } from "@/lib/analytics";
+
+type IndexSearchParams = {
+  q?: string;
+  page?: number;
+};
 
 export const Route = createFileRoute("/")({
   loader: async () => {
     const comics = await fetchComicsData();
     return { comics };
   },
-  validateSearch: (s: Record<string, unknown>) => ({
-    q: typeof s.q === "string" && s.q.trim() ? s.q.trim() : undefined,
-    page:
-      (typeof s.page === "string" || typeof s.page === "number") && Number(s.page) > 1
-        ? Number(s.page)
-        : undefined,
-  }),
+  validateSearch: (s: Record<string, unknown>): IndexSearchParams => {
+    const result: IndexSearchParams = {};
+    if (typeof s.q === "string" && s.q.trim()) {
+      result.q = s.q.trim();
+    }
+    if ((typeof s.page === "string" || typeof s.page === "number") && Number(s.page) > 1) {
+      result.page = Number(s.page);
+    }
+    return result;
+  },
   head: () => {
     const title = "GravureHub — Free Vertical-Scroll Gravure Photo Library";
     const desc =
@@ -75,18 +88,42 @@ function Index() {
   const { t } = useI18n();
   const { q, page: rawPage } = Route.useSearch();
   const navigate = useNavigate({ from: "/" });
-  const term = (q ?? "").trim().toLowerCase();
-  const filtered = term
-    ? comics.filter((c) =>
-        [c.title, c.author, ...(c.genres ?? [])].join(" ").toLowerCase().includes(term),
-      )
-    : comics;
+
+  const [inPageQuery, setInPageQuery] = useState(q ?? "");
+  useEffect(() => {
+    setInPageQuery(q ?? "");
+  }, [q]);
+
+  const searchResults = useMemo<SearchMatch[]>(() => {
+    const term = (q ?? "").trim();
+    if (!term) {
+      return comics.map((c) => ({
+        comic: c,
+        score: 0,
+        matchedField: "title" as const,
+      }));
+    }
+    return searchComics(comics, term);
+  }, [comics, q]);
+
+  const filtered = searchResults.map((r) => r.comic);
   const page = Math.max(1, Number(rawPage) || 1);
   const PAGE_SIZE = 20; // 4 rows x 5 cols on desktop
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paginatedResults = searchResults.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const featured = getLatestAlbums(comics, 12);
   const totalChapters = comics.reduce((s, c) => s + c.chapters.length, 0);
+
+  function handleInPageSearch(e: React.FormEvent) {
+    e.preventDefault();
+    const term = inPageQuery.trim();
+    if (term) trackSearch(term);
+    navigate({
+      search: term ? { q: term } : {},
+      hash: "library",
+    });
+  }
+
   const ldBreadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -110,6 +147,17 @@ function Index() {
       image: c.coverId ? driveImageUrl(c.coverId, 600) : undefined,
     })),
   };
+
+  const popularTags = [
+    { label: "Japanese", slug: "japanese" },
+    { label: "Korean", slug: "korean" },
+    { label: "Vietnamese", slug: "vietnamese" },
+    { label: "Bikini", slug: "bikini" },
+    { label: "Cosplay", slug: "cosplay" },
+    { label: "Lingerie", slug: "lingerie" },
+    { label: "Studio", slug: "studio" },
+    { label: "Idol", slug: "idol" },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -344,8 +392,9 @@ function Index() {
           </div>
         </section>
 
+        {/* Library & Search Section */}
         <section id="library" className="mt-14 scroll-mt-20">
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <div className="flex items-center gap-2">
                 <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -354,64 +403,126 @@ function Index() {
                 <h2 className="text-2xl font-bold tracking-tight">{t("section.library")}</h2>
               </div>
               <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
-                {term
+                {q
                   ? `${t("section.found")} ${filtered.length} ${t("section.modelsMatching")} "${q}"`
                   : `${t("section.total")} ${comics.length} ${t("section.modelsCount")} — Browse by model and explore HD photobooks`}
               </p>
             </div>
-            <div className="flex flex-wrap gap-1.5 text-xs">
-              <Link
-                to="/"
-                search={{}}
-                className={cn(
-                  "rounded-full border px-3 py-1.5 font-medium transition",
-                  !term
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card/60 text-muted-foreground hover:border-primary/60 hover:text-foreground",
-                )}
+
+            {/* In-Page Search Box & Filters */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <form
+                onSubmit={handleInPageSearch}
+                className="relative flex items-center rounded-full border border-border bg-card/60 px-3.5 py-1.5 backdrop-blur transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20"
               >
-                All
-              </Link>
-              {[
-                { tag: "Japanese", label: "Japanese", slug: "japanese" },
-                { tag: "Korean", label: "Korean", slug: "korean" },
-                { tag: "Vietnamese", label: "Vietnamese", slug: "vietnamese" },
-                { tag: "Bikini", label: "Bikini", slug: "bikini" },
-                { tag: "Cosplay", label: "Cosplay", slug: "cosplay" },
-              ].map(({ label, slug }) => (
-                <Link
-                  key={slug}
-                  to="/genre/$slug"
-                  params={{ slug }}
-                  className="rounded-full border border-border bg-card/60 px-3 py-1.5 text-muted-foreground hover:border-primary/60 hover:text-foreground transition"
+                <Search className="h-4 w-4 text-muted-foreground shrink-0" />
+                <input
+                  type="search"
+                  value={inPageQuery}
+                  onChange={(e) => setInPageQuery(e.target.value)}
+                  placeholder={t("search.placeholder")}
+                  className="w-full min-w-[200px] sm:w-56 bg-transparent px-2 text-xs sm:text-sm outline-none placeholder:text-muted-foreground/70"
+                />
+                {inPageQuery && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setInPageQuery("");
+                      navigate({ search: {} });
+                    }}
+                    className="rounded-full p-0.5 text-muted-foreground hover:bg-secondary hover:text-foreground mr-1"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  className="rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground shadow-sm hover:opacity-90 transition"
                 >
-                  {label}
+                  Tìm
+                </button>
+              </form>
+
+              <div className="flex flex-wrap gap-1.5 text-xs">
+                <Link
+                  to="/"
+                  search={{}}
+                  className={cn(
+                    "rounded-full border px-3 py-1.5 font-medium transition",
+                    !q
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-card/60 text-muted-foreground hover:border-primary/60 hover:text-foreground",
+                  )}
+                >
+                  All
                 </Link>
-              ))}
+                {popularTags.slice(0, 5).map(({ label, slug }) => (
+                  <Link
+                    key={slug}
+                    to="/genre/$slug"
+                    params={{ slug }}
+                    className="rounded-full border border-border bg-card/60 px-3 py-1.5 text-muted-foreground hover:border-primary/60 hover:text-foreground transition"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
 
-          {term && filtered.length > 0 ? (
-            <div className="mb-4 flex items-center justify-between rounded-xl border border-primary/30 bg-primary/10 px-4 py-2 text-xs">
-              <span>
-                {t("section.showingResults")} <strong>"{q}"</strong> ({filtered.length})
-              </span>
-              <Link to="/" search={{}} className="font-medium text-primary hover:underline">
+          {q && filtered.length > 0 ? (
+            <div className="mb-6 flex items-center justify-between rounded-2xl border border-primary/30 bg-primary/10 px-4 py-3 text-xs">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-primary shrink-0" />
+                <span>
+                  {t("section.showingResults")} <strong>"{q}"</strong> ({filtered.length}{" "}
+                  {t("section.modelsCount")})
+                </span>
+              </div>
+              <Link
+                to="/"
+                search={{}}
+                className="font-semibold text-primary hover:underline px-2 py-1 rounded-md hover:bg-primary/20 transition"
+              >
                 {t("search.clear")}
               </Link>
             </div>
           ) : filtered.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-border bg-card/60 p-10 text-center backdrop-blur">
-              <Sparkles className="mx-auto h-8 w-8 text-primary/80 animate-pulse-glow" />
-              <h3 className="mt-3 text-lg font-bold text-foreground">
-                {term ? `${t("empty.noResults")} "${q}"` : "Library is updating with new albums"}
+              <Sparkles className="mx-auto h-10 w-10 text-primary/80 animate-pulse-glow" />
+              <h3 className="mt-4 text-xl font-bold text-foreground">
+                {q ? `${t("empty.noResults")} "${q}"` : "Library is updating with new albums"}
               </h3>
               <p className="mx-auto mt-2 max-w-md text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                {term
-                  ? "Please try searching with different keywords or explore suggested categories."
+                {q
+                  ? "Vui lòng thử tìm kiếm với từ khóa khác, tên người mẫu, tên album hoặc chọn một trong các gợi ý dưới đây."
                   : "High-definition photo sets are curated and uploaded regularly. Join our Telegram community for the latest updates!"}
               </p>
-              <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+
+              {/* Suggested Search Pills */}
+              <div className="mt-6">
+                <div className="text-xs font-semibold text-muted-foreground mb-3">
+                  {t("search.suggestions")}
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  {popularTags.map(({ label, slug }) => (
+                    <button
+                      key={slug}
+                      type="button"
+                      onClick={() => {
+                        setInPageQuery(label);
+                        trackSearch(label);
+                        navigate({ search: { q: label }, hash: "library" });
+                      }}
+                      className="rounded-full border border-border/80 bg-background/60 px-3.5 py-1.5 text-xs font-medium text-foreground hover:border-primary hover:bg-primary/10 transition"
+                    >
+                      #{label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <a
                   href="https://t.me/+8xnMvFtjulkyNzE1"
                   target="_blank"
@@ -428,13 +539,13 @@ function Index() {
                   </svg>
                   Join GravureHub Telegram
                 </a>
-                {term && (
+                {q && (
                   <Link
                     to="/"
                     search={{}}
-                    className="inline-flex items-center rounded-full border border-border bg-background/50 px-4 py-2 text-xs font-medium text-foreground hover:bg-secondary"
+                    className="inline-flex items-center rounded-full border border-border bg-background/50 px-4 py-2 text-xs font-medium text-foreground hover:bg-secondary transition"
                   >
-                    View all models
+                    {t("section.viewAll")}
                   </Link>
                 )}
               </div>
@@ -442,16 +553,21 @@ function Index() {
           ) : (
             <>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                {paginated.map((c, i) => {
+                {paginatedResults.map((res, i) => {
+                  const c = res.comic;
                   const firstChapter = c.chapters[0];
                   const comicSlug = buildSlugId(c.title, c.id);
                   const firstChapterSlug = firstChapter
                     ? buildSlugId(firstChapter.title, firstChapter.id)
                     : "";
+                  const matchedAlbumSlug = res.matchedAlbum
+                    ? buildSlugId(res.matchedAlbum.title, res.matchedAlbum.id)
+                    : "";
+
                   return (
                     <div
                       key={c.id}
-                      className="card-grid-item group flex flex-col justify-between rounded-xl border border-border bg-card/50 p-2.5 transition hover:border-primary/60 hover:bg-card/90"
+                      className="card-grid-item group flex flex-col justify-between rounded-2xl border border-border bg-card/50 p-2.5 transition hover:border-primary/60 hover:bg-card/90 hover:shadow-lg"
                     >
                       <Link
                         to="/comic/$comicId"
@@ -459,7 +575,7 @@ function Index() {
                         preload="intent"
                         className="flex flex-col gap-2"
                       >
-                        <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-lg border border-border/80 bg-background/60">
+                        <div className="hover-lift relative aspect-[3/4] overflow-hidden rounded-xl border border-border/80 bg-background/60">
                           <ComicCover
                             id={c.coverId}
                             title={c.title}
@@ -477,10 +593,36 @@ function Index() {
                           <p className="line-clamp-1 text-xs text-muted-foreground">
                             {c.author || t("card.anonymous")}
                           </p>
+
+                          {/* Search Match Highlights */}
+                          {res.matchedField === "album" && res.matchedAlbum && (
+                            <div className="mt-1 flex items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
+                              <BookOpen className="h-3 w-3 shrink-0" />
+                              <span className="truncate">
+                                {t("search.matchedAlbum")} {res.matchedAlbum.title}
+                              </span>
+                            </div>
+                          )}
+                          {res.matchedField === "genre" && res.matchedGenre && (
+                            <div className="mt-1 flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-[10px] font-medium text-foreground">
+                              <Tag className="h-3 w-3 shrink-0 text-primary" />
+                              <span className="truncate">#{res.matchedGenre}</span>
+                            </div>
+                          )}
                         </div>
                       </Link>
-                      {firstChapter && (
-                        <div className="mt-2 pt-2 border-t border-border/40 flex items-center justify-between text-[11px]">
+                      
+                      <div className="mt-2 pt-2 border-t border-border/40 flex items-center justify-between text-[11px]">
+                        {res.matchedAlbum ? (
+                          <Link
+                            to="/read/$comicId/$chapterId"
+                            params={{ comicId: comicSlug, chapterId: matchedAlbumSlug }}
+                            preload="intent"
+                            className="font-semibold text-primary hover:underline inline-flex items-center gap-0.5"
+                          >
+                            Xem album khớp →
+                          </Link>
+                        ) : firstChapter ? (
                           <Link
                             to="/read/$comicId/$chapterId"
                             params={{ comicId: comicSlug, chapterId: firstChapterSlug }}
@@ -489,20 +631,23 @@ function Index() {
                           >
                             Read album 1 →
                           </Link>
-                          <Link
-                            to="/comic/$comicId"
-                            params={{ comicId: comicSlug }}
-                            preload="intent"
-                            className="text-muted-foreground hover:text-foreground"
-                          >
-                            Profile
-                          </Link>
-                        </div>
-                      )}
+                        ) : (
+                          <span className="text-muted-foreground">No albums</span>
+                        )}
+                        <Link
+                          to="/comic/$comicId"
+                          params={{ comicId: comicSlug }}
+                          preload="intent"
+                          className="text-muted-foreground hover:text-foreground"
+                        >
+                          Profile
+                        </Link>
+                      </div>
                     </div>
                   );
                 })}
               </div>
+
               {totalPages > 1 && (
                 <nav role="navigation" aria-label="Pagination" className="mt-8 flex justify-center">
                   <ul className="flex flex-row items-center gap-1">

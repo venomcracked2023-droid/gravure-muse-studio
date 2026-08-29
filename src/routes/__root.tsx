@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useNavigate,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -31,6 +32,7 @@ import { useState } from "react";
 
 function NotFoundComponent() {
   const comics = useComics();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const previewModels = comics.slice(0, 6);
 
@@ -65,7 +67,7 @@ function NotFoundComponent() {
           onSubmit={(e) => {
             e.preventDefault();
             if (searchTerm.trim()) {
-              window.location.href = `/?q=${encodeURIComponent(searchTerm.trim())}#library`;
+              navigate({ to: "/", search: { q: searchTerm.trim() }, hash: "library" });
             }
           }}
           className="mx-auto mt-6 flex max-w-md items-center gap-2 rounded-full border border-border bg-card/60 p-1.5 shadow-lg backdrop-blur focus-within:border-primary"
