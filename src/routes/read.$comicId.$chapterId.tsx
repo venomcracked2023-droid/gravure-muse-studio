@@ -820,7 +820,11 @@ const ReaderFooter = memo(function ReaderFooter({
                   {om.title}
                 </span>
                 <span className="text-[10px] text-muted-foreground">
-                  {om.chapters.length} {t("card.albums")}
+                  {om.chapters.length > 0 ? (
+                    `${om.chapters.length} ${t("card.albums")}`
+                  ) : (
+                    <span className="font-semibold text-amber-500">{t("card.comingSoon")}</span>
+                  )}
                 </span>
               </Link>
             ))}

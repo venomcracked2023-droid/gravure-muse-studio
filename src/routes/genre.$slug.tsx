@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { slugifyGenre, buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
+import { useI18n } from "@/lib/i18n/context";
 
 type GenreInfo = {
   title: string;
@@ -220,6 +221,7 @@ function GenrePage() {
   const { slug } = Route.useParams();
   const loaderData = Route.useLoaderData();
   const comics = useComics(loaderData?.comics);
+  const { t } = useI18n();
 
   const { matched, displayName } = useMemo(() => {
     const s = slug.toLowerCase();
@@ -366,13 +368,27 @@ function GenrePage() {
                       title={c.title}
                       className="transition duration-500 group-hover:scale-110"
                     />
+                    {c.chapters.length === 0 ? (
+                      <span className="absolute bottom-2 left-2 rounded-md bg-amber-500/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm backdrop-blur">
+                        {t("card.comingSoon")}
+                      </span>
+                    ) : (
+                      <span className="absolute bottom-2 left-2 rounded-md bg-black/75 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
+                        {c.chapters.length} {t("card.albums")}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <h3 className="line-clamp-1 text-sm font-semibold group-hover:text-primary">
                       {c.title}
                     </h3>
                     <p className="line-clamp-1 text-xs text-muted-foreground">
-                      {c.chapters.length} {c.chapters.length === 1 ? "album" : "albums"} ·{" "}
+                      {c.chapters.length > 0 ? (
+                        `${c.chapters.length} ${c.chapters.length === 1 ? "album" : "albums"}`
+                      ) : (
+                        <span className="font-semibold text-amber-500">{t("card.comingSoon")}</span>
+                      )}
+                      {" · "}
                       {c.author || "Anonymous"}
                     </p>
                   </div>

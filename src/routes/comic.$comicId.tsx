@@ -19,16 +19,19 @@ import {
   User,
   Pencil,
   Home,
+  Sparkles,
 } from "lucide-react";
 import { CommentSection } from "@/components/CommentSection";
 import { RatingWidget } from "@/components/RatingWidget";
 import {
   SITE_URL,
   DEFAULT_CTA_URL,
+  TELEGRAM_GROUP_URL,
   generateModelDescription,
   generateModelMetaDescription,
   getModelCountry,
 } from "@/lib/seo";
+import { useI18n } from "@/lib/i18n/context";
 import { supabase } from "@/integrations/supabase/client";
 import { buildSlugId, extractId, isUUID, slugifyGenre } from "@/lib/slug";
 import { renderMarkdown } from "@/lib/markdown";
@@ -279,6 +282,7 @@ function ComicPage() {
     ) ?? loaderData?.comic;
 
   const { isAdmin } = useAuth();
+  const { t } = useI18n();
   const [editing, setEditing] = useState(false);
 
   if (!comic) {
@@ -319,34 +323,29 @@ function ComicPage() {
           }}
           aria-hidden="true"
         />
-        <div
-          className="absolute inset-0 -z-10 bg-gradient-to-b from-background/70 via-background/85 to-background"
-          aria-hidden="true"
-        />
-        <main className="mx-auto max-w-5xl px-4 pb-10 pt-6 sm:pt-10">
-          <nav
-            aria-label="Breadcrumb"
-            className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground"
-          >
-            <Link
-              to="/"
-              className="inline-flex items-center gap-1 hover:text-primary transition-colors"
-            >
+        <div className="absolute inset-0 -z-10 bg-background/80 backdrop-blur-md" />
+
+        <div className="mx-auto max-w-5xl px-4 pt-4">
+          <nav aria-label="Breadcrumbs" className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Link to="/" className="inline-flex items-center gap-1 transition hover:text-foreground">
               <Home className="h-3.5 w-3.5" /> Home
             </Link>
-            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
-            <Link to="/" className="hover:text-primary transition-colors">
-              Models
+            <ChevronRight className="h-3.5 w-3.5 text-border" />
+            <Link to="/" hash="library" className="transition hover:text-foreground">
+              Library
             </Link>
-            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60" />
-            <span className="font-semibold text-foreground">{comic.title}</span>
+            <ChevronRight className="h-3.5 w-3.5 text-border" />
+            <span className="truncate font-medium text-foreground">{comic.title}</span>
           </nav>
+        </div>
 
+        <main className="mx-auto max-w-5xl px-4 py-8 md:py-12">
           {isAdmin && (
             <div className="mb-4 flex justify-end">
               <button
+                type="button"
                 onClick={() => setEditing((v) => !v)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20"
+                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium backdrop-blur hover:bg-secondary"
               >
                 <Pencil className="h-3.5 w-3.5" /> {editing ? "Close Editor" : "Edit Profile"}
               </button>
@@ -379,11 +378,19 @@ function ComicPage() {
                 <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
                   {comic.title}
                 </h1>
-                <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+                <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-muted-foreground flex-wrap">
                   <User className="h-3.5 w-3.5" /> {comic.author || "Gravure Model"}
-                  <span className="mx-2 text-border">·</span>
-                  <BookOpen className="h-3.5 w-3.5" /> {comic.chapters.length}{" "}
-                  {comic.chapters.length === 1 ? "album" : "albums"}
+                  <span className="mx-1 text-border">·</span>
+                  {comic.chapters.length > 0 ? (
+                    <span className="inline-flex items-center gap-1">
+                      <BookOpen className="h-3.5 w-3.5" /> {comic.chapters.length}{" "}
+                      {comic.chapters.length === 1 ? "album" : "albums"}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/15 border border-amber-500/30 px-2.5 py-0.5 text-xs font-semibold text-amber-500">
+                      <Sparkles className="h-3 w-3" /> {t("card.comingSoon")}
+                    </span>
+                  )}
                 </p>
 
                 <div className="mt-4 rounded-2xl border border-primary/20 bg-card/60 p-4 text-sm leading-relaxed text-foreground/90 shadow-sm backdrop-blur">
@@ -441,8 +448,48 @@ function ComicPage() {
           </div>
 
           {comic.chapters.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border bg-card/40 p-12 text-center text-muted-foreground">
-              No albums available yet for this model.
+            <div className="relative overflow-hidden rounded-3xl border border-dashed border-amber-500/40 bg-gradient-to-b from-amber-500/5 via-card/50 to-card/70 p-8 sm:p-12 text-center backdrop-blur shadow-sm">
+              <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-amber-500/10 blur-2xl" />
+              <div className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-primary/10 blur-2xl" />
+              <div className="relative">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-amber-500/30 bg-amber-500/10 text-amber-500 shadow-glow">
+                  <Sparkles className="h-7 w-7 animate-pulse-glow" />
+                </div>
+                <span className="mt-4 inline-block rounded-full border border-amber-500/30 bg-amber-500/15 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-500">
+                  {t("card.comingSoon")}
+                </span>
+                <h3 className="mt-2 text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                  {t("model.comingSoonTitle")}
+                </h3>
+                <p className="mx-auto mt-2 max-w-md text-xs sm:text-sm leading-relaxed text-muted-foreground">
+                  {t("model.comingSoonDesc")}
+                </p>
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+                  <a
+                    href={TELEGRAM_GROUP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#29A9EA] px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-[#29A9EA]/30 transition hover:scale-105"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="h-4 w-4"
+                      aria-hidden="true"
+                    >
+                      <path d="M21.6 4.8c-.5-.4-1.1-.4-1.6-.2L2.8 11.3c-.9.3-1.1 1.1-.5 1.6l3.4 2.6 2.3 7.1c.2.6.8.9 1.4.5l3-2.3 3.8 3.1c.6.5 1.5.3 1.8-.5l4.5-13.2c.3-.9-.2-1.5-1.1-1.8-.1-.1-.2-.1-.3-.1-.2-.1-.3-.2-.5-.3zM9.8 17.2l.6-4.1 6.5-5.8-8.5 7.5 1.4 2.4z" />
+                    </svg>
+                    {t("model.notifyTelegram")}
+                  </a>
+                  <Link
+                    to="/"
+                    hash="library"
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-5 py-2.5 text-xs font-semibold text-foreground backdrop-blur transition hover:border-primary/60 hover:bg-secondary"
+                  >
+                    Explore Other Models →
+                  </Link>
+                </div>
+              </div>
             </div>
           ) : (
             <ul className="divide-y divide-border/60 overflow-hidden rounded-2xl border border-border bg-card/40 backdrop-blur">
@@ -524,13 +571,24 @@ function ComicPage() {
                       alt={`Gravure model ${rm.title} — profile photo`}
                       className="transition duration-500 group-hover:scale-110"
                     />
+                    {rm.chapters.length === 0 && (
+                      <span className="absolute bottom-2 left-2 rounded-md bg-amber-500/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm backdrop-blur">
+                        {t("card.comingSoon")}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <h3 className="line-clamp-1 text-sm font-semibold group-hover:text-primary">
                       {rm.title}
                     </h3>
                     <p className="line-clamp-1 text-xs text-muted-foreground">
-                      {rm.chapters.length} albums · {rm.author || "Gravure"}
+                      {rm.chapters.length > 0 ? (
+                        `${rm.chapters.length} albums`
+                      ) : (
+                        <span className="font-semibold text-amber-500">{t("card.comingSoon")}</span>
+                      )}
+                      {" · "}
+                      {rm.author || "Gravure"}
                     </p>
                   </div>
                 </Link>

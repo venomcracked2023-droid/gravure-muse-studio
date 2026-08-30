@@ -225,9 +225,13 @@ export function SiteHeader() {
                             <span className="font-semibold text-xs truncate">
                               {res.comic.title}
                             </span>
-                            {res.comic.chapters.length > 0 && (
+                            {res.comic.chapters.length > 0 ? (
                               <span className="shrink-0 text-[10px] text-muted-foreground">
                                 • {res.comic.chapters.length} {t("card.albums")}
+                              </span>
+                            ) : (
+                              <span className="shrink-0 rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-semibold text-amber-500">
+                                {t("card.comingSoon")}
                               </span>
                             )}
                           </div>
@@ -432,9 +436,13 @@ export function SiteHeader() {
                           <div className="text-[11px] text-muted-foreground truncate">
                             #{res.matchedGenre}
                           </div>
-                        ) : (
+                        ) : res.comic.chapters.length > 0 ? (
                           <div className="text-[10px] text-muted-foreground">
                             {res.comic.chapters.length} {t("card.albums")}
+                          </div>
+                        ) : (
+                          <div className="text-[10px] font-semibold text-amber-500">
+                            {t("card.comingSoon")}
                           </div>
                         )}
                       </div>

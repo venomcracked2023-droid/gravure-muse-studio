@@ -156,7 +156,12 @@ function AdminPage() {
                   {c.title || "(Untitled)"}
                 </Link>
                 <p className="text-xs text-muted-foreground">
-                  {c.chapters.length} {c.chapters.length === 1 ? "album" : "albums"} ·{" "}
+                  {c.chapters.length > 0 ? (
+                    `${c.chapters.length} ${c.chapters.length === 1 ? "album" : "albums"}`
+                  ) : (
+                    <span className="font-semibold text-amber-500">Coming Soon (0 albums)</span>
+                  )}
+                  {" · "}
                   {c.author || "Anonymous"}
                 </p>
               </div>

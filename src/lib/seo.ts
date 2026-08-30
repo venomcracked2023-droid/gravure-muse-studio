@@ -72,8 +72,12 @@ export function generateModelMetaDescription(
   model: { title: string; author?: string | null; genres?: string[] | null },
   albumCount: number,
 ): string {
-  const count = albumCount || 1;
-  const desc = `Explore ${count} free gravure albums by ${model.title}. Korean/Japanese/Vietnamese model photo sets, vertically scrollable.`;
+  if (albumCount === 0) {
+    const desc = `Discover ${model.title}'s gravure model profile on GravureHub. New HD photo albums and vertical-scroll photobooks are coming soon.`;
+    return desc.slice(0, 160);
+  }
+  const count = albumCount;
+  const desc = `Explore ${count} free gravure ${count === 1 ? "album" : "albums"} by ${model.title}. Korean/Japanese/Vietnamese model photo sets, vertically scrollable.`;
   return desc.slice(0, 160);
 }
 
@@ -91,11 +95,21 @@ export function generateModelDescription(
 ): string {
   const country = getModelCountry(model);
   const style = getModelStyle(model);
-  const count = albumCount || 1;
-  const albumText = count === 1 ? "1 album" : `${count} albums`;
-
-  // If there's an existing custom description with substantial length, incorporate it
   const customDesc = (model.description || "").trim();
+
+  if (albumCount === 0) {
+    const baseIntro = `${model.title} is a popular gravure model from ${country}. Known for ${style}, her high-definition photo albums and photobooks are currently coming soon to GravureHub.`;
+    const baseDetails = `Fans can look forward to an immersive, high-definition viewing experience designed for seamless vertical scrolling across mobile and desktop devices. Stay tuned for curated photobooks capturing the artistic beauty and unique charm of ${model.title}.`;
+    const baseOutro = `Follow ${model.title}'s profile on GravureHub for upcoming photo set releases and regular updates.`;
+
+    if (customDesc && customDesc.length >= 100) {
+      return `${customDesc}\n\n${baseIntro} ${baseOutro}`;
+    }
+    return `${baseIntro} ${baseDetails} ${baseOutro}`;
+  }
+
+  const count = albumCount;
+  const albumText = count === 1 ? "1 album" : `${count} albums`;
 
   const baseIntro = `${model.title} is a popular gravure model from ${country}. Known for ${style}, she currently has ${albumText} available in the collection on GravureHub.`;
   const baseDetails = `Each album offers an immersive, high-definition viewing experience designed for seamless vertical scrolling across mobile and desktop devices. Fans can explore a curated selection of stunning visual photobooks capturing the artistic beauty and unique charm of ${model.title}.`;

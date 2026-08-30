@@ -40,7 +40,10 @@ export function FeaturedMarquee({ items, speedSec = 40 }: Props) {
                   {a.chapter.title}
                 </h3>
                 <p className="line-clamp-1 text-xs text-muted-foreground">
-                  {a.comic.title} · {a.comic.chapters.length} {t("card.albums")}
+                  {a.comic.title} ·{" "}
+                  {a.comic.chapters.length > 0
+                    ? `${a.comic.chapters.length} ${t("card.albums")}`
+                    : t("card.comingSoon")}
                 </p>
               </div>
             </Link>
@@ -92,7 +95,10 @@ export function FeaturedMarquee({ items, speedSec = 40 }: Props) {
                   {a.chapter.title}
                 </h3>
                 <p className="line-clamp-1 text-xs text-muted-foreground">
-                  {a.comic.title} · {a.comic.chapters.length} {t("card.albums")}
+                  {a.comic.title} ·{" "}
+                  {a.comic.chapters.length > 0
+                    ? `${a.comic.chapters.length} ${t("card.albums")}`
+                    : t("card.comingSoon")}
                 </p>
               </div>
             </Link>

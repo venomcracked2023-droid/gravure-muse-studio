@@ -140,7 +140,11 @@ function NotFoundComponent() {
                     {m.title}
                   </span>
                   <span className="text-[10px] text-muted-foreground">
-                    {m.chapters.length} albums
+                    {m.chapters.length > 0 ? (
+                      `${m.chapters.length} albums`
+                    ) : (
+                      <span className="font-semibold text-amber-500">Coming Soon</span>
+                    )}
                   </span>
                 </Link>
               ))}

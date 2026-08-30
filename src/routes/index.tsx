@@ -601,9 +601,15 @@ function Index() {
                             priority={i < 4}
                             className="transition duration-500 group-hover:scale-105"
                           />
-                          <span className="absolute bottom-2 left-2 rounded-md bg-black/75 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
-                            {c.chapters.length} {t("card.albums")}
-                          </span>
+                          {c.chapters.length > 0 ? (
+                            <span className="absolute bottom-2 left-2 rounded-md bg-black/75 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
+                              {c.chapters.length} {t("card.albums")}
+                            </span>
+                          ) : (
+                            <span className="absolute bottom-2 left-2 rounded-md bg-amber-500/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm backdrop-blur">
+                              {t("card.comingSoon")}
+                            </span>
+                          )}
                         </div>
                         <div>
                           <h3 className="line-clamp-1 text-sm font-semibold group-hover:text-primary transition-colors">
@@ -651,7 +657,9 @@ function Index() {
                             Read album 1 →
                           </Link>
                         ) : (
-                          <span className="text-muted-foreground">No albums</span>
+                          <span className="inline-flex items-center gap-1 font-semibold text-amber-500 text-[11px]">
+                            <Sparkles className="h-3 w-3" /> {t("card.comingSoon")}
+                          </span>
                         )}
                         <Link
                           to="/comic/$comicId"
