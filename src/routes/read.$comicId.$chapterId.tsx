@@ -106,11 +106,25 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       chapterId: chapterData.id,
     };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     const ct = loaderData?.comicTitle,
       ch = loaderData?.chapterTitle,
       coverId = loaderData?.coverId;
-    if (!ct || !ch) return { meta: [{ title: "Reading Album — GravureHub" }] };
+    if (!ct || !ch) {
+      const fallbackUrl = `${SITE_URL}/read/${params.comicId}/${params.chapterId}`;
+      return {
+        meta: [{ title: "Reading Album — GravureHub" }],
+        links: [
+          { rel: "canonical", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "en", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "vi", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "ja", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "zh", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "ko", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "x-default", href: fallbackUrl },
+        ],
+      };
+    }
 
     const title = `${ch} — ${ct} | GravureHub`;
     const comicSlug = buildSlugId(ct, loaderData!.comicId);
@@ -185,8 +199,31 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       },
     };
 
+    const ldWebComicPage = {
+      "@context": "https://schema.org",
+      "@type": "WebComicPage",
+      name: `${ch} — ${ct}`,
+      headline: `${ch} — ${ct} | GravureHub`,
+      description: desc,
+      url,
+      inLanguage: "vi",
+      isAccessibleForFree: "True",
+      isPartOf: {
+        "@type": "WebComic",
+        name: ct,
+        url: `${SITE_URL}/comic/${comicSlug}`,
+      },
+      provider: {
+        "@type": "Organization",
+        name: SITE_NAME,
+        url: SITE_URL,
+      },
+      image: imageList,
+    };
+
     const scripts: Array<{ type: string; children: string }> = [
       { type: "application/ld+json", children: JSON.stringify(ldBreadcrumb) },
+      { type: "application/ld+json", children: JSON.stringify(ldWebComicPage) },
       { type: "application/ld+json", children: JSON.stringify(ldImageGallery) },
       { type: "application/ld+json", children: JSON.stringify(ldArticle) },
     ];
@@ -536,6 +573,36 @@ function Reader() {
       <h1 className="sr-only">
         {chapter.title} — {comic.title}
       </h1>
+
+      <noscript>
+        <div className="mx-auto max-w-4xl px-4 py-6 my-4 rounded-xl border border-border bg-card/40 text-foreground">
+          <h2 className="text-xl font-bold mb-2">
+            {chapter.title} — {comic.title}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Đang xem album <strong>{chapter.title}</strong> của người mẫu{" "}
+            <strong>{comic.title}</strong> trên GravureHub (duahaumanga.com) — nền tảng đọc manga, webtoon
+            và photobook gravure cuộn dọc chuẩn nét cao miễn phí.
+          </p>
+          <div className="flex flex-wrap gap-4 text-xs text-primary mb-4">
+            <a href="/" className="underline">
+              Trang chủ GravureHub (duahaumanga.com)
+            </a>
+            <a href={`/comic/${buildSlugId(comic.title, comic.id)}`} className="underline">
+              Xem toàn bộ album của {comic.title}
+            </a>
+          </div>
+          {singleId && (
+            <div className="my-4">
+              <img
+                src={driveImageUrl(singleId, 800)}
+                alt={`${comic.title} - ${chapter.title}`}
+                className="w-full max-w-md rounded-lg mx-auto"
+              />
+            </div>
+          )}
+        </div>
+      </noscript>
 
       <BreadcrumbNav />
 

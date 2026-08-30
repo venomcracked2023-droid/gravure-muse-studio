@@ -6,7 +6,22 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com https://www.google.com https://images.unsplash.com https://duahaumanga.com; media-src 'self' https: blob:; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.supabase.co wss://*.supabase.co https://static.cloudflareinsights.com; frame-src 'self' https://drive.google.com https://www.youtube.com https://www.youtube-nocookie.com https://plisio.net; frame-ancestors 'self';
-  Content-Signal: search=yes, ai-train=no, ai-input=no
+  Content-Signal: search=yes, ai-train=yes, ai-input=yes, use=full
+
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+
+/admin-applications
+  X-Robots-Tag: noindex, nofollow
+
+/apply
+  X-Robots-Tag: noindex, nofollow
+
+/login
+  X-Robots-Tag: noindex, nofollow
+
+/signin
+  X-Robots-Tag: noindex, nofollow
 
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
@@ -30,3 +45,4 @@
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+

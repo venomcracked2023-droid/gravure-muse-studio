@@ -126,13 +126,13 @@ function AboutPage() {
             {/* Brand and Domain Explanation (Fix 8) */}
             <section className="rounded-2xl border border-primary/20 bg-primary/5 p-5 text-foreground/90">
               <h3 className="flex items-center gap-2 text-base font-semibold text-primary">
-                <Layers className="h-4 w-4" /> Domain & Brand Notice (duahaumanga.com)
+                <Layers className="h-4 w-4" /> Domain & Brand Relationship (duahaumanga.com & GravureHub)
               </h3>
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                The domain <strong className="text-foreground">duahaumanga.com</strong> serves as
-                the official web address and hosting domain for <strong>GravureHub</strong>. While
-                the domain originates from our media studio foundation, the site is 100% focused on
-                delivering premium gravure photo albums, model profiles, and photobook collections.
+                Tên miền <strong className="text-foreground">duahaumanga.com</strong> là địa chỉ web chính thức lưu trữ và phát triển thương hiệu <strong>GravureHub</strong>. Chúng tôi kết hợp trải nghiệm đọc manga, webtoon kỹ thuật số với phong cách nhiếp ảnh gravure idol nghệ thuật châu Á. 
+              </p>
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                The domain <strong className="text-foreground">duahaumanga.com</strong> serves as the official address for <strong>GravureHub</strong> — an online reading destination bridging digital manga/webtoon formats with fine-art Asian gravure photobooks and high-definition vertical-scroll galleries.
               </p>
             </section>
 

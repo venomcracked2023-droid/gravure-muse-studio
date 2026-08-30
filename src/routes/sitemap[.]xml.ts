@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { buildSlugId } from "@/lib/slug";
+import { buildSlugId, slugifyGenre } from "@/lib/slug";
 import { SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/sitemap.xml")({
@@ -82,13 +82,13 @@ export const Route = createFileRoute("/sitemap.xml")({
         const genres = Array.from(
           new Set(
             (comics ?? [])
-              .flatMap((c) => (c.genres ?? []).map((g: string) => g.trim().toLowerCase()))
+              .flatMap((c) => (c.genres ?? []).map((g: string) => slugifyGenre(g.trim())))
               .filter(Boolean),
           ),
         );
         for (const g of genres) {
           urls.push(
-            `<url><loc>${origin}/genre/${encodeURIComponent(g)}</loc><lastmod>${now}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>`,
+            `<url><loc>${origin}/genre/${g}</loc><lastmod>${now}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>`,
           );
         }
 

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/login")({
       meta: [
         { title },
         { name: "description", content: desc },
-        { name: "robots", content: "index,follow" },
+        { name: "robots", content: "noindex,nofollow" },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:url", content: url },

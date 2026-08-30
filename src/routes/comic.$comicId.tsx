@@ -120,9 +120,23 @@ export const Route = createFileRoute("/comic/$comicId")({
 
     return { meta: data, id: data.id, comic, chapterCount: comic.chapters.length };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     const m = loaderData?.meta;
-    if (!m) return { meta: [{ title: "Model Profile — GravureHub" }] };
+    if (!m) {
+      const fallbackUrl = `${SITE_URL}/comic/${params.comicId}`;
+      return {
+        meta: [{ title: "Model Profile — GravureHub" }],
+        links: [
+          { rel: "canonical", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "en", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "vi", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "ja", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "zh", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "ko", href: fallbackUrl },
+          { rel: "alternate", hrefLang: "x-default", href: fallbackUrl },
+        ],
+      };
+    }
 
     const count = loaderData?.chapterCount || (loaderData?.comic?.chapters?.length ?? 1);
     const title = `${m.title} — Gravure Albums | GravureHub`;

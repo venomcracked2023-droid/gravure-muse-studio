@@ -194,9 +194,8 @@ function Index() {
               <span className="text-gradient-brand">Vertical-Scroll Gravure Photo Library</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-              Explore fine-art gravure albums and photobooks featuring Japanese, Korean, and Asian
-              models. Enjoy an uninterrupted, smooth vertical-scrolling experience on mobile and
-              desktop.
+              GravureHub trên duahaumanga.com — Khám phá thư viện photobook gravure idol, manga, webtoon
+              và nghệ thuật nhiếp ảnh châu Á. Trải nghiệm đọc cuộn dọc (vertical scroll) HD mượt mà và miễn phí.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
@@ -238,6 +237,26 @@ function Index() {
                 </dd>
               </div>
             </dl>
+          </div>
+        </section>
+
+        {/* Brand & Domain Explanation Section (SEO Point 8) */}
+        <section className="mt-6 rounded-2xl border border-primary/20 bg-gradient-to-r from-card/80 via-secondary/40 to-card/80 p-5 sm:p-6 backdrop-blur shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-foreground">
+                GravureHub trên duahaumanga.com — Nền tảng Đọc Manga & Tuyển tập Gravure Photobook
+              </h2>
+              <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                <strong>GravureHub</strong> (trực thuộc domain <strong>duahaumanga.com</strong>) là nền tảng đọc truyện tranh manga, webtoon và tuyển tập phong cách nhiếp ảnh gravure idol nghệ thuật từ Nhật Bản, Hàn Quốc, Việt Nam và khắp châu Á. Toàn bộ các bộ ảnh photobook được tối ưu hiển thị theo định dạng cuộn dọc (vertical-scroll) chuẩn sắc nét cao 4K/HD hoàn toàn miễn phí.
+              </p>
+            </div>
+            <Link
+              to="/about"
+              className="shrink-0 text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1"
+            >
+              Về chúng tôi →
+            </Link>
           </div>
         </section>
 

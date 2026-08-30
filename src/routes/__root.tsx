@@ -233,13 +233,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
     ],
     links: [
-      { rel: "canonical", href: SITE_URL },
-      { rel: "alternate", hrefLang: "en", href: SITE_URL },
-      { rel: "alternate", hrefLang: "vi", href: SITE_URL },
-      { rel: "alternate", hrefLang: "ja", href: SITE_URL },
-      { rel: "alternate", hrefLang: "zh", href: SITE_URL },
-      { rel: "alternate", hrefLang: "ko", href: SITE_URL },
-      { rel: "alternate", hrefLang: "x-default", href: SITE_URL },
       { rel: "preconnect", href: "https://lh3.googleusercontent.com", crossOrigin: "" },
       { rel: "preconnect", href: "https://drive.google.com", crossOrigin: "" },
       { rel: "preconnect", href: "https://drive.usercontent.google.com", crossOrigin: "" },

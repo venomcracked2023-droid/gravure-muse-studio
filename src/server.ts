@@ -75,14 +75,32 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
   "Content-Security-Policy":
     "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com https://www.google.com https://images.unsplash.com https://duahaumanga.com; media-src 'self' https: blob:; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.supabase.co wss://*.supabase.co https://static.cloudflareinsights.com; frame-src 'self' https://drive.google.com https://www.youtube.com https://www.youtube-nocookie.com https://plisio.net; frame-ancestors 'self';",
-  "Content-Signal": "ai-train=no, ai-input=no, search=yes",
+  "Content-Signal": "search=yes, ai-train=yes, ai-input=yes, use=full",
 };
 
-function applySecurityHeaders(res: Response): Response {
+function applySecurityHeaders(res: Response, requestUrl?: string): Response {
   const headers = new Headers(res.headers);
   for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
     headers.set(key, value);
   }
+
+  if (requestUrl) {
+    try {
+      const url = new URL(requestUrl);
+      const p = url.pathname.toLowerCase();
+      if (
+        p.startsWith("/admin") ||
+        p.startsWith("/apply") ||
+        p.startsWith("/login") ||
+        p.startsWith("/signin")
+      ) {
+        headers.set("X-Robots-Tag", "noindex, nofollow");
+      }
+    } catch {
+      // ignore invalid url
+    }
+  }
+
   return new Response(res.body, {
     status: res.status,
     statusText: res.statusText,
@@ -105,10 +123,11 @@ export default {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       const normalized = await normalizeCatastrophicSsrResponse(response);
-      return applySecurityHeaders(normalized);
+      return applySecurityHeaders(normalized, request.url);
     } catch (error) {
       console.error(error);
-      return applySecurityHeaders(brandedErrorResponse());
+      return applySecurityHeaders(brandedErrorResponse(), request?.url);
     }
   },
 };
+
