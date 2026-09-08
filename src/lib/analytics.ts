@@ -27,6 +27,18 @@ export function trackModelView(modelName: string): void {
 
 export function trackAlbumOpen(modelName: string, albumName: string): void {
   trackEvent("album_open", { model_name: modelName, album_name: albumName });
+  trackEvent("album_view", { model_name: modelName, album_name: albumName });
+}
+
+export function trackAlbumView(modelName: string, albumName: string): void {
+  trackEvent("album_view", { model_name: modelName, album_name: albumName });
+}
+
+export function trackPremiumCtaClick(
+  location: string,
+  extraParams: Record<string, unknown> = {},
+): void {
+  trackEvent("premium_cta_click", { location, ...extraParams });
 }
 
 export function trackSearch(searchTerm: string): void {

@@ -20,12 +20,14 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LatestRouteImport } from './routes/latest'
 import { Route as FeaturedRouteImport } from './routes/featured'
+import { Route as DmcaRouteImport } from './routes/dmca'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ApplyRouteImport } from './routes/apply'
 import { Route as AdminApplicationsRouteImport } from './routes/admin-applications'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as ComicComicIdRouteImport } from './routes/comic.$comicId'
 import { Route as BlogTop10GravureIdols2024RouteImport } from './routes/blog.top-10-gravure-idols-2024'
@@ -89,6 +91,11 @@ const FeaturedRoute = FeaturedRouteImport.update({
   path: '/featured',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DmcaRoute = DmcaRouteImport.update({
+  id: '/dmca',
+  path: '/dmca',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -117,6 +124,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GenreSlugRoute = GenreSlugRouteImport.update({
@@ -163,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/admin-applications': typeof AdminApplicationsRoute
   '/apply': typeof ApplyRoute
   '/contact': typeof ContactRoute
+  '/dmca': typeof DmcaRoute
   '/featured': typeof FeaturedRoute
   '/latest': typeof LatestRoute
   '/login': typeof LoginRoute
@@ -179,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/blog/top-10-gravure-idols-2024': typeof BlogTop10GravureIdols2024Route
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
   '/api/public/plisio/callback': typeof ApiPublicPlisioCallbackRoute
 }
@@ -189,6 +203,7 @@ export interface FileRoutesByTo {
   '/admin-applications': typeof AdminApplicationsRoute
   '/apply': typeof ApplyRoute
   '/contact': typeof ContactRoute
+  '/dmca': typeof DmcaRoute
   '/featured': typeof FeaturedRoute
   '/latest': typeof LatestRoute
   '/login': typeof LoginRoute
@@ -205,6 +220,7 @@ export interface FileRoutesByTo {
   '/blog/top-10-gravure-idols-2024': typeof BlogTop10GravureIdols2024Route
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/blog': typeof BlogIndexRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
   '/api/public/plisio/callback': typeof ApiPublicPlisioCallbackRoute
 }
@@ -216,6 +232,7 @@ export interface FileRoutesById {
   '/admin-applications': typeof AdminApplicationsRoute
   '/apply': typeof ApplyRoute
   '/contact': typeof ContactRoute
+  '/dmca': typeof DmcaRoute
   '/featured': typeof FeaturedRoute
   '/latest': typeof LatestRoute
   '/login': typeof LoginRoute
@@ -232,6 +249,7 @@ export interface FileRoutesById {
   '/blog/top-10-gravure-idols-2024': typeof BlogTop10GravureIdols2024Route
   '/comic/$comicId': typeof ComicComicIdRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/read/$comicId/$chapterId': typeof ReadComicIdChapterIdRoute
   '/api/public/plisio/callback': typeof ApiPublicPlisioCallbackRoute
 }
@@ -244,6 +262,7 @@ export interface FileRouteTypes {
     | '/admin-applications'
     | '/apply'
     | '/contact'
+    | '/dmca'
     | '/featured'
     | '/latest'
     | '/login'
@@ -260,6 +279,7 @@ export interface FileRouteTypes {
     | '/blog/top-10-gravure-idols-2024'
     | '/comic/$comicId'
     | '/genre/$slug'
+    | '/blog/'
     | '/read/$comicId/$chapterId'
     | '/api/public/plisio/callback'
   fileRoutesByTo: FileRoutesByTo
@@ -270,6 +290,7 @@ export interface FileRouteTypes {
     | '/admin-applications'
     | '/apply'
     | '/contact'
+    | '/dmca'
     | '/featured'
     | '/latest'
     | '/login'
@@ -286,6 +307,7 @@ export interface FileRouteTypes {
     | '/blog/top-10-gravure-idols-2024'
     | '/comic/$comicId'
     | '/genre/$slug'
+    | '/blog'
     | '/read/$comicId/$chapterId'
     | '/api/public/plisio/callback'
   id:
@@ -296,6 +318,7 @@ export interface FileRouteTypes {
     | '/admin-applications'
     | '/apply'
     | '/contact'
+    | '/dmca'
     | '/featured'
     | '/latest'
     | '/login'
@@ -312,6 +335,7 @@ export interface FileRouteTypes {
     | '/blog/top-10-gravure-idols-2024'
     | '/comic/$comicId'
     | '/genre/$slug'
+    | '/blog/'
     | '/read/$comicId/$chapterId'
     | '/api/public/plisio/callback'
   fileRoutesById: FileRoutesById
@@ -323,6 +347,7 @@ export interface RootRouteChildren {
   AdminApplicationsRoute: typeof AdminApplicationsRoute
   ApplyRoute: typeof ApplyRoute
   ContactRoute: typeof ContactRoute
+  DmcaRoute: typeof DmcaRoute
   FeaturedRoute: typeof FeaturedRoute
   LatestRoute: typeof LatestRoute
   LoginRoute: typeof LoginRoute
@@ -339,6 +364,7 @@ export interface RootRouteChildren {
   BlogTop10GravureIdols2024Route: typeof BlogTop10GravureIdols2024Route
   ComicComicIdRoute: typeof ComicComicIdRoute
   GenreSlugRoute: typeof GenreSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   ReadComicIdChapterIdRoute: typeof ReadComicIdChapterIdRoute
   ApiPublicPlisioCallbackRoute: typeof ApiPublicPlisioCallbackRoute
 }
@@ -422,6 +448,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dmca': {
+      id: '/dmca'
+      path: '/dmca'
+      fullPath: '/dmca'
+      preLoaderRoute: typeof DmcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -462,6 +495,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/genre/$slug': {
@@ -523,6 +563,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminApplicationsRoute: AdminApplicationsRoute,
   ApplyRoute: ApplyRoute,
   ContactRoute: ContactRoute,
+  DmcaRoute: DmcaRoute,
   FeaturedRoute: FeaturedRoute,
   LatestRoute: LatestRoute,
   LoginRoute: LoginRoute,
@@ -539,6 +580,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogTop10GravureIdols2024Route: BlogTop10GravureIdols2024Route,
   ComicComicIdRoute: ComicComicIdRoute,
   GenreSlugRoute: GenreSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
   ReadComicIdChapterIdRoute: ReadComicIdChapterIdRoute,
   ApiPublicPlisioCallbackRoute: ApiPublicPlisioCallbackRoute,
 }

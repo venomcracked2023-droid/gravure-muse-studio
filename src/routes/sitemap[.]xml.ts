@@ -36,7 +36,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         if (comicIds.length) {
           const { data: chapters } = await supabase
             .from("chapters")
-            .select("id,title,created_at,comic_id")
+            .select("id,title,created_at,comic_id,pages,video_url")
             .in("comic_id", comicIds)
             .order("order_index", { ascending: true });
 
@@ -45,7 +45,13 @@ export const Route = createFileRoute("/sitemap.xml")({
             title: string;
             created_at: string;
             comic_id: string;
+            pages?: string[];
+            video_url?: string;
           }>) {
+            // Exclude empty chapters with 0 pages and no video
+            if ((!ch.pages || ch.pages.length === 0) && !ch.video_url) {
+              continue;
+            }
             (chaptersByComic[ch.comic_id] ||= []).push(ch);
           }
         }
@@ -56,21 +62,26 @@ export const Route = createFileRoute("/sitemap.xml")({
           `<url><loc>${origin}/latest</loc><lastmod>${now}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>`,
           `<url><loc>${origin}/pricing</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>`,
           `<url><loc>${origin}/about</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`,
+          `<url><loc>${origin}/dmca</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>`,
           `<url><loc>${origin}/terms</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>`,
           `<url><loc>${origin}/privacy</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>`,
           `<url><loc>${origin}/contact</loc><lastmod>${now}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`,
+          `<url><loc>${origin}/blog</loc><lastmod>${now}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>`,
           `<url><loc>${origin}/blog/gravure-idol-la-gi</loc><lastmod>2026-06-09T00:00:00.000Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`,
           `<url><loc>${origin}/blog/top-10-gravure-idols-2024</loc><lastmod>2026-06-22T00:00:00.000Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`,
         ];
 
         for (const c of comics ?? []) {
+          const chList = chaptersByComic[c.id] ?? [];
+          if (chList.length === 0) continue; // Skip models with 0 chapters
+
           const comicSlug = buildSlugId(c.title, c.id);
           const comicLastmod = safeIso(c.updated_at || c.created_at);
           urls.push(
             `<url><loc>${origin}/comic/${comicSlug}</loc><lastmod>${comicLastmod}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
           );
 
-          for (const ch of chaptersByComic[c.id] ?? []) {
+          for (const ch of chList) {
             const chSlug = buildSlugId(ch.title, ch.id);
             const chLastmod = safeIso(ch.updated_at || ch.created_at || c.updated_at);
             urls.push(
@@ -79,10 +90,12 @@ export const Route = createFileRoute("/sitemap.xml")({
           }
         }
 
+        const validComics = (comics ?? []).filter((c) => (chaptersByComic[c.id] ?? []).length > 0);
         const genres = Array.from(
           new Set(
-            (comics ?? [])
+            validComics
               .flatMap((c) => (c.genres ?? []).map((g: string) => slugifyGenre(g.trim())))
+              .map((g) => (g === "thai" ? "thailand" : g))
               .filter(Boolean),
           ),
         );

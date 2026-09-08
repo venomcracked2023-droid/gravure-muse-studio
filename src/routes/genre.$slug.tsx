@@ -64,6 +64,36 @@ const GENRE_DESCRIPTIONS: Record<string, GenreInfo> = {
     ],
     highlights: ["Natural Charm & Elegance", "Exotic Tropical Locales", "Mobile-Optimized Viewing"],
   },
+  chinese: {
+    title: "Chinese Gravure & Fashion Models",
+    desc: "Explore stunning Chinese glamour models, modern digital photobooks, and artistic oriental studio pictorials.",
+    tag: "China · Fashion & Studio Visuals",
+    extendedText: [
+      "Chinese gravure and visual portraiture combines contemporary high-fashion aesthetics with refined oriental styling and cinematic lighting.",
+      "Explore high-definition photobooks and model portfolios curated for smooth vertical-scroll reading on GravureHub.",
+    ],
+    highlights: ["Modern Oriental Visuals", "High-Fashion Editorial", "HD Digital Collections"],
+  },
+  thailand: {
+    title: "Thai Gravure & Tropical Visuals",
+    desc: "Discover charismatic Thai models, resort photo sessions, and sun-drenched pictorials across Thailand.",
+    tag: "Thailand · Tropical & Sunshine Lookbooks",
+    extendedText: [
+      "Thailand's visual and glamour photography brings warm tropical daylight, exotic beach locales, and radiant smiles into vibrant photobooks.",
+      "Browse captivating collections from Thailand's rising pictorial creators and top models on GravureHub.",
+    ],
+    highlights: ["Tropical Beach Sessions", "Radiant Sunshine Vibes", "Exotic Locales"],
+  },
+  thai: {
+    title: "Thai Gravure & Tropical Visuals",
+    desc: "Discover charismatic Thai models, resort photo sessions, and sun-drenched pictorials across Thailand.",
+    tag: "Thailand · Tropical & Sunshine Lookbooks",
+    extendedText: [
+      "Thailand's visual and glamour photography brings warm tropical daylight, exotic beach locales, and radiant smiles into vibrant photobooks.",
+      "Browse captivating collections from Thailand's rising pictorial creators and top models on GravureHub.",
+    ],
+    highlights: ["Tropical Beach Sessions", "Radiant Sunshine Vibes", "Exotic Locales"],
+  },
   cosplay: {
     title: "Cosplay & Character Photobooks",
     desc: "High-production cosplay photo sets bringing beloved anime, manga, and video game heroines to life with exquisite detail.",
@@ -158,7 +188,8 @@ const GENRE_DESCRIPTIONS: Record<string, GenreInfo> = {
 
 function getGenreDetails(slug: string, displayName: string): GenreInfo {
   const s = slug.toLowerCase();
-  if (GENRE_DESCRIPTIONS[s]) return GENRE_DESCRIPTIONS[s];
+  const normalized = s === "thai" ? "thailand" : s;
+  if (GENRE_DESCRIPTIONS[normalized]) return GENRE_DESCRIPTIONS[normalized];
 
   return {
     title: `${displayName} Models & Photobooks`,
@@ -177,16 +208,27 @@ function getGenreDetails(slug: string, displayName: string): GenreInfo {
 }
 
 export const Route = createFileRoute("/genre/$slug")({
-  loader: async () => {
+  loader: async ({ params }) => {
     const comics = await fetchComicsData();
-    return { comics };
+    const raw = params.slug.toLowerCase();
+    const s = raw === "thai" ? "thailand" : raw;
+    const matched = comics.filter((c) =>
+      (c.genres ?? []).some((g) => {
+        const sg = slugifyGenre(g);
+        const norm = sg === "thai" ? "thailand" : sg;
+        return norm === s || g.toLowerCase() === s;
+      }),
+    );
+    return { comics, matchedCount: matched.length, canonicalSlug: s };
   },
-  head: ({ params }) => {
-    const s = params.slug.toLowerCase();
-    const displayName = params.slug.charAt(0).toUpperCase() + params.slug.slice(1);
+  head: ({ params, loaderData }) => {
+    const raw = params.slug.toLowerCase();
+    const s = loaderData?.canonicalSlug || (raw === "thai" ? "thailand" : raw);
+    const displayName = s.charAt(0).toUpperCase() + s.slice(1);
     const info = getGenreDetails(s, displayName);
     const title = `${info.title} — GravureHub`;
-    const canonical = `${SITE_URL}/genre/${params.slug}`;
+    const canonical = `${SITE_URL}/genre/${s}`;
+    const isEmpty = (loaderData?.matchedCount ?? 0) === 0;
 
     return {
       meta: [
@@ -195,6 +237,7 @@ export const Route = createFileRoute("/genre/$slug")({
           name: "description",
           content: `${info.desc} Free vertical-scroll gravure library on duahaumanga.com.`,
         },
+        ...(isEmpty ? [{ name: "robots", content: "noindex,follow" }] : []),
         { property: "og:title", content: title },
         { property: "og:description", content: info.desc },
         { property: "og:url", content: canonical },
@@ -223,15 +266,24 @@ function GenrePage() {
   const comics = useComics(loaderData?.comics);
   const { t } = useI18n();
 
-  const { matched, displayName } = useMemo(() => {
-    const s = slug.toLowerCase();
+  const { matched, displayName, canonicalSlug } = useMemo(() => {
+    const raw = slug.toLowerCase();
+    const s = raw === "thai" ? "thailand" : raw;
     const list = comics.filter((c) =>
-      (c.genres ?? []).some((g) => slugifyGenre(g) === s || g.toLowerCase() === s),
+      (c.genres ?? []).some((g) => {
+        const sg = slugifyGenre(g);
+        const norm = sg === "thai" ? "thailand" : sg;
+        return norm === s || g.toLowerCase() === s;
+      }),
     );
     const display =
-      list.flatMap((c) => c.genres ?? []).find((g) => slugifyGenre(g) === s) ??
-      slug.charAt(0).toUpperCase() + slug.slice(1);
-    return { matched: list, displayName: display };
+      list
+        .flatMap((c) => c.genres ?? [])
+        .find((g) => {
+          const sg = slugifyGenre(g);
+          return sg === s || (sg === "thai" && s === "thailand");
+        }) ?? s.charAt(0).toUpperCase() + s.slice(1);
+    return { matched: list, displayName: display, canonicalSlug: s };
   }, [comics, slug]);
 
   const genreMeta = useMemo(() => getGenreDetails(slug, displayName), [slug, displayName]);

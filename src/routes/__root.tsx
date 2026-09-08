@@ -252,6 +252,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-DYPBMB9T0P');`,
       },
       {
+        src: "https://static.cloudflareinsights.com/beacon.min.js",
+        defer: true,
+      },
+      {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",

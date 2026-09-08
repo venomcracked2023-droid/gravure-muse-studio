@@ -1,13 +1,11 @@
 # Robots.txt for Duahaumanga.com (GravureHub)
-# Content-Signal: search=yes, ai-train=yes, ai-input=yes, use=full
+Content-Signal: search=yes, ai-train=yes, ai-input=yes, use=full
 
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /admin-applications
 Disallow: /apply
-Disallow: /login
-Disallow: /signin
 Disallow: /auth/
 Disallow: /api/
 
@@ -16,12 +14,9 @@ Allow: /
 Disallow: /admin
 Disallow: /admin-applications
 Disallow: /apply
-Disallow: /login
-Disallow: /signin
 Disallow: /auth/
 Disallow: /api/
 
 # XML Sitemaps
 Sitemap: https://duahaumanga.com/sitemap.xml
 Sitemap: https://duahaumanga.com/sitemap-index.xml
-

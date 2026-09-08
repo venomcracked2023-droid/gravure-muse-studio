@@ -9,6 +9,11 @@ export function slugifyGenre(input: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+export function normalizeGenreSlug(input: string): string {
+  const s = slugifyGenre(input);
+  return s === "thai" ? "thailand" : s;
+}
+
 export const UUID_RE = /([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i;
 
 export function isUUID(input: string): boolean {

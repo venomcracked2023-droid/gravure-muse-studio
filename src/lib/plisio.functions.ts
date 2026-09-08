@@ -40,7 +40,10 @@ export const createPlisioInvoice = createServerFn({ method: "POST" })
     }
 
     const price = Math.max(0.1, Number((chapter as any).price_usdt || 2));
-    const orderName = (comicTitle ? `${comicTitle} — ${chapter.title}` : chapter.title).slice(0, 100);
+    const orderName = (comicTitle ? `${comicTitle} — ${chapter.title}` : chapter.title).slice(
+      0,
+      100,
+    );
 
     // Already completed purchase? Return early.
     const { data: owned } = await supabase

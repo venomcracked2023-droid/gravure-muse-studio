@@ -64,11 +64,13 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       cover_id: string;
       created_at: string;
       comic_id: string;
+      is_premium?: boolean;
+      price_usdt?: number;
     } | null = null;
     if (isUUID(chapterId)) {
       const res = await supabase
         .from("chapters")
-        .select("id,title,pages,video_url,cover_id,created_at,comic_id")
+        .select("id,title,pages,video_url,cover_id,created_at,comic_id,is_premium,price_usdt")
         .eq("id", chapterId)
         .maybeSingle();
       chapterData = res.data;
@@ -76,7 +78,7 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
     if (!chapterData && comicData) {
       const { data: chapters } = await supabase
         .from("chapters")
-        .select("id,title,pages,video_url,cover_id,created_at,comic_id")
+        .select("id,title,pages,video_url,cover_id,created_at,comic_id,is_premium,price_usdt")
         .eq("comic_id", comicData.id);
 
       const targetSlug = slugifyGenre(rawChapter);
@@ -104,6 +106,8 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       chapterPages: chapterData.pages ?? [],
       chapterCreatedAt: chapterData.created_at ?? null,
       chapterId: chapterData.id,
+      isPremium: chapterData.is_premium ?? false,
+      priceUsdt: Number(chapterData.price_usdt ?? 2),
     };
   },
   head: ({ loaderData, params }) => {
@@ -144,7 +148,6 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       : new Date().toISOString();
 
     const imageList: string[] = (loaderData?.chapterPages ?? [])
-      .slice(0, 10)
       .map((p) => {
         const fid = extractDriveId(p) ?? p;
         return fid ? driveImageUrl(fid, 1200) : "";
@@ -166,66 +169,26 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
       ],
     };
 
+    const isFree = !(loaderData?.isPremium ?? false);
+
     const ldImageGallery = {
       "@context": "https://schema.org",
       "@type": "ImageGallery",
       name: `${ch} — ${ct}`,
       description: desc,
       url,
+      inLanguage: "en",
+      isAccessibleForFree: isFree,
       author: {
         "@type": "Person",
         name: ct,
-      },
-      image: imageList,
-    };
-
-    const ldArticle = {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      headline: `${ch} — ${ct}`,
-      description: desc,
-      image: imageList,
-      datePublished: uploadDate,
-      dateModified: uploadDate,
-      mainEntityOfPage: url,
-      author: {
-        "@type": "Person",
-        name: ct,
-      },
-      publisher: {
-        "@type": "Organization",
-        name: SITE_NAME,
-        url: SITE_URL,
-      },
-    };
-
-    const ldWebComicPage = {
-      "@context": "https://schema.org",
-      "@type": "WebComicPage",
-      name: `${ch} — ${ct}`,
-      headline: `${ch} — ${ct} | GravureHub`,
-      description: desc,
-      url,
-      inLanguage: "vi",
-      isAccessibleForFree: "True",
-      isPartOf: {
-        "@type": "WebComic",
-        name: ct,
-        url: `${SITE_URL}/comic/${comicSlug}`,
-      },
-      provider: {
-        "@type": "Organization",
-        name: SITE_NAME,
-        url: SITE_URL,
       },
       image: imageList,
     };
 
     const scripts: Array<{ type: string; children: string }> = [
       { type: "application/ld+json", children: JSON.stringify(ldBreadcrumb) },
-      { type: "application/ld+json", children: JSON.stringify(ldWebComicPage) },
       { type: "application/ld+json", children: JSON.stringify(ldImageGallery) },
-      { type: "application/ld+json", children: JSON.stringify(ldArticle) },
     ];
 
     if (videoUrl) {
@@ -353,6 +316,36 @@ function Reader() {
     setPdfFailed(false);
   }, [chapterId]);
 
+  useEffect(() => {
+    if (comic?.title && chapter?.title) {
+      trackAlbumOpen(comic.title, chapter.title);
+    }
+  }, [comic?.title, chapter?.title]);
+
+  const otherChapters = useMemo(
+    () => (comic ? comic.chapters.filter((c) => c.id !== chapter?.id).slice(0, 4) : []),
+    [comic, chapter?.id],
+  );
+
+  const featuredOthers = useMemo(
+    () => comics.filter((c) => c.id !== comic?.id && c.chapters.length > 0).slice(0, 3),
+    [comics, comic?.id],
+  );
+
+  const footerNode = useMemo(
+    () =>
+      comic && chapter ? (
+        <ReaderFooter
+          comic={comic}
+          chapter={chapter}
+          otherChapters={otherChapters}
+          featuredOthers={featuredOthers}
+          t={t}
+        />
+      ) : null,
+    [comic, chapter, otherChapters, featuredOthers, t],
+  );
+
   if (!comic || !chapter) {
     if (!loaded && !loaderData)
       return <div className="p-10 text-center text-muted-foreground">Loading…</div>;
@@ -383,30 +376,6 @@ function Reader() {
       },
     });
   };
-
-  useEffect(() => {
-    if (comic?.title && chapter?.title) {
-      trackAlbumOpen(comic.title, chapter.title);
-    }
-  }, [comic?.title, chapter?.title]);
-
-  const otherChapters = comic.chapters.filter((c) => c.id !== chapter.id).slice(0, 4);
-  const featuredOthers = comics
-    .filter((c) => c.id !== comic.id && c.chapters.length > 0)
-    .slice(0, 3);
-
-  const footerNode = useMemo(
-    () => (
-      <ReaderFooter
-        comic={comic}
-        chapter={chapter}
-        otherChapters={otherChapters}
-        featuredOthers={featuredOthers}
-        t={t}
-      />
-    ),
-    [comic, chapter, otherChapters, featuredOthers, t],
-  );
 
   const BreadcrumbNav = () => (
     <nav
@@ -580,27 +549,43 @@ function Reader() {
             {chapter.title} — {comic.title}
           </h2>
           <p className="text-sm text-muted-foreground mb-4">
-            Đang xem album <strong>{chapter.title}</strong> của người mẫu{" "}
-            <strong>{comic.title}</strong> trên GravureHub (duahaumanga.com) — nền tảng đọc manga, webtoon
-            và photobook gravure cuộn dọc chuẩn nét cao miễn phí.
+            Viewing photobook album <strong>{chapter.title}</strong> by{" "}
+            <strong>{comic.title}</strong> on GravureHub (duahaumanga.com) — free high-definition
+            vertical-scroll gravure library.
           </p>
           <div className="flex flex-wrap gap-4 text-xs text-primary mb-4">
             <a href="/" className="underline">
-              Trang chủ GravureHub (duahaumanga.com)
+              GravureHub Home
             </a>
             <a href={`/comic/${buildSlugId(comic.title, comic.id)}`} className="underline">
-              Xem toàn bộ album của {comic.title}
+              All albums by {comic.title}
             </a>
           </div>
-          {singleId && (
-            <div className="my-4">
+          <div className="space-y-4 my-4">
+            {singleId ? (
               <img
                 src={driveImageUrl(singleId, 800)}
-                alt={`${comic.title} - ${chapter.title}`}
+                alt={`Gravure photo — ${comic.title}, ${chapter.title}`}
+                loading="eager"
+                fetchPriority="high"
                 className="w-full max-w-md rounded-lg mx-auto"
               />
-            </div>
-          )}
+            ) : (
+              chapter.pages.map((pid, idx) => {
+                const fid = extractDriveId(pid) ?? pid;
+                return (
+                  <img
+                    key={fid || idx}
+                    src={driveImageUrl(fid, 800)}
+                    alt={`Gravure photo ${idx + 1} — ${comic.title}, ${chapter.title}`}
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    fetchPriority={idx === 0 ? "high" : "auto"}
+                    className="w-full max-w-3xl rounded-lg mx-auto"
+                  />
+                );
+              })
+            )}
+          </div>
         </div>
       </noscript>
 

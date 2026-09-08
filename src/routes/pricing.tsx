@@ -29,6 +29,11 @@ export const Route = createFileRoute("/pricing")({
         { property: "og:description", content: desc },
         { property: "og:url", content: url },
         { property: "og:type", content: "website" },
+        { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: desc },
+        { name: "twitter:image", content: `${SITE_URL}/og-default.jpg` },
       ],
       links: [
         { rel: "canonical", href: url },

@@ -5,6 +5,7 @@ import { createPlisioInvoice } from "@/lib/plisio.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { Link } from "@tanstack/react-router";
+import { trackPremiumCtaClick } from "@/lib/analytics";
 
 type Props = {
   chapterId: string;
@@ -87,6 +88,11 @@ export function PremiumGate({ chapterId, chapterTitle, priceUsdt, onUnlocked }: 
   async function handleUnlock() {
     setError(null);
     setLoading(true);
+    trackPremiumCtaClick("premium_gate_modal", {
+      chapter_id: chapterId,
+      chapter_title: chapterTitle,
+      price_usdt: priceUsdt,
+    });
     try {
       const res = await createInvoice({ data: { chapterId } });
       if (res.alreadyOwned) {
@@ -99,7 +105,9 @@ export function PremiumGate({ chapterId, chapterTitle, priceUsdt, onUnlocked }: 
       }
       window.location.href = res.invoiceUrl;
     } catch (e: any) {
-      setError(e?.message ?? "Could not generate payment invoice. Please check gateway configuration.");
+      setError(
+        e?.message ?? "Could not generate payment invoice. Please check gateway configuration.",
+      );
       setLoading(false);
     }
   }
@@ -112,7 +120,9 @@ export function PremiumGate({ chapterId, chapterTitle, priceUsdt, onUnlocked }: 
       </div>
       <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">{chapterTitle}</p>
       <div className="mt-3 text-3xl font-extrabold text-gradient-brand">{priceUsdt} USDT</div>
-      <p className="mt-1 text-[11px] text-muted-foreground">USDT-TRC20 · BTC · ETH · Crypto Instant</p>
+      <p className="mt-1 text-[11px] text-muted-foreground">
+        USDT-TRC20 · BTC · ETH · Crypto Instant
+      </p>
       {!user ? (
         <Link
           to="/login"

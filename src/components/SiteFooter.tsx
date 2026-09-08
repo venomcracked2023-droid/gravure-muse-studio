@@ -12,7 +12,17 @@ export function SiteFooter() {
   const comics = useComics();
   const { t } = useI18n();
   const topModels = comics.slice(0, 10);
-  const genres = Array.from(new Set(comics.flatMap((c) => c.genres).filter(Boolean))).slice(0, 8);
+  const activeComics = comics.filter((c) => c.chapters.length > 0);
+  const rawGenres = Array.from(
+    new Set(
+      activeComics
+        .flatMap((c) => c.genres)
+        .filter(Boolean)
+        .map((g) => (g.toLowerCase() === "thai" ? "Thailand" : g)),
+    ),
+  ).slice(0, 8);
+  const genres =
+    rawGenres.length > 0 ? rawGenres : ["Japanese", "Korean", "Vietnamese", "Thailand"];
 
   return (
     <footer className="relative mt-20 border-t border-border bg-card/40" role="contentinfo">
@@ -99,6 +109,22 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
+                  to="/blog"
+                  className="text-muted-foreground hover:text-primary transition-colors font-medium"
+                >
+                  Guides &amp; Articles
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dmca"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  DMCA Copyright Policy
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/terms"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
@@ -119,22 +145,6 @@ export function SiteFooter() {
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   Contact Support
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/blog/gravure-idol-la-gi"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t("footer.blogPost1")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/blog/top-10-gravure-idols-2024"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t("footer.blogPost2")}
                 </Link>
               </li>
             </ul>

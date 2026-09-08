@@ -175,6 +175,7 @@ export const Route = createFileRoute("/comic/$comicId")({
       meta: [
         { title },
         { name: "description", content: desc },
+        ...(chapters.length === 0 ? [{ name: "robots", content: "noindex,follow" }] : []),
         { property: "og:title", content: `${m.title} — Gravure Albums | duahaumanga.com` },
         {
           property: "og:description",
@@ -285,16 +286,11 @@ function ComicPage() {
   const { t } = useI18n();
   const [editing, setEditing] = useState(false);
 
-  if (!comic) {
-    if (!loaded)
-      return (
-        <div className="min-h-screen">
-          <SiteHeader />
-          <div className="p-20 text-center text-muted-foreground">Loading…</div>
-        </div>
-      );
-    throw notFound();
-  }
+  useEffect(() => {
+    if (comic?.title) {
+      trackModelView(comic.title);
+    }
+  }, [comic?.title]);
 
   const relatedModels = useMemo(() => {
     if (!comic) return [];
@@ -307,6 +303,17 @@ function ComicPage() {
     scored.sort((a, b) => b.score - a.score || b.comic.createdAt - a.comic.createdAt);
     return scored.slice(0, 4).map((s) => s.comic);
   }, [comics, comic]);
+
+  if (!comic) {
+    if (!loaded)
+      return (
+        <div className="min-h-screen">
+          <SiteHeader />
+          <div className="p-20 text-center text-muted-foreground">Loading…</div>
+        </div>
+      );
+    throw notFound();
+  }
 
   const uniqueDescription = generateModelDescription(comic, comic.chapters.length);
 
@@ -326,8 +333,14 @@ function ComicPage() {
         <div className="absolute inset-0 -z-10 bg-background/80 backdrop-blur-md" />
 
         <div className="mx-auto max-w-5xl px-4 pt-4">
-          <nav aria-label="Breadcrumbs" className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Link to="/" className="inline-flex items-center gap-1 transition hover:text-foreground">
+          <nav
+            aria-label="Breadcrumbs"
+            className="flex items-center gap-1.5 text-xs text-muted-foreground"
+          >
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1 transition hover:text-foreground"
+            >
               <Home className="h-3.5 w-3.5" /> Home
             </Link>
             <ChevronRight className="h-3.5 w-3.5 text-border" />

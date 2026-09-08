@@ -194,8 +194,9 @@ function Index() {
               <span className="text-gradient-brand">Vertical-Scroll Gravure Photo Library</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-              GravureHub trên duahaumanga.com — Khám phá thư viện photobook gravure idol, manga, webtoon
-              và nghệ thuật nhiếp ảnh châu Á. Trải nghiệm đọc cuộn dọc (vertical scroll) HD mượt mà và miễn phí.
+              GravureHub trên duahaumanga.com — Khám phá thư viện photobook gravure idol, manga,
+              webtoon và nghệ thuật nhiếp ảnh châu Á. Trải nghiệm đọc cuộn dọc (vertical scroll) HD
+              mượt mà và miễn phí.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
@@ -248,7 +249,11 @@ function Index() {
                 GravureHub trên duahaumanga.com — Nền tảng Đọc Manga & Tuyển tập Gravure Photobook
               </h2>
               <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                <strong>GravureHub</strong> (trực thuộc domain <strong>duahaumanga.com</strong>) là nền tảng đọc truyện tranh manga, webtoon và tuyển tập phong cách nhiếp ảnh gravure idol nghệ thuật từ Nhật Bản, Hàn Quốc, Việt Nam và khắp châu Á. Toàn bộ các bộ ảnh photobook được tối ưu hiển thị theo định dạng cuộn dọc (vertical-scroll) chuẩn sắc nét cao 4K/HD hoàn toàn miễn phí.
+                <strong>GravureHub</strong> (trực thuộc domain <strong>duahaumanga.com</strong>) là
+                nền tảng đọc truyện tranh manga, webtoon và tuyển tập phong cách nhiếp ảnh gravure
+                idol nghệ thuật từ Nhật Bản, Hàn Quốc, Việt Nam và khắp châu Á. Toàn bộ các bộ ảnh
+                photobook được tối ưu hiển thị theo định dạng cuộn dọc (vertical-scroll) chuẩn sắc
+                nét cao 4K/HD hoàn toàn miễn phí.
               </p>
             </div>
             <Link
@@ -636,7 +641,7 @@ function Index() {
                           )}
                         </div>
                       </Link>
-                      
+
                       <div className="mt-2 pt-2 border-t border-border/40 flex items-center justify-between text-[11px]">
                         {res.matchedAlbum ? (
                           <Link

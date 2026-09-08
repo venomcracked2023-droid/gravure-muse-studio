@@ -1,5 +1,15 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { LogIn, LogOut, Search, Settings, UserPlus, ShieldCheck, X, BookOpen, Tag } from "lucide-react";
+import {
+  LogIn,
+  LogOut,
+  Search,
+  Settings,
+  UserPlus,
+  ShieldCheck,
+  X,
+  BookOpen,
+  Tag,
+} from "lucide-react";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n/context";
@@ -18,12 +28,12 @@ export function SiteHeader() {
   const navigate = useNavigate();
   const comics = useComics();
   const search = useRouterState({ select: (s) => s.location.search as { q?: string } });
-  
+
   const [q, setQ] = useState(search?.q ?? "");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const mobileInputRef = useRef<HTMLInputElement>(null);
   const desktopInputRef = useRef<HTMLInputElement>(null);
@@ -128,7 +138,10 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4" ref={containerRef}>
+      <div
+        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4"
+        ref={containerRef}
+      >
         <Link to="/" className="group flex items-center gap-2">
           <span className="relative">
             <span className="absolute inset-0 -z-10 rounded-full bg-primary/30 blur-lg transition group-hover:bg-primary/50" />
@@ -210,7 +223,9 @@ export function SiteHeader() {
                         type="button"
                         onClick={() => handleSelectResult(res)}
                         className={`w-full flex items-center gap-3 rounded-xl p-2 text-left transition ${
-                          isSelected ? "bg-primary/15 text-foreground ring-1 ring-primary/30" : "hover:bg-secondary/70 text-foreground"
+                          isSelected
+                            ? "bg-primary/15 text-foreground ring-1 ring-primary/30"
+                            : "hover:bg-secondary/70 text-foreground"
                         }`}
                       >
                         <div className="relative h-11 w-8 shrink-0 overflow-hidden rounded-md border border-border/60 bg-muted">
@@ -268,7 +283,9 @@ export function SiteHeader() {
                 </div>
               ) : (
                 <div className="py-6 text-center px-4">
-                  <p className="text-xs text-muted-foreground">{t("empty.noResults")} "{q.trim()}"</p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("empty.noResults")} "{q.trim()}"
+                  </p>
                   <button
                     type="button"
                     onClick={() => submitSearch()}
@@ -460,7 +477,9 @@ export function SiteHeader() {
                 </div>
               ) : (
                 <div className="py-4 text-center">
-                  <p className="text-xs text-muted-foreground">{t("empty.noResults")} "{q.trim()}"</p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("empty.noResults")} "{q.trim()}"
+                  </p>
                 </div>
               )}
             </div>
