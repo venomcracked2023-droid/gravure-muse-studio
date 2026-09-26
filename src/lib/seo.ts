@@ -9,8 +9,6 @@ export const SITE_ALT_NAMES: string[] = [
   "QHMsex",
   "QHM Sex",
   "GravureHub - qhmsex.cloud",
-  "DuaHauManga",
-  "duahaumanga.com",
 ];
 export const SITE_LOGO = `${SITE_URL}/og-default.jpg`;
 export const TELEGRAM_GROUP_URL = "https://t.me/+8xnMvFtjulkyNzE1";

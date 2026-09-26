@@ -12,17 +12,34 @@ export function SiteFooter() {
   const comics = useComics();
   const { t } = useI18n();
   const topModels = comics.slice(0, 10);
+  const CANONICAL_GENRE_MAP: Record<string, string> = {
+    japanese: "japan",
+    korean: "korea",
+    vietnamese: "vietnam",
+    chinese: "china",
+    taiwanese: "taiwan",
+    thai: "thailand",
+    singaporean: "singapore",
+    malaysian: "malaysia",
+    bikini: "swimsuit",
+    swimwear: "swimsuit",
+    boudoir: "lingerie",
+  };
+
   const activeComics = comics.filter((c) => c.chapters.length > 0);
-  const rawGenres = Array.from(
+  const populatedGenres = Array.from(
     new Set(
       activeComics
-        .flatMap((c) => c.genres)
-        .filter(Boolean)
-        .map((g) => (g.toLowerCase() === "thai" ? "Thailand" : g)),
+        .flatMap((c) => c.genres || [])
+        .map((g) => {
+          const raw = g.trim().toLowerCase();
+          return CANONICAL_GENRE_MAP[raw] || raw;
+        })
+        .filter(Boolean),
     ),
   ).slice(0, 8);
-  const genres =
-    rawGenres.length > 0 ? rawGenres : ["Japanese", "Korean", "Vietnamese", "Thailand"];
+
+  const genres = populatedGenres.length > 0 ? populatedGenres : ["vietnam", "thailand", "korea", "japan"];
 
   return (
     <footer className="relative mt-20 border-t border-border bg-card/40" role="contentinfo">
@@ -150,45 +167,27 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          {genres.length > 0 ? (
-            <nav aria-label={t("footer.genres")}>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
-                {t("footer.genres")}
-              </h3>
-              <ul className="mt-3 space-y-2 text-sm">
-                {genres.map((g) => (
+          <nav aria-label={t("footer.genres")}>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
+              {t("footer.genres")}
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm">
+              {genres.map((g) => {
+                const displayName = g.charAt(0).toUpperCase() + g.slice(1);
+                return (
                   <li key={g}>
                     <Link
                       to="/genre/$slug"
-                      params={{ slug: g.toLowerCase() }}
-                      className="text-muted-foreground hover:text-primary transition-colors"
+                      params={{ slug: g }}
+                      className="text-muted-foreground hover:text-primary transition-colors capitalize"
                     >
-                      {g}
+                      {displayName}
                     </Link>
                   </li>
-                ))}
-              </ul>
-            </nav>
-          ) : (
-            <nav aria-label="Quick Categories">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground/80">
-                Categories
-              </h3>
-              <ul className="mt-3 space-y-2 text-sm">
-                {["Japanese", "Korean", "Vietnamese", "Bikini", "Cosplay"].map((g) => (
-                  <li key={g}>
-                    <Link
-                      to="/genre/$slug"
-                      params={{ slug: g.toLowerCase() }}
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      {g}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
+                );
+              })}
+            </ul>
+          </nav>
         </div>
 
         <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-border/60 pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center">

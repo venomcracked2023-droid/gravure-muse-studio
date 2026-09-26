@@ -74,7 +74,7 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
   "Content-Security-Policy":
-    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com https://www.google.com https://images.unsplash.com https://qhmsex.cloud https://www.qhmsex.cloud https://*.qhmsex.cloud https://duahaumanga.com; media-src 'self' https: blob:; connect-src 'self' https://qhmsex.cloud https://www.qhmsex.cloud https://*.qhmsex.cloud https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.supabase.co wss://*.supabase.co https://static.cloudflareinsights.com; frame-src 'self' https://drive.google.com https://www.youtube.com https://www.youtube-nocookie.com https://plisio.net; frame-ancestors 'self';",
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://drive.google.com https://*.googleusercontent.com https://www.google.com https://images.unsplash.com https://qhmsex.cloud https://www.qhmsex.cloud https://*.qhmsex.cloud; media-src 'self' https: blob:; connect-src 'self' https://qhmsex.cloud https://www.qhmsex.cloud https://*.qhmsex.cloud https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.supabase.co wss://*.supabase.co https://static.cloudflareinsights.com; frame-src 'self' https://drive.google.com https://www.youtube.com https://www.youtube-nocookie.com https://plisio.net; frame-ancestors 'self';",
   "Content-Signal": "search=yes, ai-train=yes, ai-input=yes, use=full",
 };
 
@@ -111,6 +111,20 @@ function applySecurityHeaders(res: Response, requestUrl?: string): Response {
 import { SITE_URL } from "./lib/seo";
 import { supabase } from "./integrations/supabase/client";
 import { buildSlugId, slugifyGenre } from "./lib/slug";
+
+export const CANONICAL_GENRE_MAP: Record<string, string> = {
+  japanese: "japan",
+  korean: "korea",
+  vietnamese: "vietnam",
+  chinese: "china",
+  taiwanese: "taiwan",
+  thai: "thailand",
+  singaporean: "singapore",
+  malaysian: "malaysia",
+  bikini: "swimsuit",
+  swimwear: "swimsuit",
+  boudoir: "lingerie",
+};
 
 async function generateSitemapXml(origin: string): Promise<string> {
   const now = new Date().toISOString();
@@ -178,10 +192,10 @@ async function generateSitemapXml(origin: string): Promise<string> {
       }
     }
 
-    for (const c of comics ?? []) {
-      const chList = chaptersByComic[c.id] ?? [];
-      if (chList.length === 0) continue;
+    const validComics = (comics ?? []).filter((c) => (chaptersByComic[c.id] ?? []).length > 0);
 
+    for (const c of validComics) {
+      const chList = chaptersByComic[c.id] ?? [];
       const comicSlug = buildSlugId(c.title, c.id);
       const comicLastmod = safeIso(c.updated_at || c.created_at);
       urls.push(
@@ -197,42 +211,27 @@ async function generateSitemapXml(origin: string): Promise<string> {
       }
     }
 
-    const validComics = (comics ?? []).filter((c) => (chaptersByComic[c.id] ?? []).length > 0);
-    const genres = Array.from(
-      new Set(
-        validComics
-          .flatMap((c) => (c.genres ?? []).map((g: string) => slugifyGenre(g.trim())))
-          .map((g) => (g === "thai" ? "thailand" : g))
-          .filter(Boolean),
-      ),
-    );
-    for (const g of genres) {
+    // Strictly calculate genre model counts from valid active comics.
+    // Exclude all genres with 0 models so sitemap NEVER contains empty / noindex pages.
+    const genreCountMap: Record<string, number> = {};
+    for (const c of validComics) {
+      for (const g of (c.genres ?? [])) {
+        const raw = slugifyGenre(g.trim());
+        const canonical = CANONICAL_GENRE_MAP[raw] || raw;
+        if (canonical) {
+          genreCountMap[canonical] = (genreCountMap[canonical] || 0) + 1;
+        }
+      }
+    }
+
+    const indexedGenres = Object.keys(genreCountMap).filter((g) => genreCountMap[g] > 0);
+    for (const g of indexedGenres) {
       urls.push(
         `<url><loc>${origin}/genre/${g}</loc><lastmod>${now}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>`,
       );
     }
   } catch (error) {
-    console.error("Worker dynamic sitemap fallback:", error);
-    const fallbackGenres = [
-      "japan",
-      "korea",
-      "vietnam",
-      "china",
-      "taiwan",
-      "thailand",
-      "cosplay",
-      "lingerie",
-      "swimsuit",
-      "office",
-      "school",
-      "outdoor",
-      "idol",
-    ];
-    for (const g of fallbackGenres) {
-      urls.push(
-        `<url><loc>${origin}/genre/${g}</loc><lastmod>${now}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>`,
-      );
-    }
+    console.error("Worker dynamic sitemap generator error:", error);
   }
 
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>`;
@@ -253,8 +252,26 @@ export default {
 
       const url = new URL(request.url);
       const pathname = url.pathname.toLowerCase();
+      const host = (request.headers.get("x-forwarded-host") || request.headers.get("host") || url.hostname).toLowerCase();
 
-      // Direct Cloudflare Worker handler for Sitemap & Robots — guarantees pure XML/text without SPA fallback
+      // 1. Host canonicalization: 301 Redirect www.qhmsex.cloud -> https://qhmsex.cloud
+      if (url.hostname === "www.qhmsex.cloud" || host.startsWith("www.qhmsex.cloud")) {
+        const dest = new URL(request.url);
+        dest.hostname = "qhmsex.cloud";
+        dest.protocol = "https:";
+        return Response.redirect(dest.toString(), 301);
+      }
+
+      // 2. Taxonomy consolidation: 301 Redirect legacy genre aliases (e.g. /genre/japanese -> /genre/japan, /genre/thai -> /genre/thailand)
+      if (pathname.startsWith("/genre/")) {
+        const seg = pathname.replace("/genre/", "").split("/")[0]?.toLowerCase();
+        if (seg && CANONICAL_GENRE_MAP[seg]) {
+          const canonical = CANONICAL_GENRE_MAP[seg];
+          return Response.redirect(`${SITE_URL}/genre/${canonical}`, 301);
+        }
+      }
+
+      // 3. Direct Cloudflare Worker handler for Sitemap & Robots — guarantees pure XML/text without SPA fallback
       if (pathname === "/sitemap.xml") {
         const origin = SITE_URL;
         const xml = await generateSitemapXml(origin);
@@ -291,7 +308,7 @@ export default {
       if (pathname === "/robots.txt") {
         const origin = SITE_URL;
         const body = [
-          "# Robots.txt for qhmsex.cloud / www.qhmsex.cloud (GravureHub)",
+          "# Robots.txt for qhmsex.cloud (GravureHub)",
           "Content-Signal: search=yes, ai-train=yes, ai-input=yes, use=full",
           "",
           "User-agent: *",

@@ -13,7 +13,6 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { useEffect, useState, memo, useMemo } from "react";
-import { Virtuoso } from "react-virtuoso";
 import { PdfReader } from "@/components/PdfReader";
 import { supabase } from "@/integrations/supabase/client";
 import { CommentSection } from "@/components/CommentSection";
@@ -184,6 +183,14 @@ export const Route = createFileRoute("/read/$comicId/$chapterId")({
         name: ct,
       },
       image: imageList,
+      hasPart: imageList.map((imgUrl, idx) => ({
+        "@type": "ImageObject",
+        position: idx + 1,
+        contentUrl: imgUrl,
+        url: imgUrl,
+        name: `${ch} — Photo ${idx + 1} (${ct})`,
+        encodingFormat: "image/jpeg",
+      })),
     };
 
     const scripts: Array<{ type: string; children: string }> = [
@@ -635,36 +642,42 @@ function Reader() {
           <div className="mt-8 border-t border-border/60 pt-4">{footerNode}</div>
         </main>
       ) : (
-        <Virtuoso
-          useWindowScroll
-          data={chapter.pages}
-          increaseViewportBy={{ top: 1200, bottom: 1600 }}
-          components={{
-            Header: () => (embed ? <VideoEmbed /> : <div className="h-2" />),
-            Footer: () => footerNode,
-          }}
-          itemContent={(i, id) => (
-            <div className="mx-auto max-w-4xl">
-              <img
-                src={driveImageUrl(id, 1200)}
-                alt={`Gravure photo ${i + 1} — ${comic.title}, ${chapter.title}`}
-                loading={i < 2 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                decoding="async"
-                className="block w-full min-h-[60vh] bg-secondary/40 object-contain"
-                onError={(e) => {
-                  const imgEl = e.currentTarget as HTMLImageElement;
-                  if (!imgEl.dataset.fallback) {
-                    imgEl.dataset.fallback = "1";
-                    imgEl.src = driveImageFallbackUrl(id, 1200);
-                  } else {
-                    imgEl.style.opacity = "0.3";
-                  }
-                }}
-              />
-            </div>
-          )}
-        />
+        <main className="mx-auto max-w-4xl pt-2">
+          {embed && <VideoEmbed />}
+          <div className="space-y-4 px-2 sm:px-0">
+            {chapter.pages.map((pid, i) => {
+              const id = extractDriveId(pid) ?? pid;
+              return (
+                <figure
+                  key={id || i}
+                  className="relative mx-auto my-0 overflow-hidden rounded-xl border border-border/40 bg-secondary/30 shadow-sm"
+                >
+                  <img
+                    src={driveImageUrl(id, 1200)}
+                    alt={`Gravure photo ${i + 1} — ${comic.title}, ${chapter.title}`}
+                    loading={i < 2 ? "eager" : "lazy"}
+                    fetchPriority={i === 0 ? "high" : i < 3 ? "low" : "auto"}
+                    decoding="async"
+                    className="block w-full min-h-[50vh] object-contain"
+                    onError={(e) => {
+                      const imgEl = e.currentTarget as HTMLImageElement;
+                      if (!imgEl.dataset.fallback) {
+                        imgEl.dataset.fallback = "1";
+                        imgEl.src = driveImageFallbackUrl(id, 1200);
+                      } else {
+                        imgEl.style.opacity = "0.3";
+                      }
+                    }}
+                  />
+                  <figcaption className="sr-only">
+                    {`Page ${i + 1} of ${chapter.title} - ${comic.title}`}
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </div>
+          {footerNode}
+        </main>
       )}
       {locked && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/85 backdrop-blur-xl p-4">

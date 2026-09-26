@@ -149,13 +149,13 @@ function Index() {
   };
 
   const popularTags = [
-    { label: "Japanese", slug: "japanese" },
-    { label: "Korean", slug: "korean" },
-    { label: "Vietnamese", slug: "vietnamese" },
-    { label: "Bikini", slug: "bikini" },
+    { label: "Vietnam", slug: "vietnam" },
+    { label: "Japan", slug: "japan" },
+    { label: "Korea", slug: "korea" },
+    { label: "Thailand", slug: "thailand" },
+    { label: "Swimsuit", slug: "swimsuit" },
     { label: "Cosplay", slug: "cosplay" },
     { label: "Lingerie", slug: "lingerie" },
-    { label: "Studio", slug: "studio" },
     { label: "Idol", slug: "idol" },
   ];
 
@@ -301,7 +301,7 @@ function Index() {
 
           <Link
             to="/genre/$slug"
-            params={{ slug: "japanese" }}
+            params={{ slug: "japan" }}
             className="group flex items-center gap-3 rounded-2xl border border-border/80 bg-card/40 p-4 backdrop-blur transition hover:border-primary/60 hover:bg-card/70"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-gradient-brand group-hover:text-primary-foreground transition">

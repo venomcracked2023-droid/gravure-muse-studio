@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ComicCover } from "@/components/ComicCover";
 import { useComics, fetchComicsData } from "@/lib/comics-store";
@@ -17,6 +17,20 @@ import { slugifyGenre, buildSlugId } from "@/lib/slug";
 import { driveImageUrl } from "@/lib/drive";
 import { useI18n } from "@/lib/i18n/context";
 
+export const CANONICAL_GENRE_MAP: Record<string, string> = {
+  japanese: "japan",
+  korean: "korea",
+  vietnamese: "vietnam",
+  chinese: "china",
+  taiwanese: "taiwan",
+  thai: "thailand",
+  singaporean: "singapore",
+  malaysian: "malaysia",
+  bikini: "swimsuit",
+  swimwear: "swimsuit",
+  boudoir: "lingerie",
+};
+
 type GenreInfo = {
   title: string;
   desc: string;
@@ -26,7 +40,7 @@ type GenreInfo = {
 };
 
 const GENRE_DESCRIPTIONS: Record<string, GenreInfo> = {
-  japanese: {
+  japan: {
     title: "Japanese Gravure Models & Photobooks",
     desc: "Explore premier Japanese gravure idols, cover stars from Weekly Playboy & Young Magazine, and acclaimed solo photobooks.",
     tag: "Japan · Top Idols & Magazines",
@@ -40,7 +54,7 @@ const GENRE_DESCRIPTIONS: Record<string, GenreInfo> = {
       "Vertical Scroll Optimization",
     ],
   },
-  korean: {
+  korea: {
     title: "Korean Glamour & Visual Models",
     desc: "Discover stunning Korean models, fitness pictorials, digital art lookbooks, and high-fashion studio collections.",
     tag: "Korea · Visual & Fitness Lookbooks",
@@ -54,7 +68,7 @@ const GENRE_DESCRIPTIONS: Record<string, GenreInfo> = {
       "Crystal Clear HD Resolution",
     ],
   },
-  vietnamese: {
+  vietnam: {
     title: "Vietnamese Photobook Collections",
     desc: "Browse charismatic Vietnamese models and fashion pictorials showcasing radiant natural charm and elegant portraits.",
     tag: "Vietnam · Modern Portraiture & Charm",
@@ -64,7 +78,7 @@ const GENRE_DESCRIPTIONS: Record<string, GenreInfo> = {
     ],
     highlights: ["Natural Charm & Elegance", "Exotic Tropical Locales", "Mobile-Optimized Viewing"],
   },
-  chinese: {
+  china: {
     title: "Chinese Gravure & Fashion Models",
     desc: "Explore stunning Chinese glamour models, modern digital photobooks, and artistic oriental studio pictorials.",
     tag: "China · Fashion & Studio Visuals",
@@ -74,17 +88,17 @@ const GENRE_DESCRIPTIONS: Record<string, GenreInfo> = {
     ],
     highlights: ["Modern Oriental Visuals", "High-Fashion Editorial", "HD Digital Collections"],
   },
-  thailand: {
-    title: "Thai Gravure & Tropical Visuals",
-    desc: "Discover charismatic Thai models, resort photo sessions, and sun-drenched pictorials across Thailand.",
-    tag: "Thailand · Tropical & Sunshine Lookbooks",
+  taiwan: {
+    title: "Taiwanese Gravure & Studio Pictorials",
+    desc: "Discover popular Taiwanese models, creative lookbooks, and expressive fashion photobooks.",
+    tag: "Taiwan · Lookbooks & Portraiture",
     extendedText: [
-      "Thailand's visual and glamour photography brings warm tropical daylight, exotic beach locales, and radiant smiles into vibrant photobooks.",
-      "Browse captivating collections from Thailand's rising pictorial creators and top models on GravureHub.",
+      "Taiwanese glamour portraiture merges urban trendsetting fashion with delicate studio aesthetics.",
+      "Explore curated collections from Taiwan's top models on GravureHub.",
     ],
-    highlights: ["Tropical Beach Sessions", "Radiant Sunshine Vibes", "Exotic Locales"],
+    highlights: ["Urban Chic", "Artistic Studio Lighting", "Expressive Portraiture"],
   },
-  thai: {
+  thailand: {
     title: "Thai Gravure & Tropical Visuals",
     desc: "Discover charismatic Thai models, resort photo sessions, and sun-drenched pictorials across Thailand.",
     tag: "Thailand · Tropical & Sunshine Lookbooks",
@@ -108,21 +122,7 @@ const GENRE_DESCRIPTIONS: Record<string, GenreInfo> = {
       "Thematic Staging & FX",
     ],
   },
-  bikini: {
-    title: "Bikini & Resort Swimwear Spreads",
-    desc: "Sun-drenched tropical beach and luxury poolside photobooks captured in exotic locations from Okinawa to Hawaii.",
-    tag: "Swimwear · Beach & Tropical Summer",
-    extendedText: [
-      "The quintessential gravure aesthetic comes alive in sun-drenched bikini and resort swimwear spreads. Shot across crystal-clear waters in Okinawa, Bali, Hawaii, and Mediterranean coasts, these photobooks celebrate summer energy, golden hour lighting, and radiant athletic charm.",
-      "Enjoy uninterrupted vertical-scrolling through vibrant swimwear pictorials designed to give you a front-row seat to world-class resort photography.",
-    ],
-    highlights: [
-      "Tropical Beach Destinations",
-      "Golden Hour Sunlit Lighting",
-      "Vibrant Resort Fashion",
-    ],
-  },
-  swimwear: {
+  swimsuit: {
     title: "Bikini & Resort Swimwear Spreads",
     desc: "Sun-drenched tropical beach and luxury poolside photobooks captured in exotic locations from Okinawa to Hawaii.",
     tag: "Swimwear · Beach & Tropical Summer",
@@ -164,32 +164,42 @@ const GENRE_DESCRIPTIONS: Record<string, GenreInfo> = {
       "Exclusive Candid Pictorials",
     ],
   },
-  beach: {
-    title: "Tropical Beach & Seaside Photobooks",
+  outdoor: {
+    title: "Tropical Outdoor & Seaside Photobooks",
     desc: "Golden-hour ocean horizons, refreshing coastal breezes, and sun-kissed natural aesthetic photography.",
-    tag: "Beach · Seaside Horizons",
+    tag: "Outdoor · Seaside Horizons",
     extendedText: [
-      "Seaside photo albums capture the timeless allure of ocean waves, white sands, and breathtaking sunset horizons. Each spread emphasizes refreshing natural light and the carefree spirit of coastal retreats.",
+      "Outdoor photo albums capture the timeless allure of ocean waves, white sands, and breathtaking sunset horizons. Each spread emphasizes refreshing natural light and the carefree spirit of coastal retreats.",
       "Immerse yourself in endless summer visuals optimized for quick and smooth scrolling across mobile and desktop devices.",
     ],
     highlights: ["Coastal Horizons", "Sun-Kissed Aesthetics", "Pure Vacation Vibes"],
   },
-  studio: {
-    title: "High-Fashion Studio Portraiture",
-    desc: "Masterfully lighted indoor studio editorial shoots with rich contrasts, contemporary fashion, and cinematic tones.",
-    tag: "Studio · Contemporary Editorial",
+  office: {
+    title: "Office Look & Professional Chic",
+    desc: "Sophisticated office lookbooks, business chic fashion, and elegant workplace pictorials.",
+    tag: "Office · Business Chic",
     extendedText: [
-      "Studio photography showcases precision lighting, inventive backdrops, and editorial fashion concepts. With stark contrasts, dramatic chiaroscuro, and creative color palettes, these albums emphasize the model's expressive range and artistic versatility.",
-      "Discover the finest indoor glamour portraiture in high resolution on GravureHub.",
+      "Office styling photobooks highlight tailored business attire, modern corporate elegance, and captivating studio settings.",
+      "Browse high-definition office themed galleries curated for vertical scrolling on GravureHub.",
     ],
-    highlights: ["Precision Studio Lighting", "High-Fashion Styling", "Rich Cinematic Contrasts"],
+    highlights: ["Modern Business Chic", "Tailored Styling", "Clean Studio Aesthetics"],
+  },
+  school: {
+    title: "School Style & Youthful Photobooks",
+    desc: "Nostalgic school uniform fashion, youthful memories, and radiant natural light portraits.",
+    tag: "School · Youthful Charm",
+    extendedText: [
+      "School uniform styling evokes youthful charm, playful energy, and timeless nostalgia.",
+      "Explore high-definition pictorials curated on GravureHub.",
+    ],
+    highlights: ["Nostalgic Uniforms", "Radiant Natural Light", "Youthful Aesthetics"],
   },
 };
 
 function getGenreDetails(slug: string, displayName: string): GenreInfo {
   const s = slug.toLowerCase();
-  const normalized = s === "thai" ? "thailand" : s;
-  if (GENRE_DESCRIPTIONS[normalized]) return GENRE_DESCRIPTIONS[normalized];
+  const canonical = CANONICAL_GENRE_MAP[s] || s;
+  if (GENRE_DESCRIPTIONS[canonical]) return GENRE_DESCRIPTIONS[canonical];
 
   return {
     title: `${displayName} Models & Photobooks`,
@@ -209,13 +219,21 @@ function getGenreDetails(slug: string, displayName: string): GenreInfo {
 
 export const Route = createFileRoute("/genre/$slug")({
   loader: async ({ params }) => {
-    const comics = await fetchComicsData();
     const raw = params.slug.toLowerCase();
-    const s = raw === "thai" ? "thailand" : raw;
+    if (CANONICAL_GENRE_MAP[raw]) {
+      throw redirect({
+        to: "/genre/$slug",
+        params: { slug: CANONICAL_GENRE_MAP[raw] },
+        statusCode: 301,
+      });
+    }
+
+    const comics = await fetchComicsData();
+    const s = raw;
     const matched = comics.filter((c) =>
       (c.genres ?? []).some((g) => {
         const sg = slugifyGenre(g);
-        const norm = sg === "thai" ? "thailand" : sg;
+        const norm = CANONICAL_GENRE_MAP[sg] || sg;
         return norm === s || g.toLowerCase() === s;
       }),
     );
@@ -223,7 +241,7 @@ export const Route = createFileRoute("/genre/$slug")({
   },
   head: ({ params, loaderData }) => {
     const raw = params.slug.toLowerCase();
-    const s = loaderData?.canonicalSlug || (raw === "thai" ? "thailand" : raw);
+    const s = loaderData?.canonicalSlug || CANONICAL_GENRE_MAP[raw] || raw;
     const displayName = s.charAt(0).toUpperCase() + s.slice(1);
     const info = getGenreDetails(s, displayName);
     const title = `${info.title} — GravureHub`;
@@ -237,7 +255,7 @@ export const Route = createFileRoute("/genre/$slug")({
           name: "description",
           content: `${info.desc} Free vertical-scroll gravure library on qhmsex.cloud.`,
         },
-        ...(isEmpty ? [{ name: "robots", content: "noindex,follow" }] : []),
+        ...(isEmpty ? [{ name: "robots", content: "noindex,follow" }] : [{ name: "robots", content: "index,follow" }]),
         { property: "og:title", content: title },
         { property: "og:description", content: info.desc },
         { property: "og:url", content: canonical },
@@ -479,22 +497,22 @@ function GenrePage() {
             </div>
             <div className="flex flex-wrap gap-1.5">
               {[
-                "Japanese",
-                "Korean",
-                "Vietnamese",
-                "Cosplay",
-                "Bikini",
-                "Lingerie",
-                "Studio",
-                "Idol",
-              ].map((cat) => (
+                { label: "Vietnam", slug: "vietnam" },
+                { label: "Japan", slug: "japan" },
+                { label: "Korea", slug: "korea" },
+                { label: "Thailand", slug: "thailand" },
+                { label: "Swimsuit", slug: "swimsuit" },
+                { label: "Cosplay", slug: "cosplay" },
+                { label: "Lingerie", slug: "lingerie" },
+                { label: "Idol", slug: "idol" },
+              ].map(({ label, slug: catSlug }) => (
                 <Link
-                  key={cat}
+                  key={catSlug}
                   to="/genre/$slug"
-                  params={{ slug: cat.toLowerCase() }}
+                  params={{ slug: catSlug }}
                   className="rounded-full border border-border bg-secondary/40 px-3 py-1 text-xs font-medium text-muted-foreground hover:border-primary hover:text-primary transition-colors"
                 >
-                  {cat}
+                  {label}
                 </Link>
               ))}
             </div>

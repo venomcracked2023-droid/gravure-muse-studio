@@ -41,6 +41,8 @@ import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { trackModelView } from "@/lib/analytics";
 
+import { CANONICAL_GENRE_MAP } from "@/routes/genre.$slug";
+
 export const Route = createFileRoute("/comic/$comicId")({
   component: ComicPage,
   loader: async ({ params }) => {
@@ -377,16 +379,20 @@ function ComicPage() {
               </div>
               <div className="animate-fade-in-up">
                 <div className="flex flex-wrap gap-2">
-                  {comic.genres.map((g) => (
-                    <Link
-                      key={g}
-                      to="/genre/$slug"
-                      params={{ slug: g }}
-                      className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
-                    >
-                      {g}
-                    </Link>
-                  ))}
+                  {comic.genres.map((g) => {
+                    const raw = slugifyGenre(g);
+                    const canonical = CANONICAL_GENRE_MAP[raw] || raw;
+                    return (
+                      <Link
+                        key={g}
+                        to="/genre/$slug"
+                        params={{ slug: canonical }}
+                        className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+                      >
+                        {g}
+                      </Link>
+                    );
+                  })}
                 </div>
                 <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
                   {comic.title}
