@@ -53,7 +53,7 @@ export const Route = createFileRoute("/")({
   head: () => {
     const title = "GravureHub — Free Vertical-Scroll Gravure Photo Library";
     const desc =
-      "Discover HD vertical-scroll gravure photobooks from Korean, Japanese, and Asian models on GravureHub (duahaumanga.com). Free, updated daily.";
+      "Discover HD vertical-scroll gravure photobooks from Korean, Japanese, and Asian models on GravureHub (qhmsex.cloud). Free, updated daily.";
     const url = `${SITE_URL}/`;
     const img = `${SITE_URL}/og-default.jpg`;
     return {
@@ -186,7 +186,7 @@ function Index() {
           />
           <div className="relative max-w-2xl animate-fade-in-up">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-primary" /> duahaumanga.com — Vertical-scroll
+              <Sparkles className="h-3.5 w-3.5 text-primary" /> qhmsex.cloud — Vertical-scroll
               gravure library
             </span>
             <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
@@ -194,7 +194,7 @@ function Index() {
               <span className="text-gradient-brand">Vertical-Scroll Gravure Photo Library</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-              GravureHub trên duahaumanga.com — Khám phá thư viện photobook gravure idol, manga,
+              GravureHub trên qhmsex.cloud (www.qhmsex.cloud) — Khám phá thư viện photobook gravure idol, manga,
               webtoon và nghệ thuật nhiếp ảnh châu Á. Trải nghiệm đọc cuộn dọc (vertical scroll) HD
               mượt mà và miễn phí.
             </p>
@@ -246,10 +246,10 @@ function Index() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-base sm:text-lg font-bold text-foreground">
-                GravureHub trên duahaumanga.com — Nền tảng Đọc Manga & Tuyển tập Gravure Photobook
+                GravureHub trên qhmsex.cloud — Nền tảng Đọc Manga & Tuyển tập Gravure Photobook
               </h2>
               <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                <strong>GravureHub</strong> (trực thuộc domain <strong>duahaumanga.com</strong>) là
+                <strong>GravureHub</strong> (trực thuộc domain <strong>qhmsex.cloud</strong> & <strong>www.qhmsex.cloud</strong>) là
                 nền tảng đọc truyện tranh manga, webtoon và tuyển tập phong cách nhiếp ảnh gravure
                 idol nghệ thuật từ Nhật Bản, Hàn Quốc, Việt Nam và khắp châu Á. Toàn bộ các bộ ảnh
                 photobook được tối ưu hiển thị theo định dạng cuộn dọc (vertical-scroll) chuẩn sắc
@@ -336,10 +336,10 @@ function Index() {
         {/* Rich SEO Content Block */}
         <section className="mt-8 rounded-2xl border border-border/80 bg-card/40 p-6 backdrop-blur sm:p-8">
           <h2 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
-            Welcome to GravureHub (duahaumanga.com) — Vertical-Scroll Gravure Photo Library
+            Welcome to GravureHub (qhmsex.cloud) — Vertical-Scroll Gravure Photo Library
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            <strong>GravureHub</strong> (hosted at <strong>duahaumanga.com</strong>) is an online
+            <strong>GravureHub</strong> (hosted at <strong>qhmsex.cloud</strong> & <strong>www.qhmsex.cloud</strong>) is an online
             platform dedicated to curating high-definition gravure albums, fashion portraits, and
             artistic model photobooks from top Japanese, Korean, and Asian models. With our seamless
             vertical-scroll reading interface, you can effortlessly browse each vibrant photo set

@@ -7,7 +7,7 @@ export const Route = createFileRoute("/robots.txt")({
       GET: () => {
         const origin = SITE_URL;
         const body = [
-          "# Robots.txt for Duahaumanga.com (GravureHub)",
+          "# Robots.txt for qhmsex.cloud / www.qhmsex.cloud (GravureHub)",
           "Content-Signal: search=yes, ai-train=yes, ai-input=yes, use=full",
           "",
           "User-agent: *",

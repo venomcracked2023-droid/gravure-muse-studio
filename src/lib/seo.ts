@@ -1,13 +1,16 @@
-export const SITE_URL = "https://duahaumanga.com";
-export const SITE_DOMAIN = "duahaumanga.com";
+export const SITE_URL = "https://qhmsex.cloud";
+export const SITE_DOMAIN = "qhmsex.cloud";
 export const SITE_NAME = "GravureHub";
-export const SITE_BRAND_FULL = "GravureHub (Dưa Hấu Manga)";
+export const SITE_BRAND_FULL = "GravureHub (qhmsex.cloud)";
 export const SITE_ALT_NAMES: string[] = [
   "GravureHub",
+  "qhmsex.cloud",
+  "www.qhmsex.cloud",
+  "QHMsex",
+  "QHM Sex",
+  "GravureHub - qhmsex.cloud",
   "DuaHauManga",
-  "Dưa Hấu Manga",
   "duahaumanga.com",
-  "GravureHub - Dưa Hấu Manga",
 ];
 export const SITE_LOGO = `${SITE_URL}/og-default.jpg`;
 export const TELEGRAM_GROUP_URL = "https://t.me/+8xnMvFtjulkyNzE1";

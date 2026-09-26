@@ -45,7 +45,7 @@ export function SiteFooter() {
             </Link>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">{t("footer.tagline")}</p>
             <p className="mt-2 max-w-sm text-xs leading-relaxed text-muted-foreground/80">
-              <span className="font-semibold text-foreground/80">duahaumanga.com</span> is the
+              <span className="font-semibold text-foreground/80">qhmsex.cloud</span> (www.qhmsex.cloud) is the
               official home of <strong>GravureHub</strong> — Free HD vertical-scroll gravure photo
               library.
             </p>

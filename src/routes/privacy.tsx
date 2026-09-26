@@ -17,7 +17,7 @@ export const Route = createFileRoute("/privacy")({
   head: () => {
     const title = `Privacy Policy — ${SITE_NAME}`;
     const desc =
-      "Privacy policy for GravureHub (duahaumanga.com). Details on data collection, Google Analytics (GA4), authentication security, cookie policy, and user rights.";
+      "Privacy policy for GravureHub (qhmsex.cloud). Details on data collection, Google Analytics (GA4), authentication security, cookie policy, and user rights.";
     const url = `${SITE_URL}/privacy`;
     return {
       meta: [
@@ -84,7 +84,7 @@ function PrivacyPage() {
                 Privacy Policy
               </h1>
               <p className="text-xs text-muted-foreground sm:text-sm">
-                Effective Date: June 2026 · Transparency for GravureHub (duahaumanga.com)
+                Effective Date: June 2026 · Transparency for GravureHub (qhmsex.cloud)
               </p>
             </div>
           </div>

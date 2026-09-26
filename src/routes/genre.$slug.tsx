@@ -235,7 +235,7 @@ export const Route = createFileRoute("/genre/$slug")({
         { title },
         {
           name: "description",
-          content: `${info.desc} Free vertical-scroll gravure library on duahaumanga.com.`,
+          content: `${info.desc} Free vertical-scroll gravure library on qhmsex.cloud.`,
         },
         ...(isEmpty ? [{ name: "robots", content: "noindex,follow" }] : []),
         { property: "og:title", content: title },
@@ -460,7 +460,7 @@ function GenrePage() {
           </h2>
           <div className="space-y-3 text-xs leading-relaxed text-muted-foreground sm:text-sm">
             <p>
-              GravureHub (<strong>duahaumanga.com</strong>) provides an extensive collection of{" "}
+              GravureHub (<strong>qhmsex.cloud</strong>) provides an extensive collection of{" "}
               <strong>{displayName}</strong> photo albums available for free online reading. Our
               reader uses advanced vertical-scrolling optimization so you can explore hundreds of
               high-definition pages effortlessly on any modern smartphone or desktop browser.

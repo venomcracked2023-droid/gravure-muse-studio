@@ -550,7 +550,7 @@ function Reader() {
           </h2>
           <p className="text-sm text-muted-foreground mb-4">
             Viewing photobook album <strong>{chapter.title}</strong> by{" "}
-            <strong>{comic.title}</strong> on GravureHub (duahaumanga.com) — free high-definition
+            <strong>{comic.title}</strong> on GravureHub (qhmsex.cloud) — free high-definition
             vertical-scroll gravure library.
           </p>
           <div className="flex flex-wrap gap-4 text-xs text-primary mb-4">

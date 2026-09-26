@@ -16,7 +16,7 @@ export const Route = createFileRoute("/featured")({
   head: () => {
     const title = "Featured Albums — GravureHub";
     const desc =
-      "Discover the best featured gravure photo albums and high-definition photobooks from top models on GravureHub (duahaumanga.com). Updated daily.";
+      "Discover the best featured gravure photo albums and high-definition photobooks from top models on GravureHub (qhmsex.cloud). Updated daily.";
     const url = `${SITE_URL}/featured`;
     return {
       meta: [

@@ -199,23 +199,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "GravureHub (duahaumanga.com) — Free vertical-scroll gravure photo library featuring models from Japan, Korea, and across Asia. High-definition photobooks updated daily.",
+          "GravureHub (qhmsex.cloud) — Free vertical-scroll gravure photo library featuring models from Japan, Korea, and across Asia. High-definition photobooks updated daily.",
       },
-      { name: "author", content: "GravureHub — duahaumanga.com" },
+      { name: "author", content: "GravureHub — qhmsex.cloud" },
       { name: "robots", content: "index,follow,max-image-preview:large" },
       { name: "google-site-verification", content: "ABEQp0spMkYkrxY7BTrojPi32UhODPOsjv3HGSMiHD0" },
       { name: "theme-color", content: "#1a0a18" },
       {
         name: "keywords",
         content:
-          "gravure, gravure idol, gravure models, photobook, duahaumanga, duahaumanga.com, GravureHub, vertical scroll, japanese gravure, korean gravure",
+          "qhmsex, qhmsex.cloud, www.qhmsex.cloud, gravure, gravure idol, gravure models, photobook, GravureHub, vertical scroll, japanese gravure, korean gravure",
       },
-      { property: "og:site_name", content: "GravureHub (duahaumanga.com)" },
+      { property: "og:site_name", content: "GravureHub (qhmsex.cloud)" },
       { property: "og:title", content: "GravureHub — Free Vertical-Scroll Gravure Albums" },
       {
         property: "og:description",
         content:
-          "GravureHub (duahaumanga.com) — Free vertical-scroll gravure photo library featuring models from Japan, Korea, and across Asia. High-definition photobooks updated daily.",
+          "GravureHub (qhmsex.cloud) — Free vertical-scroll gravure photo library featuring models from Japan, Korea, and across Asia. High-definition photobooks updated daily.",
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_US" },
@@ -224,12 +224,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:locale:alternate", content: "zh_CN" },
       { property: "og:locale:alternate", content: "ko_KR" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@duahaumanga" },
+      { name: "twitter:site", content: "@qhmsex" },
       { name: "twitter:title", content: "GravureHub — Free Vertical-Scroll Gravure Albums" },
       {
         name: "twitter:description",
         content:
-          "GravureHub (duahaumanga.com) — Free vertical-scroll gravure photo library featuring models from Japan, Korea, and across Asia. High-definition photobooks updated daily.",
+          "GravureHub (qhmsex.cloud) — Free vertical-scroll gravure photo library featuring models from Japan, Korea, and across Asia. High-definition photobooks updated daily.",
       },
       { property: "og:image", content: `${SITE_URL}/og-default.jpg` },
       { property: "og:image:width", content: "1200" },

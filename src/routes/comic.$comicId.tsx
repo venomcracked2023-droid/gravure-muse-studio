@@ -176,7 +176,7 @@ export const Route = createFileRoute("/comic/$comicId")({
         { title },
         { name: "description", content: desc },
         ...(chapters.length === 0 ? [{ name: "robots", content: "noindex,follow" }] : []),
-        { property: "og:title", content: `${m.title} — Gravure Albums | duahaumanga.com` },
+        { property: "og:title", content: `${m.title} — Gravure Albums | qhmsex.cloud` },
         {
           property: "og:description",
           content: `Explore free vertical-scroll gravure photo sets of ${m.title} on GravureHub.`,

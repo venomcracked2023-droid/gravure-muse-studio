@@ -20,13 +20,13 @@ export const Route = createFileRoute("/latest")({
       {
         name: "description",
         content:
-          "Browse the latest updated gravure photo albums and new model photobooks on GravureHub (duahaumanga.com).",
+          "Browse the latest updated gravure photo albums and new model photobooks on GravureHub (qhmsex.cloud).",
       },
       { property: "og:title", content: "Latest Updates — GravureHub" },
       {
         property: "og:description",
         content:
-          "Browse the latest updated gravure photo albums and new model photobooks on GravureHub (duahaumanga.com).",
+          "Browse the latest updated gravure photo albums and new model photobooks on GravureHub (qhmsex.cloud).",
       },
       { property: "og:url", content: `${SITE_URL}/latest` },
     ],

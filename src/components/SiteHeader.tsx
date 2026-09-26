@@ -158,7 +158,7 @@ export function SiteHeader() {
               GravureHub
             </span>
             <span className="text-[10px] font-medium leading-tight text-muted-foreground/80 tracking-wide">
-              duahaumanga.com
+              qhmsex.cloud
             </span>
           </div>
         </Link>

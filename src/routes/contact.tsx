@@ -148,7 +148,7 @@ function ContactPage() {
                   For official business, DMCA, and partnership inquiries:
                 </p>
                 <span className="mt-1 block font-mono text-xs text-foreground">
-                  support@duahaumanga.com
+                  support@qhmsex.cloud
                 </span>
               </div>
 

@@ -17,7 +17,7 @@ export const Route = createFileRoute("/dmca")({
   head: () => {
     const title = `DMCA Copyright Policy & Takedown Notices — ${SITE_NAME}`;
     const desc =
-      "DMCA Copyright Policy, intellectual property rights, and designated copyright agent contact for GravureHub (duahaumanga.com).";
+      "DMCA Copyright Policy, intellectual property rights, and designated copyright agent contact for GravureHub (qhmsex.cloud).";
     const url = `${SITE_URL}/dmca`;
     return {
       meta: [
@@ -122,15 +122,15 @@ function DmcaPage() {
                 <strong>Designated Agent:</strong> GravureHub Copyright Compliance Team
               </div>
               <div>
-                <strong>Website:</strong> duahaumanga.com
+                <strong>Website:</strong> qhmsex.cloud / www.qhmsex.cloud
               </div>
               <div>
                 <strong>Email:</strong>{" "}
                 <a
-                  href="mailto:contact@duahaumanga.com"
+                  href="mailto:contact@qhmsex.cloud"
                   className="text-primary underline hover:text-primary/80"
                 >
-                  contact@duahaumanga.com
+                  contact@qhmsex.cloud
                 </a>
               </div>
               <div>
@@ -141,7 +141,7 @@ function DmcaPage() {
                   rel="noopener noreferrer"
                   className="text-primary underline hover:text-primary/80"
                 >
-                  @duahaumanga_support
+                  @qhmsex_support
                 </a>
               </div>
             </div>
@@ -163,7 +163,7 @@ function DmcaPage() {
               </li>
               <li>
                 <strong className="text-foreground">Identification of the material</strong> that is
-                claimed to be infringing, including the specific URL(s) on duahaumanga.com so we can
+                claimed to be infringing, including the specific URL(s) on qhmsex.cloud so we can
                 locate the item expeditiously.
               </li>
               <li>

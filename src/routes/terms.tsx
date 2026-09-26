@@ -16,7 +16,7 @@ export const Route = createFileRoute("/terms")({
   head: () => {
     const title = `Terms of Service — ${SITE_NAME}`;
     const desc =
-      "Terms and conditions of use for GravureHub (duahaumanga.com). Copyright disclosures, 18+ content disclaimer, user conduct, and DMCA procedures.";
+      "Terms and conditions of use for GravureHub (qhmsex.cloud). Copyright disclosures, 18+ content disclaimer, user conduct, and DMCA procedures.";
     const url = `${SITE_URL}/terms`;
     return {
       meta: [
@@ -83,7 +83,7 @@ function TermsPage() {
                 Terms of Service
               </h1>
               <p className="text-xs text-muted-foreground sm:text-sm">
-                Last updated: June 2026 · Official Terms for GravureHub (duahaumanga.com)
+                Last updated: June 2026 · Official Terms for GravureHub (qhmsex.cloud)
               </p>
             </div>
           </div>
@@ -96,7 +96,11 @@ function TermsPage() {
               <p className="mt-2">
                 By accessing or browsing <strong>{SITE_NAME}</strong> (accessible via the domain{" "}
                 <code className="rounded bg-secondary px-1.5 py-0.5 text-xs text-foreground">
-                  duahaumanga.com
+                  qhmsex.cloud
+                </code>{" "}
+                or{" "}
+                <code className="rounded bg-secondary px-1.5 py-0.5 text-xs text-foreground">
+                  www.qhmsex.cloud
                 </code>
                 ), you agree to be bound by these Terms of Service, all applicable laws, and
                 regulations. If you do not agree with any of these terms, you are prohibited from
